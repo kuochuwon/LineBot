@@ -6,6 +6,7 @@ from flask_restplus import Resource
 from werkzeug.exceptions import NotFound
 
 from app.main.database.device_sql import getall_devicelist_for_geojson
+from linebot import LineBotApi, WebhookHandler
 from app.main.dto.device import GetAllDeviceDto
 from app.main.service import ret
 from app.main.service.device_helper import get_cust_user_device
@@ -75,6 +76,14 @@ class Webhook(Resource):
     @api_exception_handler
     def post(self):
         """ line bot response """
+        CHANNEL_ACCESS_TOKEN = """
+        qipp53w9dsKIjaDG3D5eYswChigJUmYdgD6ilha3BCHjF4rJmG8dVjj3kMqpBy4TvTnYODobZelFc5bsSz9ycEx09y
+        /XU3aZO42Bp2o0+9f9TRJBFMeUih6Oi2YB77ET4+u5z/miOF5FRihh5ubRTgdB04t89/1O/w1cDnyilFU=
+        """
+        # to = "YOUR USER ID"
+
+        line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
+        print(line_bot_api)
         payload = request.json
         print("------------")
         print(payload)
