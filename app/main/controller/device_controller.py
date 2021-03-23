@@ -76,7 +76,9 @@ class Webhook(Resource):
     def post(self):
         """ line bot response """
         payload = request.json
+        print("------------")
         print(payload)
+        print("------------")
         response = True
 
         if not response:
