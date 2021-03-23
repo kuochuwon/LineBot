@@ -14,7 +14,7 @@ response_status = {status.HTTP_200_OK: ret.get_code_full(ret.RET_OK),
                    status.HTTP_404_NOT_FOUND: ret.get_code_full(ret.RET_NOT_FOUND)}
 
 
-@api.route("/linebot/webhook")
+@api.route("/webhook")
 class Webhook(Resource):
     # @api.expect(_header, _get_all_device,
     #             validate=True)
