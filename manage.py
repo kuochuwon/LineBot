@@ -10,8 +10,6 @@ load_dotenv(dotenv_path=dotenv_path)
 
 from app import blueprint  # noqa: E402
 from app.main import create_app, db  # noqa: E402
-from app.main.database import seed_db  # noqa: E402
-from app.main.database import seed_sample  # noqa: E402
 
 app = create_app(os.getenv("FLASK_CONFIG") or "development")
 app.register_blueprint(blueprint)
@@ -40,16 +38,6 @@ def test():
                                            pattern="test*.py")
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     return 0 if result.wasSuccessful() else 1
-
-
-@manager.command
-def seed():
-    seed_db.seed()
-
-
-@manager.command
-def add_sample():
-    seed_sample.seed_ntpc()
 
 
 # @manager.command
