@@ -74,7 +74,9 @@ class Webhook(Resource):
     # @check_access_authority
     @api_exception_handler
     def post(self):
-        """ give User device list """
+        """ line bot response """
+        payload = request.json
+        print(payload)
         response = True
 
         if not response:
