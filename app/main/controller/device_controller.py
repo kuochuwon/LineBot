@@ -65,6 +65,23 @@ class GetAll(Resource):
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
 
 
+@api.route("/linebot/webhook")
+class Webhook(Resource):
+    # @api.expect(_header, _get_all_device,
+    #             validate=True)
+    # @api.doc(responses=response_status)
+    # @jwt_required
+    # @check_access_authority
+    @api_exception_handler
+    def post(self):
+        """ give User device list """
+        response = True
+
+        if not response:
+            raise NotFound(ret.http_resp(ret.RET_NOT_FOUND))
+        return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
+
+
 @api.route("/add")
 class Add(Resource):
     @api.expect(_header, _add_device,
