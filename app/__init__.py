@@ -1,6 +1,7 @@
 from flask_restplus import Api
 from flask import Blueprint
 from app.main import jwt
+from app.main.controller.linebot_controller import api as line_ns
 from app.main.controller.auth_controller import api as auth_ns
 from app.main.controller.device_controller import api as device_ns
 from app.main.controller.device_group_controller import api as device_group_ns
@@ -17,6 +18,8 @@ api = Api(blueprint,
 
 jwt._set_error_handler_callbacks(api)
 
+api.add_namespace(line_ns,
+                  path="")
 api.add_namespace(auth_ns,
                   path="/auth")
 api.add_namespace(device_ns,
