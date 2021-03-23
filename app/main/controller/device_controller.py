@@ -79,7 +79,7 @@ class Webhook(Resource):
 
         if not response:
             raise NotFound(ret.http_resp(ret.RET_NOT_FOUND))
-        return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
+        return ret.http_resp(ret.RET_OK, extra=""), status.HTTP_200_OK
 
 
 @api.route("/add")
