@@ -1,20 +1,26 @@
-{
-    "events": [
-        {
-            "type": "message",
-            "replyToken": "a5c20dd6d4924102b4129226e8c071a6",
-            "source": {
-                "userId": "U9afa5683614c2f30296a92eb07984d57",
-                "type": "user"
-            },
-            "timestamp": 1616483588909,
-            "mode": "active",
-            "message": {
-                "type": "text",
-                "id": "13766599107669",
-                "text": "重新測試"
+[
+    {
+        "events": [
+            {
+                "type": "message",
+                "replyToken": "a5c20dd6d4924102b4129226e8c071a6",
+                "source": {
+                    "userId": "U9afa5683614c2f30296a92eb07984d57",
+                    "type": "user"
+                },
+                "timestamp": 1616483588909,
+                "mode": "active",
+                "message": {
+                    "type": "text",
+                    "id": "13766599107669",
+                    "text": "本機端測試"
+                }
             }
-        }
-    ],
-    "destination": "U626fcac094933a537b218a14c877e0d4"
-}
+        ],
+        "destination": "U626fcac094933a537b218a14c877e0d4"
+    },
+    {
+        "events": [],
+        "destination": "U626fcac094933a537b218a14c877e0d4"
+    }
+]
