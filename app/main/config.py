@@ -25,9 +25,9 @@ class Config:
 
     #
     LOG_FILE = os.getenv("LOG_FILE") or "log/server.log"
-    print(f"LOG_FILE: {LOG_FILE}")
+    # print(f"LOG_FILE: {LOG_FILE}")
     path = Path(os.path.dirname(LOG_FILE))
-    print(f"path: {path}")
+    # print(f"path: {path}")
     if not (path.exists() and path.is_dir()):
         os.makedirs(path)
 
