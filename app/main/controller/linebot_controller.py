@@ -30,12 +30,12 @@ handler = WebhookHandler(CHANNEL_SECRET_TOKEN)
 @api.route("/webhook")
 class Webhook(Resource):
     # 學你說話
-    @handler.add(MessageEvent, message=TextMessage)
-    def echo(event):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=event.message.text)
-        )
+    # @handler.add(MessageEvent, message=TextMessage)
+    # def echo(event):
+    #     line_bot_api.reply_message(
+    #         event.reply_token,
+    #         TextSendMessage(text=event.message.text)
+    #     )
 
     # @api.expect(_header, _get_all_device,
     #             validate=True)
@@ -48,14 +48,19 @@ class Webhook(Resource):
 
         # to = "YOUR USER ID"
 
-        line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
-        print(line_bot_api)
-        payload = request.json
-        print("------------")
-        print(payload)
-        print("------------")
-        response = True
+        # line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
+        payload: dict = request.json
+        temp = payload.get("events")[0]
+        timestamp = temp.get("timestamp")
+        msg_dict: dict = temp.get("message")
+        msg_type = msg_dict.get("type")
+        msg_text = msg_dict.get("text")
+        response = dict(
+            timestamp=timestamp,
+            msg_type=msg_type,
+            msg_text=msg_text
+        )
 
         if not response:
             raise NotFound(ret.http_resp(ret.RET_NOT_FOUND))
-        return ret.http_resp(ret.RET_OK, extra=""), status.HTTP_200_OK
+        return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
