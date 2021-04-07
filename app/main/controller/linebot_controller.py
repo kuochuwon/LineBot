@@ -53,17 +53,19 @@ class Webhook(Resource):
         print("------------")
         print(payload)  # for debug
         print("------------")
-        temp = payload.get("events")[0]
-        timestamp = temp.get("timestamp")
-        msg_dict: dict = temp.get("message")
-        msg_type = msg_dict.get("type")
-        msg_text = msg_dict.get("text")
-        response = dict(
-            timestamp=timestamp,
-            msg_type=msg_type,
-            msg_text=msg_text
-        )
+        response = None
+        if payload.get("events"):
+            temp = payload.get("events")[0]
+            timestamp = temp.get("timestamp")
+            msg_dict: dict = temp.get("message")
+            msg_type = msg_dict.get("type")
+            msg_text = msg_dict.get("text")
+            response = dict(
+                timestamp=timestamp,
+                msg_type=msg_type,
+                msg_text=msg_text
+            )
 
-        if not response:
-            raise NotFound(ret.http_resp(ret.RET_NOT_FOUND))
+        # if not response:
+        #     raise NotFound(ret.http_resp(ret.RET_NOT_FOUND))
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
