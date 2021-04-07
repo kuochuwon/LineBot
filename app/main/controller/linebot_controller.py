@@ -49,7 +49,10 @@ class Webhook(Resource):
         # to = "YOUR USER ID"
 
         # line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
-        payload: dict = request.json
+        payload = request.json
+        print("------------")
+        print(payload)  # for debug
+        print("------------")
         temp = payload.get("events")[0]
         timestamp = temp.get("timestamp")
         msg_dict: dict = temp.get("message")
