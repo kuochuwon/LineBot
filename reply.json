@@ -22,5 +22,25 @@
     {
         "events": [],
         "destination": "U626fcac094933a537b218a14c877e0d4"
+    },
+    {
+        "events": [
+            {
+                "type": "message",
+                "replyToken": "b443ccb33674481197e8d5740faaf16a",
+                "source": {
+                    "userId": "Ud2480636ce54bc7b98dfa1a51071c961",
+                    "type": "user"
+                },
+                "timestamp": 1618237054808,
+                "mode": "active",
+                "message": {
+                    "type": "text",
+                    "id": "13877921467739",
+                    "text": "測試"
+                }
+            }
+        ],
+        "destination": "U626fcac094933a537b218a14c877e0d4"
     }
 ]

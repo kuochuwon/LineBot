@@ -11,7 +11,8 @@ class LineConstant:
     OFFICIAL_NOTIFY_API = "https://notify-api.line.me/api/notify"
 
     user_id = dict(
-        roykuo="U9afa5683614c2f30296a92eb07984d57"
+        roykuo="U9afa5683614c2f30296a92eb07984d57",
+        lihket="Ud2480636ce54bc7b98dfa1a51071c961"
     )
     push_header = {
         'Content-Type': 'application/json; charset=UTF-8',
