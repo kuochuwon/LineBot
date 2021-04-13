@@ -1,9 +1,8 @@
 
 class LineConstant:
     CHANNEL_ACCESS_TOKEN = "qipp53w9dsKIjaDG3D5eYswChigJUmYdgD6ilha3BCHjF4rJmG8dVjj3kMqpBy4TvTnYODobZelFc5bsSz9ycEx09y/XU3aZO42Bp2o0+9f9TRJBFMeUih6Oi2YB77ET4+u5z/miOF5FRihh5ubRTgdB04t89/1O/w1cDnyilFU="
-    CHANNEL_SECRET_TOKEN = """
-    6fd6a21c86d311aaf115d9588cc5fc46
-    """
+    CHANNEL_SECRET_TOKEN = "6fd6a21c86d311aaf115d9588cc5fc46"
+
     # CHANNEL_NOTIFY_TOKEN = "r2LutziDSljYNL2O0rq3kiBNn90lQCiQC7CATPZRP5n" # Roy測試用機器人 對 Roy專屬的token
     CHANNEL_NOTIFY_TOKEN = "z0bvCgU80dpOwxCRt6EGlKVnuChzDEnE3rQeTLEcydZ"  # Roy_Notify_測試機器人 對 Roy專屬的token
 
@@ -21,8 +20,11 @@ class LineConstant:
     notify_header = {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         'Authorization': f'Bearer {CHANNEL_NOTIFY_TOKEN}'}
-    # line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
-    # handler = WebhookHandler(CHANNEL_SECRET_TOKEN)
+    NOTIFY = dict(
+        CLIENT_ID="UulwSUMmf5M9zY1HSTR8xy",
+        SECRET="MDuIohlUsEsPRKP2VXq0weJAW3cYwbb24gfeixTDmVC",
+        URI="https://linebot-kuochuwon.herokuapp.com/api/v1/linebot/callback"
+    )
 
 
 class Constant:

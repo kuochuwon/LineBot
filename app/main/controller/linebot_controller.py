@@ -9,6 +9,7 @@ from flask import request
 import requests as urllib_requests
 from flask_api import status
 from flask_restplus import Resource
+from lotify.client import Client
 # from linebot import LineBotApi, WebhookHandler
 # from linebot.models import MessageEvent, TextMessage, TextSendMessage, messages
 # from werkzeug.exceptions import NotFound
@@ -23,10 +24,16 @@ response_status = {status.HTTP_200_OK: ret.get_code_full(ret.RET_OK),
 class Callback(Resource):
     def post(self):
         """ line bot response """
-        payload = request.json
-        print("------------")
-        print(payload)  # for debug
-        print("------------")
+        # payload = request.json
+        # print("------------")
+        # print(payload)  # for debug
+        # print("------------")
+        lotify = Client(client_id=LineConstant.NOTIFY.get("CLIENT_ID"),
+                        client_secret=LineConstant.NOTIFY.get("SECRET"),
+                        redirect_uri=LineConstant.NOTIFY.get("URI"))
+        print(lotify)
+        token = lotify.get_access_token(code=request.args.get("code"))
+        print(token)
         response = None
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
 
