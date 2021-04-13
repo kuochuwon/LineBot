@@ -45,7 +45,7 @@ def retrieve_notify_token_from_callback(request):
     user_id = request.form.get('state')  # 我將state故意設定為資料庫中對應的user_id，用來統整messaging API and Notify的使用者
     files = {
         "grant_type": "authorization_code",
-        "redirect_uri": LineConstant.NOTIFY.get('local_URI'),
+        "redirect_uri": LineConstant.NOTIFY.get('remote_URI'),  # HINT remote and local 要注意
         "client_id": LineConstant.NOTIFY.get('CLIENT_ID'),
         "client_secret": LineConstant.NOTIFY.get('SECRET'),
         "code": code
