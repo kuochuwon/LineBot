@@ -23,6 +23,7 @@ def check_line_user(payload) -> None:
 
 def update_line_user(content, user_info) -> None:
     with open("user_info.json", "w", encoding="utf-8") as json_file:
+        print("new user")
         content.update(user_info)
         json.dump(content, json_file, ensure_ascii=False, indent=4)
 
