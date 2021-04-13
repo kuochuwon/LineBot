@@ -5,13 +5,14 @@
     "U9af": [
         "測試2"
     ],
-    "Ud2480636ce54bc7b98dfa1a51071c961": [
-        "lihket"
-    ],
     "Ud24096": [
         "obama"
     ],
-    "Ud2409609222": [
-        "obama"
-    ]
+    "Ud2409609222": {
+        "nickname": "obama",
+        "access_token": "Z8i3CEv6LbbL9CKVGf9ZeHjehvYF0uXLXQMj52ToagC"
+    },
+    "Ud2480636ce54bc7b98dfa1a51071c961": {
+        "nickname": "lihket"
+    }
 }

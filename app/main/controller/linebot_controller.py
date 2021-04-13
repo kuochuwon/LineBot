@@ -5,7 +5,7 @@ from app.main.service import ret
 from app.main.constant import LineConstant
 from app.main.util.common import (aaa_verify, api_exception_handler,
                                   check_access_authority)
-from app.main.view.linebot_response import check_line_user
+from app.main.view.linebot_response import check_line_user, retrieve_notify_token_from_callback
 from flask import request
 import requests as urllib_requests
 from flask_api import status
@@ -25,37 +25,7 @@ response_status = {status.HTTP_200_OK: ret.get_code_full(ret.RET_OK),
 class Callback(Resource):
     def post(self):
         """ line bot response """
-        # payload = request.json
-        code = request.form.get('code')
-        state = request.form.get('state')
-        files = {
-            "grant_type": "authorization_code",
-            "redirect_uri": "http://127.0.0.1:5000/api/v1/linebot/callback",
-            "client_id": "UulwSUMmf5M9zY1HSTR8xy",
-            "client_secret": "MDuIohlUsEsPRKP2VXq0weJAW3cYwbb24gfeixTDmVC",
-            "code": code
-        }
-        print("------------")
-        print(code)  # for debug
-        print("------------")
-        session = urllib_requests.Session()
-        result = session.post(
-            LineConstant.OFFICIAL_OAUTH_API,
-            headers={'User-Agent': 'Mozilla/5.0'},
-            params=files
-        )
-        # result = urllib_requests.post(
-        #     LineConstant.OFFICIAL_OAUTH_API,
-        #     files=files)
-        # temp = LineConstant.NOTIFY.get("CLIENT_ID")
-        # lotify = Client(client_id=LineConstant.NOTIFY.get("CLIENT_ID"),
-        #                 client_secret=LineConstant.NOTIFY.get("SECRET"),
-        #                 redirect_uri=LineConstant.NOTIFY.get("URI"))
-        # print(lotify)
-        # token = lotify.get_access_token(code=request.args.get("svNW0IDGpqQPGDsBVFpJ20"))
-        # print(token)
-        output = json.dumps(result.text)
-        access_token = output.get("access_token")
+        retrieve_notify_token_from_callback(request)
         response = None
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
 
@@ -64,6 +34,7 @@ class Callback(Resource):
 class LineNotify(Resource):
     def post(self):
         """ connecting line notify to send free messeage """
+        # TODO 改寫成輸入姓名，程式從JSON中尋找對應姓名的notify access token，藉此發送給特定人士
         payload = request.json
         print("------------")
         print(payload)  # for debug
