@@ -62,5 +62,8 @@ def retrieve_notify_token_from_callback(request):
         params=files
     )
     output = json.loads(result.text)
+    print("------------")
+    print(f"output: {output}")
+    print("------------")
     access_token = output.get("access_token")
     append_notify_token(user_id, access_token)
