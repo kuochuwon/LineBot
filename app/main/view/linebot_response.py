@@ -32,6 +32,7 @@ def append_notify_token(user_id: str, access_token: str) -> None:
     with open("user_info.json", "r", encoding="utf-8") as json_file:
         content = json.load(json_file)
     with open("user_info.json", "w", encoding="utf-8") as json_file:
+        print(content.get("user_id"))
         content[user_id]["access_token"] = access_token
         json.dump(content, json_file, ensure_ascii=False, indent=4)
 
@@ -46,9 +47,9 @@ def retrieve_notify_token_from_callback(request):
         "client_secret": LineConstant.NOTIFY.get('SECRET'),
         "code": code
     }
-    # print("------------")
-    # print(code)  # for debug
-    # print("------------")
+    print("------------")
+    print(code)  # for debug
+    print("------------")
 
     # HINT magic method, 從網路上抄的，還不確定是否一定要這樣寫 https://stackoverflow.com/questions/20759981/python-trying-to-post-form-using-requests by atupal#
     session = urllib_requests.Session()
