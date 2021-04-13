@@ -5,9 +5,10 @@ class LineConstant:
 
     # CHANNEL_NOTIFY_TOKEN = "r2LutziDSljYNL2O0rq3kiBNn90lQCiQC7CATPZRP5n" # Roy測試用機器人 對 Roy專屬的token
     CHANNEL_NOTIFY_TOKEN = "z0bvCgU80dpOwxCRt6EGlKVnuChzDEnE3rQeTLEcydZ"  # Roy_Notify_測試機器人 對 Roy專屬的token
-
+    # CHANNEL_NOTIFY_TOKEN = "Cz6yG6MCA0Z51ZjdwMYh85aYoWAnJwAB5qlleK5cz94"  # Roy_Notify_測試機器人 對 Roy專屬的token，可以有多個
     OFFICIAL_PUSH_API = "https://api.line.me/v2/bot/message/push"
     OFFICIAL_NOTIFY_API = "https://notify-api.line.me/api/notify"
+    OFFICIAL_OAUTH_API = "https://notify-bot.line.me/oauth/token"
 
     user_id = dict(
         roykuo="U9afa5683614c2f30296a92eb07984d57",
@@ -23,7 +24,8 @@ class LineConstant:
     NOTIFY = dict(
         CLIENT_ID="UulwSUMmf5M9zY1HSTR8xy",
         SECRET="MDuIohlUsEsPRKP2VXq0weJAW3cYwbb24gfeixTDmVC",
-        URI="https://linebot-kuochuwon.herokuapp.com/api/v1/linebot/callback"
+        remote_URI="https://linebot-kuochuwon.herokuapp.com/api/v1/linebot/callback",
+        local_URI="http://127.0.0.1:5000/api/v1/linebot/callback"
     )
 
 

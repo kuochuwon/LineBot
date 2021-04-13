@@ -25,15 +25,35 @@ class Callback(Resource):
     def post(self):
         """ line bot response """
         # payload = request.json
-        # print("------------")
-        # print(payload)  # for debug
-        # print("------------")
-        lotify = Client(client_id=LineConstant.NOTIFY.get("CLIENT_ID"),
-                        client_secret=LineConstant.NOTIFY.get("SECRET"),
-                        redirect_uri=LineConstant.NOTIFY.get("URI"))
-        print(lotify)
-        token = lotify.get_access_token(code=request.args.get("code"))
-        print(token)
+        code = request.form.get('code')
+        state = request.form.get('state')
+        files = {
+            "grant_type": "authorization_code",
+            "redirect_uri": "http://127.0.0.1:5000/api/v1/linebot/callback",
+            "client_id": "UulwSUMmf5M9zY1HSTR8xy",
+            "client_secret": "MDuIohlUsEsPRKP2VXq0weJAW3cYwbb24gfeixTDmVC",
+            "code": code
+        }
+        print("------------")
+        print(code)  # for debug
+        print("------------")
+        session = urllib_requests.Session()
+        result = session.post(
+            LineConstant.OFFICIAL_OAUTH_API,
+            headers={'User-Agent': 'Mozilla/5.0'},
+            params=files
+        )
+        # result = urllib_requests.post(
+        #     LineConstant.OFFICIAL_OAUTH_API,
+        #     files=files)
+        # temp = LineConstant.NOTIFY.get("CLIENT_ID")
+        # lotify = Client(client_id=LineConstant.NOTIFY.get("CLIENT_ID"),
+        #                 client_secret=LineConstant.NOTIFY.get("SECRET"),
+        #                 redirect_uri=LineConstant.NOTIFY.get("URI"))
+        # print(lotify)
+        # token = lotify.get_access_token(code=request.args.get("svNW0IDGpqQPGDsBVFpJ20"))
+        # print(token)
+        output = result.text
         response = None
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
 
@@ -119,5 +139,7 @@ class Webhook(Resource):
         print("------------")
         response = None
         if payload.get("events"):
-            check_line_user(payload)
+            invitation_url = check_line_user(payload)
+            response = {"hint": f"感謝您使用小幫手，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
+                        f"連結: {invitation_url}"}
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
