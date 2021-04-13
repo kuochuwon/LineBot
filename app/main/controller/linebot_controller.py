@@ -1,8 +1,10 @@
+import json
 from app.main.dto.thelinebot import LineBotDto
 from app.main.service import ret
 from app.main.constant import LineConstant
 from app.main.util.common import (aaa_verify, api_exception_handler,
                                   check_access_authority)
+from app.main.view.linebot_response import check_line_user
 from flask import request
 import requests as urllib_requests
 from flask_api import status
@@ -15,6 +17,18 @@ api = LineBotDto.api
 response_status = {status.HTTP_200_OK: ret.get_code_full(ret.RET_OK),
                    status.HTTP_401_UNAUTHORIZED: ret.get_code_full(ret.RET_NO_CUST_ID),
                    status.HTTP_404_NOT_FOUND: ret.get_code_full(ret.RET_NOT_FOUND)}
+
+
+@api.route("/callback")
+class Callback(Resource):
+    def post(self):
+        """ line bot response """
+        payload = request.json
+        print("------------")
+        print(payload)  # for debug
+        print("------------")
+        response = None
+        return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
 
 
 @api.route("/notify")
@@ -79,43 +93,24 @@ class Push(Resource):
 
 @api.route("/webhook")
 class Webhook(Resource):
-    # 學你說話
-    # @handler.add(MessageEvent, message=TextMessage)
-    # def echo(event):
-    #     line_bot_api.reply_message(
-    #         event.reply_token,
-    #         TextSendMessage(text=event.message.text)
-    #     )
+    # HINT 技術原理與流程: 使用者向linebot發送訊息，
+    # line server收到後會向指定的URI發出一個POST請求，
+    # 並包含使用者ID、訊息內容，因此只要該URI是可以接收POST的服務，
+    # 就可以擷取user_id進行進一步動作
 
     # @api.expect(_header, _get_all_device,
     #             validate=True)
     # @api.doc(responses=response_status)
     # @jwt_required
     # @check_access_authority
-    @api_exception_handler
+    # @api_exception_handler
     def post(self):
         """ line bot response """
-
-        # to = "YOUR USER ID"
-
-        # line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
         payload = request.json
         print("------------")
         print(payload)  # for debug
         print("------------")
         response = None
         if payload.get("events"):
-            temp = payload.get("events")[0]
-            timestamp = temp.get("timestamp")
-            msg_dict: dict = temp.get("message")
-            msg_type = msg_dict.get("type")
-            msg_text = msg_dict.get("text")
-            response = dict(
-                timestamp=timestamp,
-                msg_type=msg_type,
-                msg_text=msg_text
-            )
-
-        # if not response:
-        #     raise NotFound(ret.http_resp(ret.RET_NOT_FOUND))
+            check_line_user(payload)
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
