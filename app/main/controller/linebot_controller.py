@@ -1,4 +1,5 @@
 import json
+from os import access
 from app.main.dto.thelinebot import LineBotDto
 from app.main.service import ret
 from app.main.constant import LineConstant
@@ -53,7 +54,8 @@ class Callback(Resource):
         # print(lotify)
         # token = lotify.get_access_token(code=request.args.get("svNW0IDGpqQPGDsBVFpJ20"))
         # print(token)
-        output = result.text
+        output = json.dumps(result.text)
+        access_token = output.get("access_token")
         response = None
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
 
