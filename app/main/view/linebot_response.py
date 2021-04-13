@@ -33,7 +33,7 @@ def append_notify_token(user_id: str, access_token: str) -> None:
         content = json.load(json_file)
     with open("user_info.json", "w", encoding="utf-8") as json_file:
         print("---------")
-        print("user_id: ", content.get("user_id"))
+        print("user_id: ", content.get(user_id))
         print(f"access_token: {access_token}")
         print("---------")
         content[user_id]["access_token"] = access_token
