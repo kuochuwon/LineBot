@@ -115,4 +115,17 @@ class Webhook(Resource):
             invitation_url = check_line_user(payload)
             response = {"hint": f"感謝您使用小幫手，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
                         f"連結: {invitation_url}"}
+
+        elif webhook_message_checker(payload) == "file":
+            pass
+
+        return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
+
+
+@api.route("/who_serve")
+class Serve(Resource):
+    def get(self):
+        """ connecting line notify to send free messeage """
+        # TODO 改寫成輸入姓名，程式從JSON中尋找對應姓名的notify access token，藉此發送給特定人士
+        response = {"hint": "服事者為Roykuo"}
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
