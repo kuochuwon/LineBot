@@ -3,6 +3,7 @@ from app.main.service import ret
 import json
 from app.main.constant import LineConstant
 import requests as urllib_requests
+import platform
 
 
 def check_line_user(payload) -> None:
@@ -45,11 +46,14 @@ def retrieve_notify_token_from_callback(request):
     user_id = request.form.get('state')  # 我將state故意設定為資料庫中對應的user_id，用來統整messaging API and Notify的使用者
     files = {
         "grant_type": "authorization_code",
-        "redirect_uri": LineConstant.NOTIFY.get('remote_URI'),  # HINT remote and local 要注意
         "client_id": LineConstant.NOTIFY.get('CLIENT_ID'),
         "client_secret": LineConstant.NOTIFY.get('SECRET'),
         "code": code
     }
+    if platform.system() == "Windows":
+        files.update({"redirect_uri": LineConstant.NOTIFY.get('local_URI')})
+    else:  # Linux
+        files.update({"redirect_uri": LineConstant.NOTIFY.get('remote_URI')})
     print("------------")
     print("code",  code)  # for debug
     print("------------")
