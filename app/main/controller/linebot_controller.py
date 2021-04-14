@@ -5,7 +5,7 @@ from app.main.service import ret
 from app.main.constant import LineConstant
 from app.main.util.common import (aaa_verify, api_exception_handler,
                                   check_access_authority)
-from app.main.view.linebot_response import check_line_user, retrieve_notify_token_from_callback
+from app.main.view.linebot_response import check_line_user, retrieve_notify_token_from_callback, webhook_message_checker
 from flask import request
 import requests as urllib_requests
 from flask_api import status
@@ -111,7 +111,7 @@ class Webhook(Resource):
         print(payload)  # for debug
         print("------------")
         response = None
-        if payload.get("events"):
+        if webhook_message_checker(payload) == "text":
             invitation_url = check_line_user(payload)
             response = {"hint": f"感謝您使用小幫手，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
                         f"連結: {invitation_url}"}

@@ -13,10 +13,18 @@ def check_line_user(payload) -> None:
     user_info = {user_id: {"nickname": msg_text}}
     with open("user_info.json", "r", encoding="utf-8") as json_file:
         content = json.load(json_file)
-    invitation_url = (f"https://notify-bot.line.me/oauth/authorize?response_type=code&scope=notify&"
-                      f"response_mode=form_post&client_id={LineConstant.NOTIFY.get('CLIENT_ID')}"
-                      f"&redirect_uri={LineConstant.NOTIFY.get('local_URI')}"
-                      f"&state={user_id}")
+
+    if platform.system() == "Windows":
+        invitation_url = (f"https://notify-bot.line.me/oauth/authorize?response_type=code&scope=notify&"
+                          f"response_mode=form_post&client_id={LineConstant.NOTIFY.get('CLIENT_ID')}"
+                          f"&redirect_uri={LineConstant.NOTIFY.get('local_URI')}"
+                          f"&state={user_id}")
+    else:  # Linux
+        invitation_url = (f"https://notify-bot.line.me/oauth/authorize?response_type=code&scope=notify&"
+                          f"response_mode=form_post&client_id={LineConstant.NOTIFY.get('CLIENT_ID')}"
+                          f"&redirect_uri={LineConstant.NOTIFY.get('remote_URI')}"
+                          f"&state={user_id}")
+
     if content.get(user_id) is None:
         update_line_user(content, user_info)
     return invitation_url
@@ -71,3 +79,23 @@ def retrieve_notify_token_from_callback(request):
     print("------------")
     access_token = output.get("access_token")
     append_notify_token(user_id, access_token)
+
+
+def webhook_message_checker(payload):
+    try:
+        if payload.get("events"):
+            temp = payload.get("events")[0]
+            if temp["message"]["type"] == "text":
+                print("------ type is text ------")
+                return "text"
+            elif temp["message"]["type"] == "image":
+                print("------ type is image ------")
+                return "image"
+            else:
+                print("------ type is unknown ------")
+                return False
+        else:
+            return False
+    except Exception as e:
+        print(f"-------invalid payload: {e}-------")
+        return False
