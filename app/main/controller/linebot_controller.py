@@ -1,18 +1,16 @@
-import json
-from os import access
+import requests as urllib_requests
+from app.main.constant import LineConstant
 from app.main.dto.thelinebot import LineBotDto
 from app.main.service import ret
-from app.main.constant import LineConstant
 from app.main.util.common import (aaa_verify, api_exception_handler,
                                   check_access_authority)
-from app.main.view.linebot_response import check_line_user, retrieve_notify_token_from_callback, webhook_message_checker
+from app.main.view.linebot_response import (
+    check_line_user, excel_handler, retrieve_notify_token_from_callback,
+    webhook_message_checker)
 from flask import request
-import requests as urllib_requests
 from flask_api import status
 from flask_restplus import Resource
-from lotify.client import Client
-# from linebot import LineBotApi, WebhookHandler
-# from linebot.models import MessageEvent, TextMessage, TextSendMessage, messages
+
 # from werkzeug.exceptions import NotFound
 
 api = LineBotDto.api
@@ -59,6 +57,11 @@ class LineNotify(Resource):
 
 @api.route("/push")
 class Push(Resource):
+    # @api.expect(_header, _get_all_device,
+    #             validate=True)
+    # @api.doc(responses=response_status)
+    # @jwt_required
+    # @check_access_authority
     # @api_exception_handler
     def post(self):
         """ connecting line bot API to push messeage """
@@ -98,12 +101,6 @@ class Webhook(Resource):
     # 並包含使用者ID、訊息內容，因此只要該URI是可以接收POST的服務，
     # 就可以擷取user_id進行進一步動作
 
-    # @api.expect(_header, _get_all_device,
-    #             validate=True)
-    # @api.doc(responses=response_status)
-    # @jwt_required
-    # @check_access_authority
-    # @api_exception_handler
     def post(self):
         """ line bot response """
         payload = request.json
@@ -117,7 +114,7 @@ class Webhook(Resource):
                         f"連結: {invitation_url}"}
 
         elif webhook_message_checker(payload) == "file":
-            pass
+            excel_handler()
 
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
 

@@ -9,20 +9,20 @@ from app.main import db
 from app.main.model.user import sdUser
 from app.main.model.status_privilege import sdStatusPrivilege
 
-rel_dg_ug = db.Table(
-    'sd15_rel_dg_ug',
-    db.Column('device_group_id', db.Integer, db.ForeignKey('sd22_device_groups.id')),
-    db.Column('user_group_id', db.Integer, db.ForeignKey('sd13_user_groups.id')))
+# rel_dg_ug = db.Table(
+#     'sd15_rel_dg_ug',
+#     db.Column('device_group_id', db.Integer, db.ForeignKey('sd22_device_groups.id')),
+#     db.Column('user_group_id', db.Integer, db.ForeignKey('sd13_user_groups.id')))
 
-rel_u_ug = db.Table(
-    'sd14_rel_u_ug',
-    db.Column('user_id', db.Integer, db.ForeignKey('sd11_users.id')),
-    db.Column('user_group_id', db.Integer, db.ForeignKey('sd13_user_groups.id')))
+# rel_u_ug = db.Table(
+#     'sd14_rel_u_ug',
+#     db.Column('user_id', db.Integer, db.ForeignKey('sd11_users.id')),
+#     db.Column('user_group_id', db.Integer, db.ForeignKey('sd13_user_groups.id')))
 
-rel_role_ug = db.Table(
-    'sd16_rel_role_ug',
-    db.Column('role_id', db.Integer, db.ForeignKey('sd18_roles.id')),
-    db.Column('user_group_id', db.Integer, db.ForeignKey('sd13_user_groups.id')))
+# rel_role_ug = db.Table(
+#     'sd16_rel_role_ug',
+#     db.Column('role_id', db.Integer, db.ForeignKey('sd18_roles.id')),
+#     db.Column('user_group_id', db.Integer, db.ForeignKey('sd13_user_groups.id')))
 
 
 class sdUserGroup(db.Model):
@@ -35,9 +35,9 @@ class sdUserGroup(db.Model):
     update_time = db.Column(db.DateTime, server_default=func.now(), comment="Update time")
     cust_id = db.Column(db.Integer, db.ForeignKey("sd10_customers.id"), comment="Customer id")
 
-    rel_dg_ug = db.relationship('sdDeviceGroup', secondary=rel_dg_ug, backref='user_groups')
-    rel_u_ug = db.relationship('sdUser', secondary=rel_u_ug, backref='user_groups')
-    rel_role_ug = db.relationship('sdRole', secondary=rel_role_ug, backref='user_groups')
+    # rel_dg_ug = db.relationship('sdDeviceGroup', secondary=rel_dg_ug, backref='user_groups')
+    # rel_u_ug = db.relationship('sdUser', secondary=rel_u_ug, backref='user_groups')
+    # rel_role_ug = db.relationship('sdRole', secondary=rel_role_ug, backref='user_groups')
 
     __table_args__ = (db.UniqueConstraint("cust_id", "name"),)
 
@@ -85,20 +85,20 @@ class sdUserGroup(db.Model):
         obj.comment = new_comment
         return obj
 
-    # user join user group
-    @staticmethod
-    def join_users(cust_id, user_group_id, user_list):
-        selected_user_group = db.session.query(sdUserGroup).filter(
-            sdUserGroup.id == user_group_id, sdUserGroup.cust_id == cust_id).first()
-        query_obj = db.session.query(sdUser).filter(sdUser.id.in_(user_list), sdUser.cust_id == cust_id).all()
-        selected_user_group.rel_u_ug.extend(query_obj)
+    # # user join user group
+    # @staticmethod
+    # def join_users(cust_id, user_group_id, user_list):
+    #     selected_user_group = db.session.query(sdUserGroup).filter(
+    #         sdUserGroup.id == user_group_id, sdUserGroup.cust_id == cust_id).first()
+    #     query_obj = db.session.query(sdUser).filter(sdUser.id.in_(user_list), sdUser.cust_id == cust_id).all()
+    #     selected_user_group.rel_u_ug.extend(query_obj)
 
-    # user leave user group
-    @staticmethod
-    def leave_users(user_group_id, user_list):
-        db.session.query(rel_u_ug).filter(rel_u_ug.c.user_group_id == user_group_id).\
-            filter(rel_u_ug.c.user_id.in_(user_list)).\
-            delete(synchronize_session=False)
+    # # user leave user group
+    # @staticmethod
+    # def leave_users(user_group_id, user_list):
+    #     db.session.query(rel_u_ug).filter(rel_u_ug.c.user_group_id == user_group_id).\
+    #         filter(rel_u_ug.c.user_id.in_(user_list)).\
+    #         delete(synchronize_session=False)
 
     @staticmethod
     def get_status_privilege(usergroup_obj, cust_id, flag, priv_set):

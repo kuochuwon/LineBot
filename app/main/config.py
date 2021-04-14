@@ -71,11 +71,11 @@ def get_config(config_name):
 jwt_key = Config.JWT_SECRET_KEY
 
 
-# MQTT Setting
-class MQTTConfig:
-    CLIENT_ID = str(os.getenv("MQTT_CLIENT_ID"))
-    ALIVE = int(os.getenv("MQTT_ALIVE"))
-    SERVER = str(os.getenv("MQTT_SERVER"))
-    PORT = int(os.getenv("MQTT_PORT"))
-    PUBLISH_TOPIC = str(os.getenv("MQTT_PUBLISH_TOPIC"))
-    QOS = int(os.getenv("MQTT_QOS"))
+# # MQTT Setting
+# class MQTTConfig:
+#     CLIENT_ID = str(os.getenv("MQTT_CLIENT_ID"))
+#     ALIVE = int(os.getenv("MQTT_ALIVE"))
+#     SERVER = str(os.getenv("MQTT_SERVER"))
+#     PORT = int(os.getenv("MQTT_PORT"))
+#     PUBLISH_TOPIC = str(os.getenv("MQTT_PUBLISH_TOPIC"))
+#     QOS = int(os.getenv("MQTT_QOS"))
