@@ -111,8 +111,10 @@ class Webhook(Resource):
         if webhook_message_checker(payload) == "text":
             invitation_url, replytoken = check_line_user(payload)
             print(f"reply token: {replytoken}")
-            msg = {"hint": f"感謝您使用小幫手，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
-                           f"連結: {invitation_url}"}
+            msg = {
+                "type": "text",
+                "text": f"感謝您使用小幫手，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
+                f"連結: {invitation_url}"}
             json_for_msg = dict(
                 replyToken=replytoken,
                 messages=[msg]
@@ -121,7 +123,7 @@ class Webhook(Resource):
             result = urllib_requests.post(
                 LineConstant.OFFICIAL_REPLY_API,
                 headers=LineConstant.push_header,
-                data=json_for_msg)
+                param=json_for_msg)
             print(f"reply status code: {result.status_code}")
             response = msg
 
