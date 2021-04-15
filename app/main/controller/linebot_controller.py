@@ -47,7 +47,7 @@ class LineNotify(Resource):
             result = urllib_requests.post(
                 LineConstant.OFFICIAL_NOTIFY_API,
                 headers=LineConstant.notify_header,
-                params=json_for_msg)
+                data=json_for_msg)
             if result.status_code == 200:
                 response = {"hint": "訊息發送成功"}
 
@@ -115,9 +115,16 @@ class Webhook(Resource):
                 "type": "text",
                 "text": f"感謝您使用小幫手，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
                 f"連結: {invitation_url}"}
+
+            sticker = {
+                "type": "sticker",
+                "packageId": "446",
+                "stickerId": "1989"
+            }
+
             json_for_msg = dict(
                 replyToken=replytoken,
-                messages=[msg]
+                messages=[msg, sticker]
             )
             print(f"json_for_msg: {json_for_msg}")
             result = urllib_requests.post(
