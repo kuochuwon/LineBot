@@ -123,7 +123,7 @@ class Webhook(Resource):
             result = urllib_requests.post(
                 LineConstant.OFFICIAL_REPLY_API,
                 headers=LineConstant.push_header,
-                json=json_for_msg)
+                data=json_for_msg)
             print(f"reply status code: {result.status_code}")
             response = msg
 
