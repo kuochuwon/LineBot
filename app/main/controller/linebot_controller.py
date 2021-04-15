@@ -5,7 +5,7 @@ from app.main.service import ret
 from app.main.util.common import (aaa_verify, api_exception_handler,
                                   check_access_authority)
 from app.main.view.linebot_response import (
-    check_line_user, excel_handler, retrieve_notify_token_from_callback,
+    check_line_user, file_handler, retrieve_notify_token_from_callback,
     webhook_message_checker)
 from flask import request
 from flask_api import status
@@ -113,7 +113,7 @@ class Webhook(Resource):
             print(f"reply token: {replytoken}")
             msg = {
                 "type": "text",
-                "text": f"感謝您使用小幫手，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
+                "text": f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
                 f"連結: {invitation_url}"}
 
             sticker = {
@@ -135,7 +135,7 @@ class Webhook(Resource):
             response = msg
 
         elif webhook_message_checker(payload) == "file":
-            excel_handler()
+            file_handler(payload)
 
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
 

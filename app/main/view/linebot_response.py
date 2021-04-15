@@ -113,11 +113,32 @@ def webhook_message_checker(payload):
         return False
 
 
-def excel_handler():
-    input_file = "demo_doc.xlsx"
-    wb = load_workbook(Path.cwd() / "downloads/" / input_file)
-    ws = wb.active
+def file_handler(payload):
+    temp = payload.get("events")[0]
+    replytoken = temp["replyToken"]
+    file_id = temp["message"]["id"]  # HINT name
+    file_name = temp["message"]["fileName"]
 
-    # HINT row = 1,2,3,4... in Excel; col = A,B,C... in Excel
-    for row in ws.iter_rows(min_row=3, max_col=10, max_row=500, values_only=True):
-        pass
+    with urllib_requests.get(
+            LineConstant.OFFICIAL_CONTENT_API.replace("<file_id>", file_id),
+            headers=LineConstant.push_header,
+            stream=True) as r:
+        r.raise_for_status()
+        with open((Path.cwd() / "downloads/" / file_name), 'wb') as f:
+            for chunk in r.iter_content(chunk_size=8192):
+                # link1: https://stackoverflow.com/questions/16694907/download-large-file-in-python-with-requests
+                # link2: https://stackoverflow.com/questions/19602931/basic-http-file-downloading-and-saving-to-disk-in-python
+                # If you have chunk encoded response uncomment if
+                # and set chunk_size parameter to None.
+                # if chunk:
+                f.write(chunk)
+
+    print(f"file saved successfully: {file_name}, id: {file_id}")
+
+    # input_file = "demo_doc.xlsx"
+    # wb = load_workbook(Path.cwd() / "downloads/" / input_file)
+    # ws = wb.active
+
+    # # HINT row = 1,2,3,4... in Excel; col = A,B,C... in Excel
+    # for row in ws.iter_rows(min_row=3, max_col=10, max_row=500, values_only=True):
+    #     pass
