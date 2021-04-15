@@ -5,7 +5,8 @@ from app.main.service import ret
 from app.main.util.common import (aaa_verify, api_exception_handler,
                                   check_access_authority)
 from app.main.view.linebot_response import (
-    check_line_user, file_handler, retrieve_notify_token_from_callback,
+    check_line_user, file_handler, text_handler,
+    retrieve_notify_token_from_callback,
     webhook_message_checker)
 from flask import request
 from flask_api import status
@@ -50,8 +51,6 @@ class LineNotify(Resource):
                 json=json_for_msg)
             if result.status_code == 200:
                 response = {"hint": "訊息發送成功"}
-
-        # if payload.get("events"):
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
 
 
@@ -109,31 +108,7 @@ class Webhook(Resource):
         print("------------")
         response = None
         if webhook_message_checker(payload) == "text":
-            invitation_url, replytoken = check_line_user(payload)
-            print(f"reply token: {replytoken}")
-            msg = {
-                "type": "text",
-                "text": f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
-                f"連結: {invitation_url}"}
-
-            sticker = {
-                "type": "sticker",
-                "packageId": "446",
-                "stickerId": "1989"
-            }
-
-            json_for_msg = dict(
-                replyToken=replytoken,
-                messages=[msg, sticker]
-            )
-            print(f"json_for_msg: {json_for_msg}")
-            result = urllib_requests.post(
-                LineConstant.OFFICIAL_REPLY_API,
-                headers=LineConstant.push_header,
-                json=json_for_msg)
-            print(f"reply status code: {result.status_code}")
-            response = msg
-
+            response = text_handler(payload)
         elif webhook_message_checker(payload) == "file":
             file_handler(payload)
 

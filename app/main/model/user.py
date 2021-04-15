@@ -1,8 +1,7 @@
 from sqlalchemy.sql import func
-from sqlalchemy.sql.functions import user
+# from sqlalchemy.sql.functions import user
 
-from app.main import bcrypt, db
-from sqlalchemy.dialects.postgresql import UUID
+from app.main import db
 from app.main.constant import Constant
 
 
