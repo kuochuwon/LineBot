@@ -10,16 +10,17 @@ from openpyxl import load_workbook, Workbook
 from pathlib import Path
 
 
-def check_line_user(payload) -> None:
+def check_line_user(payload) -> str:
     temp = payload.get("events")[0]
+    replytoken = temp["replyToken"]
     msg_text = temp["message"]["text"]  # HINT name
     user_id = temp["source"]["userId"]
 
     invitation_url = generate_url(user_id)
     search_res = sdUser.search(user_id)
     if search_res is None:
-        add_line_user(search_res, msg_text, user_id)
-    return invitation_url
+        add_line_user_to_db(search_res, msg_text, user_id)
+    return invitation_url, replytoken
 
 
 def generate_url(user_id: str):
@@ -36,7 +37,7 @@ def generate_url(user_id: str):
     return invitation_url
 
 
-def add_line_user(search_res, msg_text, user_id):
+def add_line_user_to_db(search_res, msg_text, user_id):
     if search_res is None:
         try:
             obj = sdUser().add(msg_text, user_id)
@@ -100,7 +101,7 @@ def webhook_message_checker(payload):
                 print("------ type is image ------")
                 return "image"
             elif temp["message"]["type"] == "file":
-                print("------ type is image ------")
+                print("------ type is file ------")
                 return "file"
             else:
                 print("------ type is unknown ------")

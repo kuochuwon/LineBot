@@ -109,9 +109,21 @@ class Webhook(Resource):
         print("------------")
         response = None
         if webhook_message_checker(payload) == "text":
-            invitation_url = check_line_user(payload)
-            response = {"hint": f"感謝您使用小幫手，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
-                        f"連結: {invitation_url}"}
+            invitation_url, replytoken = check_line_user(payload)
+            print(f"reply token: {replytoken}")
+            msg = {"hint": f"感謝您使用小幫手，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
+                           f"連結: {invitation_url}"}
+            json_for_msg = dict(
+                replyToken=replytoken,
+                messages=[msg]
+            )
+            print(f"json_for_msg: {json_for_msg}")
+            result = urllib_requests.post(
+                LineConstant.OFFICIAL_REPLY_API,
+                headers=LineConstant.push_header,
+                params=json_for_msg)
+            print(f"reply status code: {result.status_code}")
+            response = msg
 
         elif webhook_message_checker(payload) == "file":
             excel_handler()

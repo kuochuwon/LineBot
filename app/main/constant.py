@@ -9,6 +9,7 @@ class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈
     OFFICIAL_PUSH_API = "https://api.line.me/v2/bot/message/push"
     OFFICIAL_NOTIFY_API = "https://notify-api.line.me/api/notify"
     OFFICIAL_OAUTH_API = "https://notify-bot.line.me/oauth/token"
+    OFFICIAL_REPLY_API = "https://api.line.me/v2/bot/message/reply"
 
     user_id = dict(
         roykuo="U9afa5683614c2f30296a92eb07984d57",
