@@ -48,7 +48,7 @@ class LineNotify(Resource):
             result = urllib_requests.post(
                 LineConstant.OFFICIAL_NOTIFY_API,
                 headers=LineConstant.notify_header,
-                json=json_for_msg)
+                data=json_for_msg)  # HINT must use data as parameter
             if result.status_code == 200:
                 response = {"hint": "訊息發送成功"}
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK

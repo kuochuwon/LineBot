@@ -1,13 +1,13 @@
-from os import access
 from app.main.service import ret
 import json
 from app.main.constant import LineConstant
+from app.main.constant import SundayWorship
 import requests as urllib_requests
 import platform
 from app.main.model.user import sdUser
 from app.main import db
-from openpyxl import load_workbook, Workbook
 from pathlib import Path
+from docx import Document
 
 
 def text_handler(payload) -> dict:
@@ -32,7 +32,7 @@ def text_handler(payload) -> dict:
     result = urllib_requests.post(
         LineConstant.OFFICIAL_REPLY_API,
         headers=LineConstant.push_header,
-        json=json_for_msg)
+        json=json_for_msg)  # HINT must use json as parameter
     print(f"reply status code: {result.status_code}")
     return msg
 
@@ -43,29 +43,60 @@ def file_handler(payload):
     file_id = temp["message"]["id"]  # HINT name
     file_name = temp["message"]["fileName"]
 
-    with urllib_requests.get(
-            LineConstant.OFFICIAL_CONTENT_API.replace("<file_id>", file_id),
-            headers=LineConstant.push_header,
-            stream=True) as r:
-        r.raise_for_status()
-        with open((Path.cwd() / "downloads/" / file_name), 'wb') as f:
-            for chunk in r.iter_content(chunk_size=8192):
-                # link1: https://stackoverflow.com/questions/16694907/download-large-file-in-python-with-requests
-                # link2: https://stackoverflow.com/questions/19602931/basic-http-file-downloading-and-saving-to-disk-in-python
-                # If you have chunk encoded response uncomment if
-                # and set chunk_size parameter to None.
-                # if chunk:
-                f.write(chunk)
+    # with urllib_requests.get(
+    #         LineConstant.OFFICIAL_CONTENT_API.replace("<file_id>", file_id),
+    #         headers=LineConstant.push_header,
+    #         stream=True) as r:
+    #     r.raise_for_status()
+    #     with open((Path.cwd() / "downloads/" / file_name), 'wb') as f:
+    #         for chunk in r.iter_content(chunk_size=8192):
+    #             # link1: https://stackoverflow.com/questions/16694907/download-large-file-in-python-with-requests # noqa
+    #             # link2: https://stackoverflow.com/questions/19602931/basic-http-file-downloading-and-saving-to-disk-in-python # noqa
+    #             # If you have chunk encoded response uncomment if
+    #             # and set chunk_size parameter to None.
+    #             # if chunk:
+    #             f.write(chunk)
+    # print(f"file saved successfully: {file_name}, id: {file_id}")
 
-    print(f"file saved successfully: {file_name}, id: {file_id}")
+    input_file = "季表格式調整.docx"
 
-    # input_file = "demo_doc.xlsx"
-    # wb = load_workbook(Path.cwd() / "downloads/" / input_file)
-    # ws = wb.active
+    # HINT link: https://stackoverflow.com/questions/27861732/parsing-of-table-from-docx-file/27862205
+    word = Document(Path.cwd() / "downloads/" / input_file)
+    # table = word.tables[0]
+    data = []
+    keys = None
+    for table in word.tables:
+        for i, row in enumerate(table.rows[1:]):
+            text = (cell.text for cell in row.cells)
+            row_data = row_data = tuple(text)
+            data.append(row_data)
 
-    # # HINT row = 1,2,3,4... in Excel; col = A,B,C... in Excel
-    # for row in ws.iter_rows(min_row=3, max_col=10, max_row=500, values_only=True):
-    #     pass
+    # chi_index = data[0]
+    tai_index = data[21]
+
+    month_duties = dict()
+    chi_index = {k: v.replace(" ", "") for k, v in enumerate(data[1])}  # 原始值含有空白
+    subject1 = SundayWorship.chinese_subject
+
+    for row in data[2:14]:  # chinese
+        people_duties = dict()
+        date = row[0] + row[1]
+        for index, name in enumerate(row):
+            # if index == 2:
+            if index in (2, 3, 4, 5, 6, 11):
+                people_duties.setdefault(name, []).append(subject1.get(chi_index.get(index)))
+        month_duties.update({date: people_duties})
+
+    # for row in data[22:34]:
+    #     people_duties = dict()
+    #     date = row[0] + row[1]
+    #     for index, name in enumerate(row):
+    #         # if index == 2:
+    #         if index in (2, 3, 4, 5, 6, 11):
+    #             people_duties.setdefault(name, []).append(subject1.get(chi_index.get(index)))
+    #     month_duties.update({date: people_duties})
+
+    a = "temp"
 
 
 def check_line_user(payload) -> str:
@@ -127,7 +158,7 @@ def retrieve_notify_token_from_callback(request):
     print("code",  code)  # for debug
     print("------------")
 
-    # HINT magic method, 從網路上抄的，還不確定是否一定要這樣寫 https://stackoverflow.com/questions/20759981/python-trying-to-post-form-using-requests by atupal#
+    # HINT magic method, 從網路上抄的，還不確定是否一定要這樣寫 https://stackoverflow.com/questions/20759981/python-trying-to-post-form-using-requests by atupal # noqa
     session = urllib_requests.Session()
     result = session.post(
         LineConstant.OFFICIAL_OAUTH_API,
