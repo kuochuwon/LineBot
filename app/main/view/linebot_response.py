@@ -1,13 +1,11 @@
-from app.main.service import ret
 import json
-from app.main.constant import LineConstant
-from app.main.constant import SundayWorship
-import requests as urllib_requests
 import platform
-from app.main.model.user import sdUser
+
+import requests as urllib_requests
 from app.main import db
-from pathlib import Path
-from docx import Document
+from app.main.constant import LineConstant
+from app.main.model.user import sdUser
+from app.main.service.word_docx_processor import parsing_church_schedule
 
 
 def text_handler(payload) -> dict:
@@ -38,10 +36,11 @@ def text_handler(payload) -> dict:
 
 
 def file_handler(payload):
-    temp = payload.get("events")[0]
-    replytoken = temp["replyToken"]
-    file_id = temp["message"]["id"]  # HINT name
-    file_name = temp["message"]["fileName"]
+    # temp = payload.get("events")[0]
+    # replytoken = temp["replyToken"]
+    # file_id = temp["message"]["id"]  # HINT name
+    # file_name = temp["message"]["fileName"]
+    parsing_church_schedule()
 
     # with urllib_requests.get(
     #         LineConstant.OFFICIAL_CONTENT_API.replace("<file_id>", file_id),
@@ -57,46 +56,6 @@ def file_handler(payload):
     #             # if chunk:
     #             f.write(chunk)
     # print(f"file saved successfully: {file_name}, id: {file_id}")
-
-    input_file = "季表格式調整.docx"
-
-    # HINT link: https://stackoverflow.com/questions/27861732/parsing-of-table-from-docx-file/27862205
-    word = Document(Path.cwd() / "downloads/" / input_file)
-    # table = word.tables[0]
-    data = []
-    keys = None
-    for table in word.tables:
-        for i, row in enumerate(table.rows[1:]):
-            text = (cell.text for cell in row.cells)
-            row_data = row_data = tuple(text)
-            data.append(row_data)
-
-    # chi_index = data[0]
-    tai_index = data[21]
-
-    month_duties = dict()
-    chi_index = {k: v.replace(" ", "") for k, v in enumerate(data[1])}  # 原始值含有空白
-    subject1 = SundayWorship.chinese_subject
-
-    for row in data[2:14]:  # chinese
-        people_duties = dict()
-        date = row[0] + row[1]
-        for index, name in enumerate(row):
-            # if index == 2:
-            if index in (2, 3, 4, 5, 6, 11):
-                people_duties.setdefault(name, []).append(subject1.get(chi_index.get(index)))
-        month_duties.update({date: people_duties})
-
-    # for row in data[22:34]:
-    #     people_duties = dict()
-    #     date = row[0] + row[1]
-    #     for index, name in enumerate(row):
-    #         # if index == 2:
-    #         if index in (2, 3, 4, 5, 6, 11):
-    #             people_duties.setdefault(name, []).append(subject1.get(chi_index.get(index)))
-    #     month_duties.update({date: people_duties})
-
-    a = "temp"
 
 
 def check_line_user(payload) -> str:
