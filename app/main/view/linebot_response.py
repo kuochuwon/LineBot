@@ -1,4 +1,4 @@
-from app.main.service import ret
+from pathlib import Path
 import json
 import platform
 
@@ -58,9 +58,25 @@ def text_handler(payload) -> dict:
 def file_handler(payload):
     temp = payload.get("events")[0]
     replytoken = temp["replyToken"]
-    # file_id = temp["message"]["id"]  # HINT name
-    # file_name = temp["message"]["fileName"]
-    member_duties = parsing_church_schedule()
+    file_id = temp["message"]["id"]  # HINT name
+    file_name = temp["message"]["fileName"]
+
+    with urllib_requests.get(
+            LineConstant.OFFICIAL_CONTENT_API.replace("<file_id>", file_id),
+            headers=LineConstant.push_header,
+            stream=True) as r:
+        r.raise_for_status()
+        with open((Path.cwd() / "downloads/" / file_name), 'wb') as f:
+            for chunk in r.iter_content(chunk_size=8192):
+                # link1: https://stackoverflow.com/questions/16694907/download-large-file-in-python-with-requests # noqa
+                # link2: https://stackoverflow.com/questions/19602931/basic-http-file-downloading-and-saving-to-disk-in-python # noqa
+                # If you have chunk encoded response uncomment if
+                # and set chunk_size parameter to None.
+                # if chunk:
+                f.write(chunk)
+    print(f"file saved successfully: {file_name}, id: {file_id}")
+
+    member_duties = parsing_church_schedule(file_name)
     check_result = check_conflict(member_duties)
     print(f"-------check result: {check_result} -------------")
 
@@ -77,21 +93,6 @@ def file_handler(payload):
 
     result = general_replyer(replytoken, msg, sticker)
     return msg
-
-    # with urllib_requests.get(
-    #         LineConstant.OFFICIAL_CONTENT_API.replace("<file_id>", file_id),
-    #         headers=LineConstant.push_header,
-    #         stream=True) as r:
-    #     r.raise_for_status()
-    #     with open((Path.cwd() / "downloads/" / file_name), 'wb') as f:
-    #         for chunk in r.iter_content(chunk_size=8192):
-    #             # link1: https://stackoverflow.com/questions/16694907/download-large-file-in-python-with-requests # noqa
-    #             # link2: https://stackoverflow.com/questions/19602931/basic-http-file-downloading-and-saving-to-disk-in-python # noqa
-    #             # If you have chunk encoded response uncomment if
-    #             # and set chunk_size parameter to None.
-    #             # if chunk:
-    #             f.write(chunk)
-    # print(f"file saved successfully: {file_name}, id: {file_id}")
 
 
 def generate_url(user_id: str):
