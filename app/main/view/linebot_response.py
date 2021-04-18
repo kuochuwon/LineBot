@@ -1,3 +1,4 @@
+from app.main.service import ret
 import json
 import platform
 
@@ -5,7 +6,33 @@ import requests as urllib_requests
 from app.main import db
 from app.main.constant import LineConstant
 from app.main.model.user import sdUser
-from app.main.service.word_docx_processor import parsing_church_schedule
+from app.main.service.word_docx_processor import parsing_church_schedule, check_conflict
+
+
+def check_line_user(payload) -> str:
+    temp = payload.get("events")[0]
+    replytoken = temp["replyToken"]
+    msg_text = temp["message"]["text"]  # HINT name
+    user_id = temp["source"]["userId"]
+
+    invitation_url = generate_url(user_id)
+    search_res = sdUser.search(user_id)
+    if search_res is None:
+        add_line_user_to_db(search_res, msg_text, user_id)
+    return invitation_url, replytoken
+
+
+def general_replyer(replytoken, msg, sticker=None):
+    json_for_msg = dict(
+        replyToken=replytoken,
+        messages=[msg, sticker]
+    )
+    print(f"json_for_msg: {json_for_msg}")
+    result = urllib_requests.post(
+        LineConstant.OFFICIAL_REPLY_API,
+        headers=LineConstant.push_header,
+        json=json_for_msg)  # HINT must use json as parameter
+    return result
 
 
 def text_handler(payload) -> dict:
@@ -22,15 +49,8 @@ def text_handler(payload) -> dict:
         "stickerId": "1989"
     }
 
-    json_for_msg = dict(
-        replyToken=replytoken,
-        messages=[msg, sticker]
-    )
-    print(f"json_for_msg: {json_for_msg}")
-    result = urllib_requests.post(
-        LineConstant.OFFICIAL_REPLY_API,
-        headers=LineConstant.push_header,
-        json=json_for_msg)  # HINT must use json as parameter
+    result = general_replyer(replytoken, msg, sticker)
+
     print(f"reply status code: {result.status_code}")
     return msg
 
@@ -40,7 +60,10 @@ def file_handler(payload):
     # replytoken = temp["replyToken"]
     # file_id = temp["message"]["id"]  # HINT name
     # file_name = temp["message"]["fileName"]
-    parsing_church_schedule()
+    member_duties = parsing_church_schedule()
+    check_conflict(member_duties)
+
+    a = "temp"
 
     # with urllib_requests.get(
     #         LineConstant.OFFICIAL_CONTENT_API.replace("<file_id>", file_id),
@@ -56,19 +79,6 @@ def file_handler(payload):
     #             # if chunk:
     #             f.write(chunk)
     # print(f"file saved successfully: {file_name}, id: {file_id}")
-
-
-def check_line_user(payload) -> str:
-    temp = payload.get("events")[0]
-    replytoken = temp["replyToken"]
-    msg_text = temp["message"]["text"]  # HINT name
-    user_id = temp["source"]["userId"]
-
-    invitation_url = generate_url(user_id)
-    search_res = sdUser.search(user_id)
-    if search_res is None:
-        add_line_user_to_db(search_res, msg_text, user_id)
-    return invitation_url, replytoken
 
 
 def generate_url(user_id: str):
