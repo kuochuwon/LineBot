@@ -1,3 +1,4 @@
+from app.main.view.linebot_response import general_replyer
 from app.main.service import ret
 import re
 from pathlib import Path
@@ -89,6 +90,7 @@ def parsing_church_schedule(input_file=None):
 
 def check_conflict(member_duties):
     # member_duties['四月份04']['郭超立'].append("台語證道") # HINT 用於Debug
+    msg_content = ""
     for date, value in member_duties.items():
         for name, tasks in value.items():
             temp = []
@@ -109,6 +111,6 @@ def check_conflict(member_duties):
                     if elem in SundayWorship.subject_slot.get(task):
                         temp2.append((task, SundayWorship.slot_time.get(elem)))
             for elem2 in temp2:
-                print(f"{name} 兄弟/姊妹 的服事有衝突， 衝突的項目為 {elem2[0]} 時間點為: {elem2[1]} ")
-
-            a = "temp"
+                msg_content += f"{name} 兄弟/姊妹 的服事有衝突， 衝突的項目為 {elem2[0]} 時間點為: {elem2[1]}\n"
+                print(f"{name} 兄弟/姊妹 的服事有衝突， 衝突的項目為 {elem2[0]} 時間點為: {elem2[1]}")
+    return msg_content

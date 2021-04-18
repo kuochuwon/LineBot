@@ -110,7 +110,7 @@ class Webhook(Resource):
         if webhook_message_checker(payload) == "text":
             response = text_handler(payload)
         elif webhook_message_checker(payload) == "file":
-            file_handler(payload)
+            response = file_handler(payload)
 
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
 

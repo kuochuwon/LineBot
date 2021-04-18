@@ -1,3 +1,4 @@
+from app.main.view.device_group_response import check
 from app.main.service import ret
 import json
 import platform
@@ -56,14 +57,27 @@ def text_handler(payload) -> dict:
 
 
 def file_handler(payload):
-    # temp = payload.get("events")[0]
-    # replytoken = temp["replyToken"]
+    temp = payload.get("events")[0]
+    replytoken = temp["replyToken"]
     # file_id = temp["message"]["id"]  # HINT name
     # file_name = temp["message"]["fileName"]
     member_duties = parsing_church_schedule()
-    check_conflict(member_duties)
+    check_result = check_conflict(member_duties)
+    print(f"-------check result: {check_result} -------------")
 
-    a = "temp"
+    msg = {
+        "type": "text",
+        "text": check_result
+    }
+
+    sticker = {
+        "type": "sticker",
+        "packageId": "446",
+        "stickerId": "1989"
+    }
+
+    result = general_replyer(replytoken, msg, sticker)
+    return msg
 
     # with urllib_requests.get(
     #         LineConstant.OFFICIAL_CONTENT_API.replace("<file_id>", file_id),
