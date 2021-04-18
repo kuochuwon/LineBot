@@ -1,4 +1,3 @@
-from app.main.view.device_group_response import check
 from app.main.service import ret
 import json
 import platform
