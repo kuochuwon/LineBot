@@ -24,7 +24,7 @@ def parse_docx(word):
 
 def parsing_church_schedule(input_file):
     # input_file = "季表格式調整.docx"
-    # input_file = "季表格式調整 - 複製.docx"  # HINT for Debug
+    input_file = "季表格式調整 - 複製.docx"  # HINT for Debug
 
     # HINT link: https://stackoverflow.com/questions/27861732/parsing-of-table-from-docx-file/27862205
     word = Document(Path.cwd() / "downloads/" / input_file)
@@ -86,30 +86,62 @@ def parsing_church_schedule(input_file):
 
     return chi_duties
 
+# TODO 需要重構
 
-def check_conflict(member_duties):
-    # member_duties['四月份04']['郭超立'].append("台語證道") # HINT 用於Debug
+
+def _generate_message(msg_collection: dict) -> str:
     msg_content = ""
+    for name, v in msg_collection.items():
+        task_msg = ""
+        slot_msg = ""
+        for tasks, time_slots in v.items():
+            task_msg += tasks
+            for slot in time_slots:
+                slot_msg += f"{SundayWorship.slot_time.get(slot)} "
+        msg_content += (f"{name}的服事分配有潛在問題， {task_msg}的時間重疊了: {slot_msg}\n"
+                        f"▪️▪️▪️▪️▪️▪️▪️▪️▪️▪️\n")
+    return msg_content
+
+
+def check_conflict(member_duties: dict):
+    # member_duties['四月份04']['郭超立'].append("台語證道") # HINT 用於Debug
+    msg_collection = dict()
     for date, value in member_duties.items():
         for name, tasks in value.items():
-            temp = []
+            time_slots = []
             for task in tasks:
-                temp += SundayWorship.subject_slot.get(task)
+                time_slots += SundayWorship.subject_slot.get(task)
 
             # temp.append("slot1")  # HINT 用於Debug
             seen = set()
             repeat = set()
-            for x in temp:
+            for x in time_slots:
                 if x not in seen:
                     seen.add(x)
                 else:
                     repeat.add(x)
-            temp2 = []
+
+            summary = dict()
             for elem in repeat:
+                summary.update({elem: []})
                 for task in tasks:
                     if elem in SundayWorship.subject_slot.get(task):
-                        temp2.append((task, SundayWorship.slot_time.get(elem)))
-            for elem2 in temp2:
-                msg_content += f"{name} 兄弟/姊妹 的服事有衝突， 衝突的項目為 {elem2[0]} 時間點為: {elem2[1]}\n"
-                print(f"{name} 兄弟/姊妹 的服事有衝突， 衝突的項目為 {elem2[0]} 時間點為: {elem2[1]}")
+                        summary[elem].append(task)
+
+            if repeat:
+                # if name == '郭超立':  # HINT for debug
+                #     summary['slot3'] = ['測試流程1', '測試流程2']
+                #     summary['slot4'] = ['測試流程1', '測試流程2']
+
+                task_timeslot = {}
+                for slot, tasks in summary.items():
+                    string = ""
+                    for task in tasks:
+                        string += f"{task} "  # HINT 每個task後面加上空白，用於顯示到Line畫面時可明顯區隔
+                    task_timeslot.setdefault(string, []).append(slot)
+                msg_collection.update({name: task_timeslot})
+                # a = "temp"
+
+    msg_content = _generate_message(msg_collection)
+
     return msg_content

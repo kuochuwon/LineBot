@@ -55,12 +55,7 @@ def text_handler(payload) -> dict:
     return msg
 
 
-def file_handler(payload):
-    temp = payload.get("events")[0]
-    replytoken = temp["replyToken"]
-    file_id = temp["message"]["id"]  # HINT name
-    file_name = temp["message"]["fileName"]
-
+def download_line_content(file_id, file_name):
     with urllib_requests.get(
             LineConstant.OFFICIAL_CONTENT_API.replace("<file_id>", file_id),
             headers=LineConstant.push_header,
@@ -76,6 +71,14 @@ def file_handler(payload):
                 f.write(chunk)
     print(f"file saved successfully: {file_name}, id: {file_id}")
 
+
+def file_handler(payload):
+    temp = payload.get("events")[0]
+    replytoken = temp["replyToken"]
+    file_id = temp["message"]["id"]  # HINT name
+    file_name = temp["message"]["fileName"]
+
+    # download_line_content(file_id, file_name)
     member_duties = parsing_church_schedule(file_name)
     check_result = check_conflict(member_duties)
     print(f"-------check result: {check_result} -------------")
