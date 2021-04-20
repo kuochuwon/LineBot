@@ -2,10 +2,10 @@ import requests as urllib_requests
 from app.main.constant import LineConstant
 from app.main.dto.thelinebot import LineBotDto
 from app.main.service import ret
-from app.main.util.common import (aaa_verify, api_exception_handler,
-                                  check_access_authority)
+# from app.main.util.common import (aaa_verify, api_exception_handler,
+#                                   check_access_authority)
 from app.main.view.linebot_response import (
-    check_line_user, file_handler, text_handler,
+    file_handler, text_handler,
     retrieve_notify_token_from_callback,
     webhook_message_checker, notify_handler)
 from flask import request

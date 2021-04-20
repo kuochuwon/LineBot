@@ -81,6 +81,21 @@ class SundayWorship:
         "PPT": "台語PPT"
     }
 
+    month_convert = {
+        "一": 1,
+        "二": 2,
+        "三": 3,
+        "四": 4,
+        "五": 5,
+        "六": 6,
+        "七": 7,
+        "八": 8,
+        "九": 9,
+        "十": 10,
+        "十一": 11,
+        "十二": 12
+    }
+
 
 class Constant:  # 先不要刪除，因為目前@api_exception_handler有依賴這裡的參數
     CODE_TYPE_ISSUE_STATUS = 0

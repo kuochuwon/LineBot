@@ -1,8 +1,8 @@
-from app.main.service import ret
 import re
 from pathlib import Path
 
-from app.main.constant import SundayWorship
+from app.main.constant import LineConstant, SundayWorship
+from datetime import date
 from docx import Document
 
 
@@ -24,7 +24,7 @@ def parse_docx(word):
 
 def parsing_church_schedule(input_file):
     # input_file = "季表格式調整.docx"
-    # input_file = "季表格式調整 - 複製.docx"  # HINT for Debug
+    input_file = "季表格式調整 - 複製.docx"  # HINT for Debug
 
     # HINT link: https://stackoverflow.com/questions/27861732/parsing-of-table-from-docx-file/27862205
     word = Document(Path.cwd() / "downloads/" / input_file)
@@ -39,17 +39,23 @@ def parsing_church_schedule(input_file):
 
     for row in data[2:14]:  # chinese
         people_duties = dict()
-        date = regex(row[0]) + regex(row[1])
+        month = SundayWorship.month_convert.get(regex(row[0])[0])
+        day = int(regex(row[1]))
+        title_date = date(2021, month, day)
+        # title_date = regex(row[0]) + regex(row[1])
         for index, name in enumerate(row):
             if index in (2, 3, 4, 5, 6, 11):
                 name = regex(name)
                 if name is not None and (name != ''):  # 有None就不要收
                     sum_names.add(name)
                     people_duties.setdefault(name, []).append(chi_subject.get(chi_index.get(index)))
-        chi_duties.update({date: people_duties})
+        chi_duties.update({title_date: people_duties})
     for row in data[22:34]:
         people_duties = dict()
-        date = regex(row[0]) + regex(row[2])
+        month = SundayWorship.month_convert.get(regex(row[0])[0])
+        day = int(regex(row[2]))
+        title_date = date(2021, month, day)
+        # title_date = regex(row[0]) + regex(row[2])
         for index, name in enumerate(row):
             if index in (3, 4, 5, 7):
                 name = regex(name)
@@ -61,7 +67,7 @@ def parsing_church_schedule(input_file):
                 people_duties.setdefault(regex(money_getters[1]), []).append(tai_subject.get(tai_index.get(index)))
                 sum_names.add(regex(money_getters[0]))
                 sum_names.add(regex(money_getters[1]))
-        tai_duties.update({date: people_duties})
+        tai_duties.update({title_date: people_duties})
 
     chi_date = list(chi_duties.keys())
     tai_date = list(tai_duties.keys())
@@ -109,7 +115,7 @@ def _generate_message(msg_collection: dict) -> str:
 def check_conflict(member_duties: dict):
     # member_duties['四月份04']['郭超立'].append("台語證道") # HINT 用於Debug
     msg_collection = dict()
-    for date, value in member_duties.items():
+    for title_date, value in member_duties.items():
         for name, tasks in value.items():
             time_slots = []
             for task in tasks:
@@ -142,7 +148,7 @@ def check_conflict(member_duties: dict):
                     string = ""
                     for task in tasks:
                         string += f"{task} "  # HINT 每個task後面加上空白，用於顯示到Line畫面時可明顯區隔
-                    task_timeslot.setdefault(string, []).append(slot)
+                    task_timeslot.setdefault(f"{title_date} {string}", []).append(slot)
                 msg_collection.update({name: task_timeslot})
                 # a = "temp"
 
