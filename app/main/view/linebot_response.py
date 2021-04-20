@@ -9,16 +9,44 @@ from app.main.model.user import sdUser
 from app.main.service.word_docx_processor import parsing_church_schedule, check_conflict
 
 
+def notify_handler(payload):
+    try:
+        name = payload.get("name")
+        text = payload.get("text")
+        search_res = sdUser.search_by_name(name)
+        user_notify_token = search_res.access_token
+
+        response = {"hint": "已接收請求，但內容為空"}
+        json_for_msg = dict(
+            message=text,  # HINT 注意這裡跟line push API的messages不一樣
+            stickerPackageId=446,
+            stickerId=1988
+        )
+        header = LineConstant.notify_header
+        header.update({"Authorization": f"Bearer {user_notify_token}"})
+        result = urllib_requests.post(
+            LineConstant.OFFICIAL_NOTIFY_API,
+            headers=header,
+            data=json_for_msg)  # HINT must use data as parameter
+        if result.status_code == 200:
+            response = {"hint": "訊息發送成功"}
+    except Exception as e:
+        print(f"notify failed: {e}")
+        raise
+    return response
+
+
 def check_line_user(payload) -> str:
     temp = payload.get("events")[0]
     replytoken = temp["replyToken"]
     msg_text = temp["message"]["text"]  # HINT name
     user_id = temp["source"]["userId"]
 
-    invitation_url = generate_url(user_id)
+    invitation_url = ""
     search_res = sdUser.search(user_id)
     if search_res is None:
         add_line_user_to_db(search_res, msg_text, user_id)
+        invitation_url = generate_url(user_id)
     return invitation_url, replytoken
 
 
@@ -38,10 +66,16 @@ def general_replyer(replytoken, msg, sticker=None):
 def text_handler(payload) -> dict:
     invitation_url, replytoken = check_line_user(payload)
     print(f"reply token: {replytoken}")
-    msg = {
-        "type": "text",
-        "text": f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
-        f"連結: {invitation_url}"}
+    if invitation_url:
+        msg = {
+            "type": "text",
+            "text": (f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
+                     f"連結: {invitation_url}")}
+    else:
+        msg = {
+            "type": "text",
+            "text": (f"平安，您的資料已 建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
+                     f"連結: {invitation_url}")}
 
     sticker = {
         "type": "sticker",

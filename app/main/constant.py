@@ -4,8 +4,8 @@ class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈
     CHANNEL_SECRET_TOKEN = "6fd6a21c86d311aaf115d9588cc5fc46"
 
     # CHANNEL_NOTIFY_TOKEN = "r2LutziDSljYNL2O0rq3kiBNn90lQCiQC7CATPZRP5n" # Roy測試用機器人 對 Roy專屬的token
-    # CHANNEL_NOTIFY_TOKEN = "z0bvCgU80dpOwxCRt6EGlKVnuChzDEnE3rQeTLEcydZ"  # Roy_Notify_測試機器人 對 Roy專屬的token
-    CHANNEL_NOTIFY_TOKEN = "6INohLojGIHD6GOo44Clpk6zHNzjS3s8ABWY2VgeKZG"  # Roy_Notify_測試機器人 對 lihket專屬的token，可以有多個
+    CHANNEL_NOTIFY_TOKEN = "joQ8AuGmOIbunePA8VjqEf9emk5IZ13mBIWgsmSfVaf"  # Roy_Notify_測試機器人 對 Roy專屬的token
+    # CHANNEL_NOTIFY_TOKEN = "6INohLojGIHD6GOo44Clpk6zHNzjS3s8ABWY2VgeKZG"  # Roy_Notify_測試機器人 對 lihket專屬的token，可以有多個
     OFFICIAL_PUSH_API = "https://api.line.me/v2/bot/message/push"
     OFFICIAL_NOTIFY_API = "https://notify-api.line.me/api/notify"
     OFFICIAL_OAUTH_API = "https://notify-bot.line.me/oauth/token"
@@ -21,8 +21,9 @@ class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈
         'Authorization': f'Bearer {CHANNEL_ACCESS_TOKEN}'}
 
     notify_header = {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'Authorization': f'Bearer {CHANNEL_NOTIFY_TOKEN}'}
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+
     NOTIFY = dict(
         CLIENT_ID="UulwSUMmf5M9zY1HSTR8xy",
         SECRET="MDuIohlUsEsPRKP2VXq0weJAW3cYwbb24gfeixTDmVC",

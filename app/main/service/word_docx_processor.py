@@ -91,15 +91,18 @@ def parsing_church_schedule(input_file):
 
 def _generate_message(msg_collection: dict) -> str:
     msg_content = ""
-    for name, v in msg_collection.items():
-        task_msg = ""
-        slot_msg = ""
-        for tasks, time_slots in v.items():
-            task_msg += tasks
-            for slot in time_slots:
-                slot_msg += f"{SundayWorship.slot_time.get(slot)} "
-        msg_content += (f"{name}的服事分配有潛在問題， {task_msg}的時間重疊了: {slot_msg}\n"
-                        f"▪️▪️▪️▪️▪️▪️▪️▪️▪️▪️\n")
+    if msg_collection:
+        for name, v in msg_collection.items():
+            task_msg = ""
+            slot_msg = ""
+            for tasks, time_slots in v.items():
+                task_msg += tasks
+                for slot in time_slots:
+                    slot_msg += f"{SundayWorship.slot_time.get(slot)} "
+            msg_content += (f"{name}的服事分配有潛在問題， {task_msg}的時間重疊了: {slot_msg}\n"
+                            f"▪️▪️▪️▪️▪️▪️▪️▪️▪️▪️\n")
+    else:
+        msg_content = "檢查完畢，服事內容未發現潛在問題。"
     return msg_content
 
 

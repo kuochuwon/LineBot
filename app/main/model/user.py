@@ -39,6 +39,10 @@ class sdUser(db.Model):
         return db.session.query(sdUser).filter(sdUser.user_unique_id == user_id).first()
 
     @staticmethod
+    def search_by_name(name):
+        return db.session.query(sdUser).filter(sdUser.name == name).first()
+
+    @staticmethod
     def getall(cust_id):
         users = db.session.query(sdUser).filter(sdUser.cust_id == cust_id).all()
         return users

@@ -7,7 +7,7 @@ from app.main.util.common import (aaa_verify, api_exception_handler,
 from app.main.view.linebot_response import (
     check_line_user, file_handler, text_handler,
     retrieve_notify_token_from_callback,
-    webhook_message_checker)
+    webhook_message_checker, notify_handler)
 from flask import request
 from flask_api import status
 from flask_restplus import Resource
@@ -38,19 +38,9 @@ class LineNotify(Resource):
         print("------------")
         print(payload)  # for debug
         print("------------")
-        response = {"hint": "已接收請求，但內容為空"}
-        if payload.get("events"):
-            temp = payload.get("events")[0]
-            text = temp.get("text")
-            json_for_msg = dict(
-                message=text  # HINT 注意這裡跟line push API的messages不一樣
-            )
-            result = urllib_requests.post(
-                LineConstant.OFFICIAL_NOTIFY_API,
-                headers=LineConstant.notify_header,
-                data=json_for_msg)  # HINT must use data as parameter
-            if result.status_code == 200:
-                response = {"hint": "訊息發送成功"}
+
+        response = notify_handler(payload)
+
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
 
 
