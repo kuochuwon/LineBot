@@ -121,14 +121,15 @@ def check_conflict(member_duties: dict):
                 else:
                     repeat.add(x)
 
-            summary = dict()
-            for elem in repeat:
-                summary.update({elem: []})
-                for task in tasks:
-                    if elem in SundayWorship.subject_slot.get(task):
-                        summary[elem].append(task)
-
             if repeat:
+                summary = dict()
+                time_slots = sorted(list(repeat))
+                for elem in time_slots:
+                    summary.update({elem: []})
+                    for task in tasks:
+                        if elem in SundayWorship.subject_slot.get(task):
+                            summary[elem].append(task)
+
                 # if name == '郭超立':  # HINT for debug
                 #     summary['slot3'] = ['測試流程1', '測試流程2']
                 #     summary['slot4'] = ['測試流程1', '測試流程2']
