@@ -37,8 +37,13 @@ def reminder_content(result: list):
     return content
 
 
-with app.app_context():
-    target_day = get_next_monday()
-    result = sdTask.get_by_time(target_day, target_day)
-    content = reminder_content(result)
-    a = "temp"
+def main():
+    with app.app_context():
+        target_day = get_next_monday()
+        result = sdTask.get_by_time(target_day, target_day)
+        content = reminder_content(result)
+        a = "temp"
+
+
+if __name__ == "__main__":
+    main()
