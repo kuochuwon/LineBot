@@ -2,8 +2,6 @@ import requests as urllib_requests
 from app.main.constant import LineConstant
 from app.main.dto.thelinebot import LineBotDto
 from app.main.service import ret
-# from app.main.util.common import (aaa_verify, api_exception_handler,
-#                                   check_access_authority)
 from app.main.view.linebot_response import (
     file_handler, text_handler,
     retrieve_notify_token_from_callback,
@@ -11,10 +9,6 @@ from app.main.view.linebot_response import (
 from flask import request
 from flask_api import status
 from flask_restplus import Resource
-# from app.main.util.common import (aaa_verify, api_exception_handler,
-#                                   check_access_authority)
-
-# from werkzeug.exceptions import NotFound
 
 api = LineBotDto.api
 response_status = {status.HTTP_200_OK: ret.get_code_full(ret.RET_OK),
