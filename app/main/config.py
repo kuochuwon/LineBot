@@ -7,7 +7,12 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
+    print(f"hello~~~~~")
+    print(os.environ)
+    time = (os.getenv("JWT_ACCESS_TOKEN_EXPIRES"))
+    print(f"hello {time}")
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=int(os.getenv("JWT_ACCESS_TOKEN_EXPIRES")))
+    print(f"token: {JWT_ACCESS_TOKEN_EXPIRES}")
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(minutes=int(os.getenv("JWT_REFRESH_TOKEN_EXPIRES")))
     WEB_SECRET_KEY = os.getenv("WEB_SECRET_KEY")
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")

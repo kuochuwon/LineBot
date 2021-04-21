@@ -3,7 +3,6 @@ from flask import Blueprint
 from app.main import jwt
 from app.main.controller.linebot_controller import api as line_ns
 
-
 blueprint = Blueprint("api",
                       __name__,
                       url_prefix="/api/v1")

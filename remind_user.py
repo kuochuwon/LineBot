@@ -1,17 +1,16 @@
-import os
 import datetime
-from flask import Flask
-from app.main import db, create_app
-from app.main.model.task import sdTask
-from dotenv import load_dotenv
+import os
 
-# base_dir = os.path.abspath(os.path.dirname(__file__))
-# dotenv_path = os.path.join(base_dir, ".env")
-# load_dotenv(dotenv_path=dotenv_path)
-# app = create_app(os.getenv("FLASK_CONFIG") or "development")
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DEV_DATABASE_URL")
-db.init_app(app)
+from dotenv import load_dotenv
+base_dir = os.path.abspath(os.path.dirname(__file__))  # noqa 為了在import app.main以前將環境變數載入，main/init裡面有config會呼叫到.env
+dotenv_path = os.path.join(base_dir, ".env")  # noqa
+load_dotenv(dotenv_path=dotenv_path)  # noqa
+
+from app.main import create_app
+from app.main.model.task import sdTask
+
+
+app = create_app(os.getenv("FLASK_CONFIG") or "development")
 
 
 def get_next_monday():
@@ -46,4 +45,5 @@ def main():
 
 
 if __name__ == "__main__":
+    print("------TEST--------")
     main()
