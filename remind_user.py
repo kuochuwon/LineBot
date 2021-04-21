@@ -13,7 +13,16 @@ from app.main.model.task import sdTask
 app = create_app(os.getenv("FLASK_CONFIG") or "development")
 
 
-def get_next_monday():
+def is_monday():
+    weekday = datetime.date.today().weekday()
+    if weekday == 1:
+        return True
+    else:
+        print(f"Today's weekday is {weekday}, (0 is Sunday),not Monday.")
+        return False
+
+
+def get_next_sunday():
     # HINT ref: https://stackoverflow.com/questions/8801084/how-to-calculate-next-friday/8801540
     today = datetime.date.today()
     sunday = today + datetime.timedelta((6-today.weekday()) % 7)
@@ -38,10 +47,12 @@ def reminder_content(result: list):
 
 def main():
     with app.app_context():
-        target_day = get_next_monday()
-        result = sdTask.get_by_time(target_day, target_day)
-        content = reminder_content(result)
-        a = "temp"
+        flag = is_monday()
+        if flag:
+            target_day = get_next_sunday()
+            result = sdTask.get_by_time(target_day, target_day)
+            content = reminder_content(result)
+            a = "temp"
 
 
 if __name__ == "__main__":
