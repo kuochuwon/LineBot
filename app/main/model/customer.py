@@ -48,10 +48,10 @@ class sdCustomer(db.Model):
         customer = db.session.query(sdCustomer.id).filter(sdCustomer.id == cust_id).first()
         return customer
 
-    @staticmethod
-    def search_by_name(cust_name):
-        customer = sdCustomer.query.filter_by(name=cust_name).first()
-        return customer
+    # @staticmethod
+    # def search_by_name(cust_name):
+    #     customer = sdCustomer.query.filter_by(name=cust_name).first()
+    #     return customer
 
     @staticmethod
     def search_cust(cust_id):

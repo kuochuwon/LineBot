@@ -1,7 +1,6 @@
 from sqlalchemy.sql import func
 
 from app.main import db
-from app.main.constant import Constant
 
 
 class sdTask(db.Model):
@@ -14,3 +13,10 @@ class sdTask(db.Model):
 
     def __repr__(self):
         return f"<sdTask date={self.date}/name={self.name}/task={self.task}>"
+
+    def add(name, date, task):
+        obj = sdTask()  # TODO 如果for loop很多次，會不會浪費效能生成物件?
+        obj.name = name
+        obj.date = date
+        obj.task = task
+        return obj

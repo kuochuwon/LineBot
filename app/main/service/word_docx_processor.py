@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-
+from app.main.service import ret
 from app.main.constant import LineConstant, SundayWorship
 from datetime import date
 from docx import Document
@@ -23,8 +23,8 @@ def parse_docx(word):
 
 
 def parsing_church_schedule(input_file):
-    # input_file = "季表格式調整.docx"
-    input_file = "季表格式調整 - 複製.docx"  # HINT for Debug
+    input_file = "季表格式調整.docx"
+    # input_file = "季表格式調整 - 複製.docx"  # HINT for Debug
 
     # HINT link: https://stackoverflow.com/questions/27861732/parsing-of-table-from-docx-file/27862205
     word = Document(Path.cwd() / "downloads/" / input_file)
@@ -150,8 +150,9 @@ def check_conflict(member_duties: dict):
                         string += f"{task} "  # HINT 每個task後面加上空白，用於顯示到Line畫面時可明顯區隔
                     task_timeslot.setdefault(f"{title_date} {string}", []).append(slot)
                 msg_collection.update({name: task_timeslot})
-                # a = "temp"
+                result_code = 0
 
     msg_content = _generate_message(msg_collection)
+    result_code = 1
 
-    return msg_content
+    return msg_content, result_code

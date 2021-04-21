@@ -11,6 +11,8 @@ from app.main.view.linebot_response import (
 from flask import request
 from flask_api import status
 from flask_restplus import Resource
+# from app.main.util.common import (aaa_verify, api_exception_handler,
+#                                   check_access_authority)
 
 # from werkzeug.exceptions import NotFound
 

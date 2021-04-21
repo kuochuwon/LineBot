@@ -1,3 +1,5 @@
+import time
+from app.main.model.task import sdTask
 from pathlib import Path
 import json
 import platform
@@ -106,6 +108,23 @@ def download_line_content(file_id, file_name):
     print(f"file saved successfully: {file_name}, id: {file_id}")
 
 
+def prepare_duties_list(member_duties: dict):
+    try:
+        for date, value in member_duties.items():
+            for name, tasks in value.items():
+                for task in tasks:
+                    obj = sdTask.add(name, date, task)
+                    db.session.add(obj)
+    except Exception as e:
+        print(f"duties insert failed: {e}")
+        db.session.rollback()
+        raise
+    finally:
+        pass
+        # db.session.commit()
+        # db.session.close()
+
+
 def file_handler(payload):
     temp = payload.get("events")[0]
     replytoken = temp["replyToken"]
@@ -114,7 +133,14 @@ def file_handler(payload):
 
     # download_line_content(file_id, file_name)
     member_duties = parsing_church_schedule(file_name)
-    check_result = check_conflict(member_duties)
+    check_result, result_code = check_conflict(member_duties)
+    if result_code:
+        start = time.time()
+        for i in range(500):
+            prepare_duties_list(member_duties)
+        end = time.time()
+        diff = end-start
+        print(diff)
     print(f"-------check result: {check_result} -------------")
 
     msg = {
@@ -151,13 +177,13 @@ def add_line_user_to_db(search_res, msg_text, user_id):
         try:
             obj = sdUser().add(msg_text, user_id)
             db.session.add(obj)
-            db.session.commit()
         except Exception as e:
             print((f"failed to update data to SQL: {str(e)}"))
             # logger.error(f"failed to update data to SQL: {str(e)}")
             db.session.rollback()
             raise
         finally:
+            db.session.commit()
             db.session.close()
 
 
@@ -194,9 +220,11 @@ def retrieve_notify_token_from_callback(request):
     try:
         obj = sdUser().update(user_id, access_token)
         db.session.add(obj)
-        db.session.commit()
+
     except Exception as e:
         print(f"failed to update user: {e}")
+    finally:
+        db.session.commit()
 
 
 def webhook_message_checker(payload):
