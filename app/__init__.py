@@ -7,9 +7,9 @@ blueprint = Blueprint("api",
                       __name__,
                       url_prefix="/api/v1")
 api = Api(blueprint,
-          title="Roy Traffic light system demo",
-          version="0.1.0",
-          description="Roy Traffic light system demo")
+          title="Roy Line bot reminding system demo",
+          version="0.2.0",
+          description="Roy Line bot reminding system demo")
 
 jwt._set_error_handler_callbacks(api)
 
