@@ -56,27 +56,26 @@ class Push(Resource):
         print(payload)  # for debug
         print("------------")
         response = {"hint": "已接收請求，但內容為空"}
-        if payload.get("events"):
-            temp = payload.get("events")[0]
-            nickname = temp.get("nickname")
-            text = temp.get("text")
+        try:
+            user_id = payload.get("user_id")
+            text = payload.get("text")
             json_for_msg = dict(
-                to=LineConstant.user_id.get(nickname),
+                to=user_id,
                 messages=[{
                     "type": "text",
                     "text": text
                 }]
             )
-
             result = urllib_requests.post(
                 LineConstant.OFFICIAL_PUSH_API,
                 headers=LineConstant.push_header,
                 json=json_for_msg)
             if result.status_code == 200:
                 response = {"hint": "訊息發送成功"}
-
-        # if payload.get("events"):
-        return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
+                return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
+        except Exception as e:
+            print(f"push failed: {e}")
+            return ret.http_resp(ret.RET_EXCEPTION, extra={"hint": str(e)}), status.HTTP_503_SERVICE_UNAVAILABLE
 
 
 @api.route("/webhook")

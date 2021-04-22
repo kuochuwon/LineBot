@@ -31,6 +31,11 @@ class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈
         local_URI="http://127.0.0.1:5000/api/v1/linebot/callback"
     )
 
+    PUSH = dict(
+        Linux="https://linebot-kuochuwon.herokuapp.com/api/v1/linebot/push",
+        Windows="http://127.0.0.1:5000/api/v1/linebot/push"
+    )
+
 
 class SundayWorship:
     # HINT key is time, value is subject
