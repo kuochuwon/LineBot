@@ -66,7 +66,6 @@ def reminder_content(user_result: list, users: list):
         json={"user_id": admin_id, "text": f"服事提醒: {msg}"}  # HINT 這邊必須用JSON
     )
     print(msg)
-    return content
 
 
 def main():
@@ -77,7 +76,7 @@ def main():
             target_day = get_next_sunday()
             users = sdUser.getall()
             result = sdTask.get_by_time(target_day, target_day)
-            content = reminder_content(result, users)
+            reminder_content(result, users)
 
 
 if __name__ == "__main__":

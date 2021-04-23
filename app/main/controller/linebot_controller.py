@@ -3,9 +3,8 @@ from app.main.constant import LineConstant
 from app.main.dto.thelinebot import LineBotDto
 from app.main.service import ret
 from app.main.view.linebot_response import (
-    file_handler, text_handler,
-    retrieve_notify_token_from_callback,
-    webhook_message_checker, notify_handler)
+    file_handler, notify_handler, retrieve_notify_token_from_callback,
+    text_handler, webhook_message_checker)
 from flask import request
 from flask_api import status
 from flask_restplus import Resource
@@ -42,12 +41,6 @@ class LineNotify(Resource):
 
 @api.route("/push")
 class Push(Resource):
-    # @api.expect(_header, _get_all_device,
-    #             validate=True)
-    # @api.doc(responses=response_status)
-    # @jwt_required
-    # @check_access_authority
-    # @api_exception_handler
     def post(self):
         """ connecting line bot API to push messeage """
         payload = request.json
@@ -97,13 +90,4 @@ class Webhook(Resource):
         elif webhook_message_checker(payload) == "file":
             response = file_handler(payload)
 
-        return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
-
-
-@api.route("/who_serve")
-class Serve(Resource):
-    def get(self):
-        """ connecting line notify to send free messeage """
-        # TODO 改寫成輸入姓名，程式從JSON中尋找對應姓名的notify access token，藉此發送給特定人士
-        response = {"hint": "服事者為Roykuo"}
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK

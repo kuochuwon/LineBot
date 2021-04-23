@@ -137,7 +137,7 @@ def file_handler(payload):
     file_id = temp["message"]["id"]  # HINT name
     file_name = temp["message"]["fileName"]
 
-    download_line_content(file_id, file_name)
+    # download_line_content(file_id, file_name)
     member_duties = parsing_church_schedule(file_name)
     check_result, result_code = check_conflict(member_duties)
     if result_code:

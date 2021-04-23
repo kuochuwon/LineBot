@@ -3,8 +3,9 @@ class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈
     CHANNEL_ACCESS_TOKEN = "qipp53w9dsKIjaDG3D5eYswChigJUmYdgD6ilha3BCHjF4rJmG8dVjj3kMqpBy4TvTnYODobZelFc5bsSz9ycEx09y/XU3aZO42Bp2o0+9f9TRJBFMeUih6Oi2YB77ET4+u5z/miOF5FRihh5ubRTgdB04t89/1O/w1cDnyilFU="  # noqa
     CHANNEL_SECRET_TOKEN = "6fd6a21c86d311aaf115d9588cc5fc46"
 
+    # HINT 以下為用於line notify的token，目前這些token都放在DB內，因此不會用到
     # CHANNEL_NOTIFY_TOKEN = "r2LutziDSljYNL2O0rq3kiBNn90lQCiQC7CATPZRP5n" # Roy測試用機器人 對 Roy專屬的token
-    CHANNEL_NOTIFY_TOKEN = "joQ8AuGmOIbunePA8VjqEf9emk5IZ13mBIWgsmSfVaf"  # Roy_Notify_測試機器人 對 Roy專屬的token
+    # CHANNEL_NOTIFY_TOKEN = "joQ8AuGmOIbunePA8VjqEf9emk5IZ13mBIWgsmSfVaf"  # Roy_Notify_測試機器人 對 Roy專屬的token
     # CHANNEL_NOTIFY_TOKEN = "6INohLojGIHD6GOo44Clpk6zHNzjS3s8ABWY2VgeKZG"  # Roy_Notify_測試機器人 對 lihket專屬的token，可以有多個
     OFFICIAL_PUSH_API = "https://api.line.me/v2/bot/message/push"
     OFFICIAL_NOTIFY_API = "https://notify-api.line.me/api/notify"
@@ -12,10 +13,6 @@ class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈
     OFFICIAL_REPLY_API = "https://api.line.me/v2/bot/message/reply"
     OFFICIAL_CONTENT_API = "https://api-data.line.me/v2/bot/message/<file_id>/content"
 
-    user_id = dict(
-        roykuo="U9afa5683614c2f30296a92eb07984d57",
-        lihket="Ud2480636ce54bc7b98dfa1a51071c961"
-    )
     push_header = {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': f'Bearer {CHANNEL_ACCESS_TOKEN}'}
@@ -100,6 +97,8 @@ class SundayWorship:
         "十一": 11,
         "十二": 12
     }
+
+    contact_namelist = ["玉神主日", "福音主日", "青少主日", "青少契", "(聯合)", "青", "少", "契"]
 
 
 class Constant:  # 先不要刪除，因為目前@api_exception_handler有依賴這裡的參數

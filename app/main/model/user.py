@@ -9,7 +9,7 @@ class sdUser(db.Model):
     __tablename__ = "sd11_users"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_unique_id = db.Column(db.String(64), comment="使用者在Line上的unique ID")
-    name = db.Column(db.String(20), nullable=False, comment="姓名")
+    name = db.Column(db.String(20), nullable=False, comment="姓名, 包括團體: ex: 青少契")
     display_name = db.Column(db.String(50), comment="暱稱")
     access_token = db.Column(db.String(64), comment="用於Line Notify的Token")
     comment = db.Column(db.Text, comment="Comment")
