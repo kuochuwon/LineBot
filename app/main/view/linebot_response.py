@@ -137,7 +137,7 @@ def file_handler(payload):
     file_id = temp["message"]["id"]  # HINT name
     file_name = temp["message"]["fileName"]
 
-    # download_line_content(file_id, file_name)
+    download_line_content(file_id, file_name)
     wp = WordParser(file_name)
     pp = PostProcess()
     member_duties = wp.parsing_church_schedule()
