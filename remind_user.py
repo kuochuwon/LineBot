@@ -71,7 +71,7 @@ def reminder_content(user_result: list, users: list):
 def main():
     with app.app_context():
         flag = is_monday()
-        flag = True  # HINT for debug
+        # flag = True  # HINT for debug
         if flag:
             target_day = get_next_sunday()
             users = sdUser.getall()

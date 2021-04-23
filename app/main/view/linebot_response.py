@@ -147,6 +147,7 @@ def file_handler(payload):
 
     print(f"-------check result: {check_result} -------------")
 
+    # TODO 改寫成func 方便調用
     msg = {
         "type": "text",
         "text": check_result
