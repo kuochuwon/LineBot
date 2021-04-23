@@ -7,7 +7,7 @@ import requests as urllib_requests
 from app.main import db
 from app.main.constant import LineConstant
 from app.main.model.user import sdUser
-from app.main.service.word_docx_processor import parsing_church_schedule, check_conflict
+from app.main.service.word_docx_processor import WordParser, PostProcess
 
 
 def notify_handler(payload):
@@ -138,8 +138,10 @@ def file_handler(payload):
     file_name = temp["message"]["fileName"]
 
     # download_line_content(file_id, file_name)
-    member_duties = parsing_church_schedule(file_name)
-    check_result, result_code = check_conflict(member_duties)
+    wp = WordParser(file_name)
+    pp = PostProcess()
+    member_duties = wp.parsing_church_schedule()
+    check_result, result_code = pp.check_conflict(member_duties)
     if result_code:
         insert_duties_db(member_duties)
 
