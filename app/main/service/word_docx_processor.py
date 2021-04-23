@@ -7,8 +7,8 @@ from docx import Document
 
 class WordParser:
     def __init__(self, input_file=None) -> None:
-        input_file = "季表格式調整.docx"
-        # input_file = "季表格式調整 - 複製.docx"  # HINT for Debug
+        # input_file = "季表格式調整.docx"
+        input_file = "季表格式調整 - 複製.docx"  # HINT for Debug
 
         # HINT link: https://stackoverflow.com/questions/27861732/parsing-of-table-from-docx-file/27862205
         word = Document(Path.cwd() / "downloads/" / input_file)
@@ -103,67 +103,61 @@ class PostProcess:
     def __init__(self) -> None:
         pass
 
-    # TODO 需要重構
+    def check_duplicate(self, tasks: list):
+        time_slots = []
+        for task in tasks:
+            time_slots += SundayWorship.subject_slot.get(task)
+        seen = set()
+        repeat = set()
+        for x in time_slots:
+            if x not in seen:
+                seen.add(x)
+            else:
+                repeat.add(x)
+        return repeat
+
     def _generate_message(self, msg_collection: dict) -> str:
         msg_content = ""
         if msg_collection:
-            for name, v in msg_collection.items():
-                task_msg = ""
-                slot_msg = ""
+            for name_with_date, v in msg_collection.items():
+                multi_tasks = ""
+                multi_hours = ""
                 for tasks, time_slots in v.items():
-                    task_msg += tasks
+                    multi_tasks += tasks
                     for slot in time_slots:
-                        slot_msg += f"{SundayWorship.slot_time.get(slot)} "
-                msg_content += (f"{name}的服事分配有潛在問題， {task_msg}的時間重疊了: {slot_msg}\n"
+                        multi_hours += f"{SundayWorship.slot_time.get(slot)} "
+                msg_content += (f"{name_with_date}的服事分配有潛在問題， {multi_tasks}的時間重疊了: {multi_hours}\n"
                                 f"▪️▪️▪️▪️▪️▪️▪️▪️▪️▪️\n")
         else:
             msg_content = "檢查完畢，服事內容未發現潛在問題。"
         return msg_content
 
     def check_conflict(self, member_duties: dict):
-        # member_duties['四月份04']['郭超立'].append("台語證道") # HINT 用於Debug
-        msg_collection = dict()
+        repeat_collection = dict()
         result_code = 1
+        repeat = None
         for title_date, value in member_duties.items():
             for name, tasks in value.items():
-                # TODO 如果在contact_list 不要考慮重複問題
                 if name in SundayWorship.contact_namelist:
                     pass
                 else:
-                    time_slots = []
-                    for task in tasks:
-                        time_slots += SundayWorship.subject_slot.get(task)
-
-                    # temp.append("slot1")  # HINT 用於Debug
-                    seen = set()
-                    repeat = set()
-                    for x in time_slots:
-                        if x not in seen:
-                            seen.add(x)
-                        else:
-                            repeat.add(x)
-
+                    repeat = self.check_duplicate(tasks)
                 if repeat:
-                    summary = dict()
+                    task_marker = dict()
                     time_slots = sorted(list(repeat))
-                    for elem in time_slots:
-                        summary.update({elem: []})
+                    for elem in time_slots:  # HINT 從user特有重複的timeslot內，找含有那些tasks，iter次數不多，且只有repeat存在時才會執行
+                        task_marker.update({elem: []})
                         for task in tasks:
                             if elem in SundayWorship.subject_slot.get(task):
-                                summary[elem].append(task)
-
-                    # if name == '郭超立':  # HINT for debug
-                    #     summary['slot3'] = ['測試流程1', '測試流程2']
-                    #     summary['slot4'] = ['測試流程1', '測試流程2']
-
-                    task_timeslot = {}
-                    for slot, tasks in summary.items():
-                        string = ""
+                                task_marker[elem].append(task)
+                    task_timeslot = dict()
+                    for slot, tasks in task_marker.items():
+                        task_ring = ""
                         for task in tasks:
-                            string += f"{task} "  # HINT 每個task後面加上空白，用於顯示到Line畫面時可明顯區隔
-                        task_timeslot.setdefault(f"{title_date} {string}", []).append(slot)
-                    msg_collection.update({name: task_timeslot})
+                            task_ring += f"{task} "  # HINT 每個task後面加上空白，用於顯示到Line畫面時可明顯區隔
+                        task_timeslot.setdefault(f"{title_date} {task_ring}", []).append(slot)
+                    repeat_collection.update({name: task_timeslot})
                     result_code = 0
 
-        msg_content = self._generate_message(msg_collection)
+        msg_content = self._generate_message(repeat_collection)
         return msg_content, result_code
