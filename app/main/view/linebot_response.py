@@ -83,48 +83,17 @@ def general_replyer(replytoken, msg, sticker=None):
         json=json_for_msg)  # HINT must use json as parameter
     return result
 
+
+def carousel_generator() -> list:
+    with open((Path.cwd() / "backup_info/" / "carousel.json"), 'r', encoding="utf-8") as r:
+        expect = json.load(r)
+    return expect
+
+
 # TODO 產生輪播內容
-
-
 def sending_carousel_by_reply(replytoken):
     try:
-        msg_list = [
-            {
-                "type": "flex",
-                "altText": "This is a Flex Message",
-                "contents": {
-                    "type": "carousel",
-                    "contents": [
-                        {
-                            "type": "bubble",
-                            "body": {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "text",
-                                        "text": "First bubble"
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "type": "bubble",
-                            "body": {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "text",
-                                        "text": "Second bubble"
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                }
-            }
-        ]
+        msg_list = carousel_generator()
         json_for_msg = dict(
             replyToken=replytoken,
             messages=msg_list
@@ -135,6 +104,7 @@ def sending_carousel_by_reply(replytoken):
             json=json_for_msg)  # HINT must use json as parameter
         logger.debug("hello carousel")
     except Exception as e:
+        # logger.exception(f"exception code: {result.status_code}")
         logger.exception(f"sending carousel failed {e}")
     # return result
 
