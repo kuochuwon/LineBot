@@ -3,6 +3,7 @@ from pathlib import Path
 from app.main.constant import SundayWorship
 from datetime import date
 from docx import Document
+from app.main.log import logger
 
 
 class WordParser:
@@ -12,6 +13,7 @@ class WordParser:
             pass
         else:
             print(f"file: {input_file} not found, use template file instead.")
+            logger.info(f"file: {input_file} not found, use template file instead.")
             # input_file = "季表格式調整.docx"
             input_file = "季表格式調整 - 複製.docx"  # HINT for Debug
 

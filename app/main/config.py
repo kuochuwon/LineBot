@@ -23,11 +23,11 @@ class Config:
     REDIS_SERVER = os.getenv("REDIS_SERVER")
     REDIS_PORT = os.getenv("REDIS_PORT")
 
-    #
-    LOG_FILE = os.getenv("LOG_FILE") or "log/server.log"
-    path = Path(os.path.dirname(LOG_FILE))
-    if not (path.exists() and path.is_dir()):
-        os.makedirs(path)
+    # HINT: 看起來沒用到
+    # LOG_FILE = os.getenv("LOG_FILE") or "log/server.log"
+    # path = Path(os.path.dirname(LOG_FILE))
+    # if not (path.exists() and path.is_dir()):
+    #     os.makedirs(path)
 
 
 class ProductionConfig(Config):

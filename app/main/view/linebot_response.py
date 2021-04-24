@@ -1,3 +1,4 @@
+from logging import log
 from app.main.model.task import sdTask
 from pathlib import Path
 import json
@@ -8,6 +9,7 @@ from app.main import db
 from app.main.constant import LineConstant
 from app.main.model.user import sdUser
 from app.main.service.word_docx_processor import WordParser, PostProcess
+from app.main.log import logger
 
 
 def notify_handler(payload):
@@ -31,10 +33,11 @@ def notify_handler(payload):
             data=json_for_msg)  # HINT must use data as parameter
         if result.status_code == 200:
             response = {"hint": "訊息發送成功"}
+        return response
     except Exception as e:
-        print(f"notify failed: {e}")
+        # print(f"notify failed: {e}")
+        logger.exception(f"notify failed: {e}")
         raise
-    return response
 
 
 def check_line_user(payload) -> str:
@@ -64,7 +67,8 @@ def general_replyer(replytoken, msg, sticker=None):
         replyToken=replytoken,
         messages=[msg, sticker]
     )
-    print(f"json_for_msg: {json_for_msg}")
+    # print(f"json_for_msg: {json_for_msg}")
+    logger.debug(f"json_for_msg: {json_for_msg}")
     result = urllib_requests.post(
         LineConstant.OFFICIAL_REPLY_API,
         headers=LineConstant.push_header,
@@ -74,7 +78,8 @@ def general_replyer(replytoken, msg, sticker=None):
 
 def text_handler(payload) -> dict:
     invitation_url, replytoken = check_line_user(payload)
-    print(f"reply token: {replytoken}")
+    # print(f"reply token: {replytoken}")
+    logger.debug(f"reply token: {replytoken}")
     if invitation_url:
         text = (f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
                 f"連結: {invitation_url}")
@@ -85,7 +90,8 @@ def text_handler(payload) -> dict:
         msg = general_text(text)
     sticker = general_sticker(446, 1989)
     result = general_replyer(replytoken, msg, sticker)
-    print(f"reply status code: {result.status_code}")
+    # print(f"reply status code: {result.status_code}")
+    logger.debug(f"reply status code: {result.status_code}")
     return msg
 
 
@@ -106,8 +112,10 @@ def download_line_content(file_id, file_name):
                     # if chunk:
                     f.write(chunk)
         print(f"file saved successfully: {file_name}, id: {file_id}")
+        logger.debug(f"file saved successfully: {file_name}, id: {file_id}")
     else:
         print("download canceled because of local testing environment.")
+        logger.debug("download canceled because of local testing environment.")
 
 
 def delete_duplicate_before_inserting(member_duties: dict):
@@ -148,12 +156,14 @@ def file_handler(payload):
     if conflict_flag == 0:
         insert_duties_db(member_duties)
 
-    print(f"-------check result: {check_result} -------------")
+    # print(f"-------check result: {check_result} -------------")
+    logger.debug(f"check result: {check_result}")
 
     msg = general_text(check_result)
     sticker = general_sticker(446, 1989)
     result = general_replyer(replytoken, msg, sticker)
-    print(f"reply status code: {result.status_code}")
+    # print(f"reply status code: {result.status_code}")
+    logger.debug(f"reply status code: {result.status_code}")
     return msg
 
 
@@ -172,8 +182,8 @@ def add_line_user_to_db(search_res, msg_text, user_id):
             db.session.add(obj)
             db.session.commit()
         except Exception as e:
-            print((f"failed to update data to SQL: {str(e)}"))
-            # logger.error(f"failed to update data to SQL: {str(e)}")
+            # print((f"failed to update data to SQL: {str(e)}"))
+            logger.exception(f"failed to update data to SQL: {str(e)}")
             db.session.rollback()
             raise
         finally:
@@ -193,9 +203,10 @@ def retrieve_notify_token_from_callback(request):
         files.update({"redirect_uri": LineConstant.NOTIFY.get('local_URI')})
     else:  # Linux
         files.update({"redirect_uri": LineConstant.NOTIFY.get('remote_URI')})
-    print("------------")
-    print("code",  code)  # for debug
-    print("------------")
+    # print("------------")
+    # print("code",  code)  # for debug
+    logger.debug(f"Notify code is {code}")
+    # print("------------")
 
     # HINT magic method, 從網路上抄的，還不確定是否一定要這樣寫 https://stackoverflow.com/questions/20759981/python-trying-to-post-form-using-requests by atupal # noqa
     session = urllib_requests.Session()
@@ -205,9 +216,10 @@ def retrieve_notify_token_from_callback(request):
         params=files
     )
     output = json.loads(result.text)
-    print("------------")
-    print(f"output: {output}")
-    print("------------")
+    # print("------------")
+    # print(f"output: {output}")
+    logger.debug(f"Notify output is {output}")
+    # print("------------")
     access_token = output.get("access_token")
     # append_notify_token(user_id, access_token)
     try:
@@ -216,7 +228,8 @@ def retrieve_notify_token_from_callback(request):
         db.session.commit()
 
     except Exception as e:
-        print(f"failed to update user: {e}")
+        # print(f"failed to update user: {e}")
+        logger.exception(f"failed to update user: {e}")
     finally:
         db.session.close()
 
@@ -227,18 +240,23 @@ def webhook_message_checker(payload):
             temp = payload.get("events")[0]
             if temp["message"]["type"] == "text":
                 print("------ type is text ------")
+                logger.debug("------ type is text ------")
                 return "text"
             elif temp["message"]["type"] == "image":
                 print("------ type is image ------")
+                logger.debug("------ type is image ------")
                 return "image"
             elif temp["message"]["type"] == "file":
                 print("------ type is file ------")
+                logger.debug("------ type is file ------")
                 return "file"
             else:
                 print("------ type is unknown ------")
+                logger.debug("------ type is unknown ------")
                 return False
         else:
             return False
     except Exception as e:
-        print(f"-------invalid payload: {e}-------")
+        # print(f"-------invalid payload: {e}-------")
+        logger.exception(f"invalid payload: {e}")
         return False

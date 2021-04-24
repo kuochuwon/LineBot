@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -13,7 +14,8 @@ jwt = JWTManager()
 
 
 def create_app(config_name):
-    logger.addHandler(get_handler("log/server.log"))
+    # logger.addHandler(get_handler("log/server.log"))
+    logger.addHandler(get_handler(os.getenv("LOG_FILE")))
     app = Flask(__name__)
     app.config.from_object(get_config(config_name))
     db.init_app(app)

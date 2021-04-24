@@ -1,5 +1,5 @@
 from sqlalchemy.sql import func
-# from sqlalchemy.sql.functions import user
+from app.main.log import logger
 
 from app.main import db
 from app.main.constant import Constant
@@ -78,10 +78,10 @@ class sdUser(db.Model):
         try:
             obj = db.session.query(sdUser).filter(sdUser.user_unique_id == user_id).first()
             obj.access_token = access_token
-        except Exception as e:
-            print(f"failed to update user: {e}")
-        finally:
             return obj
+        except Exception as e:
+            # print(f"failed to update user: {e}")
+            logger.exception(f"failed to update user: {e}")
 
     @staticmethod
     def get_admin(cust_id):

@@ -1,5 +1,6 @@
 import requests as urllib_requests
 from app.main.constant import LineConstant
+from app.main.log import logger
 from app.main.dto.thelinebot import LineBotDto
 from app.main.service import ret
 from app.main.view.linebot_response import (
@@ -29,9 +30,10 @@ class LineNotify(Resource):
     def post(self):
         """ connecting line notify to send free messeage """
         payload = request.json
-        print("------------")
-        print(payload)  # for debug
-        print("------------")
+        # print("------------")
+        # print(payload)  # for debug
+        logger.debug(f"notify payload: {payload}")
+        # print("------------")
 
         response = notify_handler(payload)
 
@@ -44,9 +46,10 @@ class Push(Resource):
         """ connecting line bot API to push messeage """
         payload = request.json
 
-        print("------------")
-        print(payload)  # for debug
-        print("------------")
+        # print("------------")
+        # print(payload)  # for debug
+        logger.debug(f"push payload: {payload}")
+        # print("------------")
         response = {"hint": "已接收請求，但內容為空"}
         try:
             user_id = payload.get("user_id")
@@ -66,7 +69,8 @@ class Push(Resource):
                 response = {"hint": "訊息發送成功"}
                 return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
         except Exception as e:
-            print(f"push failed: {e}")
+            # print(f"push failed: {e}")
+            logger.exception(f"push failed: {e}")
             return ret.http_resp(ret.RET_EXCEPTION, extra={"hint": str(e)}), status.HTTP_503_SERVICE_UNAVAILABLE
 
 
@@ -80,9 +84,10 @@ class Webhook(Resource):
     def post(self):
         """ line bot response """
         payload = request.json
-        print("------------")
-        print(payload)  # for debug
-        print("------------")
+        # print("------------")
+        # print(payload)  # for debug
+        logger.debug(f"webhook payload: {payload}")
+        # print("------------")
         response = None
         if webhook_message_checker(payload) == "text":
             response = text_handler(payload)
