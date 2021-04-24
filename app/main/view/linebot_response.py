@@ -140,41 +140,24 @@ def file_handler(payload):
     wp = WordParser(file_name)
     pp = PostProcess()
     member_duties = wp.parsing_church_schedule()
-    check_result, result_code = pp.check_conflict(member_duties)
-    if result_code:
+    check_result, conflict_flag = pp.check_conflict(member_duties)
+    if conflict_flag == 0:
         insert_duties_db(member_duties)
 
     print(f"-------check result: {check_result} -------------")
 
-    # TODO 改寫成func 方便調用
     msg = general_text(check_result)
-    # msg = {
-    #     "type": "text",
-    #     "text": check_result
-    # }
     sticker = general_sticker(446, 1989)
-    # sticker = {
-    #     "type": "sticker",
-    #     "packageId": "446",
-    #     "stickerId": "1989"
-    # }
-
     result = general_replyer(replytoken, msg, sticker)
     print(f"reply status code: {result.status_code}")
     return msg
 
 
 def generate_url(user_id: str):
-    if platform.system() == "Windows":
-        invitation_url = (f"https://notify-bot.line.me/oauth/authorize?response_type=code&scope=notify&"
-                          f"response_mode=form_post&client_id={LineConstant.NOTIFY.get('CLIENT_ID')}"
-                          f"&redirect_uri={LineConstant.NOTIFY.get('local_URI')}"
-                          f"&state={user_id}")
-    else:  # Linux
-        invitation_url = (f"https://notify-bot.line.me/oauth/authorize?response_type=code&scope=notify&"
-                          f"response_mode=form_post&client_id={LineConstant.NOTIFY.get('CLIENT_ID')}"
-                          f"&redirect_uri={LineConstant.NOTIFY.get('remote_URI')}"
-                          f"&state={user_id}")
+    invitation_url = (f"https://notify-bot.line.me/oauth/authorize?response_type=code&scope=notify&"
+                      f"response_mode=form_post&client_id={LineConstant.NOTIFY.get('CLIENT_ID')}"
+                      f"&redirect_uri={LineConstant.NOTIFY.get(platform.system())}"
+                      f"&state={user_id}")
     return invitation_url
 
 

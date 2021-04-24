@@ -134,7 +134,7 @@ class PostProcess:
 
     def check_conflict(self, member_duties: dict):
         repeat_collection = dict()
-        result_code = 1
+        conflict_flag = 0
         repeat = None
         for title_date, value in member_duties.items():
             for name, tasks in value.items():
@@ -157,7 +157,7 @@ class PostProcess:
                             task_ring += f"{task} "  # HINT 每個task後面加上空白，用於顯示到Line畫面時可明顯區隔
                         task_timeslot.setdefault(f"{title_date} {task_ring}", []).append(slot)
                     repeat_collection.update({name: task_timeslot})
-                    result_code = 0
+                    conflict_flag = 1
 
         msg_content = self._generate_message(repeat_collection)
-        return msg_content, result_code
+        return msg_content, conflict_flag

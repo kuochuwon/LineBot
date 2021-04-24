@@ -42,5 +42,29 @@
             }
         ],
         "destination": "U626fcac094933a537b218a14c877e0d4"
+    },
+    {
+        "events": [
+            {
+                "type": "message",
+                "replyToken": "1b50a605f7d84163a992c541f577e451",
+                "source": {
+                    "userId": "U9afa5683614c2f30296a92eb07984d57",
+                    "type": "user"
+                },
+                "timestamp": 1618481236409,
+                "mode": "active",
+                "message": {
+                    "type": "file",
+                    "id": "13892439603641",
+                    "contentProvider": {
+                        "type": "line"
+                    },
+                    "fileName": "七張季表.docx",
+                    "fileSize": 239257
+                }
+            }
+        ],
+        "destination": "U626fcac094933a537b218a14c877e0d4"
     }
 ]

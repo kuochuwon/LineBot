@@ -24,8 +24,8 @@ class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈
     NOTIFY = dict(
         CLIENT_ID="UulwSUMmf5M9zY1HSTR8xy",
         SECRET="MDuIohlUsEsPRKP2VXq0weJAW3cYwbb24gfeixTDmVC",
-        remote_URI="https://linebot-kuochuwon.herokuapp.com/api/v1/linebot/callback",
-        local_URI="http://127.0.0.1:5000/api/v1/linebot/callback"
+        Linux="https://linebot-kuochuwon.herokuapp.com/api/v1/linebot/callback",
+        Windows="http://127.0.0.1:5000/api/v1/linebot/callback"
     )
 
     PUSH = dict(
