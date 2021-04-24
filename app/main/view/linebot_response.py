@@ -79,28 +79,12 @@ def text_handler(payload) -> dict:
         text = (f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
                 f"連結: {invitation_url}")
         msg = general_text(text)
-        # msg = {
-        #     "type": "text",
-        #     "text": (f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
-        #              f"連結: {invitation_url}")}
     else:
         text = (f"平安，您的資料已建檔，若下週輪到您服事，我會事先通知您~\n"
                 f"敬請期待未來更多功能上線。")
         msg = general_text(text)
-        # msg = {
-        #     "type": "text",
-        #     "text": (f"平安，您的資料已建檔，若下週輪到您服事，我會事先通知您~\n"
-        #              f"敬請期待未來更多功能上線。")}
-
     sticker = general_sticker(446, 1989)
-    # sticker = {
-    #     "type": "sticker",
-    #     "packageId": "446",
-    #     "stickerId": "1989"
-    # }
-
     result = general_replyer(replytoken, msg, sticker)
-
     print(f"reply status code: {result.status_code}")
     return msg
 
@@ -163,18 +147,20 @@ def file_handler(payload):
     print(f"-------check result: {check_result} -------------")
 
     # TODO 改寫成func 方便調用
-    msg = {
-        "type": "text",
-        "text": check_result
-    }
-
-    sticker = {
-        "type": "sticker",
-        "packageId": "446",
-        "stickerId": "1989"
-    }
+    msg = general_text(check_result)
+    # msg = {
+    #     "type": "text",
+    #     "text": check_result
+    # }
+    sticker = general_sticker(446, 1989)
+    # sticker = {
+    #     "type": "sticker",
+    #     "packageId": "446",
+    #     "stickerId": "1989"
+    # }
 
     result = general_replyer(replytoken, msg, sticker)
+    print(f"reply status code: {result.status_code}")
     return msg
 
 
