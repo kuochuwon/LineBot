@@ -21,7 +21,7 @@ def is_monday():
     if weekday == 0:
         return True
     else:
-        print(f"Today's weekday is {weekday}, (0 is Monday),not Monday.")
+        print(f"Today's weekday is {weekday}, (0 is Monday), not Monday.")
         return False
 
 

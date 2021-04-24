@@ -28,7 +28,6 @@ class Callback(Resource):
 class LineNotify(Resource):
     def post(self):
         """ connecting line notify to send free messeage """
-        # TODO 改寫成輸入姓名，程式從JSON中尋找對應姓名的notify access token，藉此發送給特定人士
         payload = request.json
         print("------------")
         print(payload)  # for debug

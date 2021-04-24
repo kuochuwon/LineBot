@@ -51,6 +51,14 @@ def check_line_user(payload) -> str:
     return invitation_url, replytoken
 
 
+def general_sticker(package_id, sticker_id):
+    return {"type": "sticker", "packageId": package_id, "stickerId": sticker_id}
+
+
+def general_text(text: str):
+    return {"type": "text", "text": text}
+
+
 def general_replyer(replytoken, msg, sticker=None):
     json_for_msg = dict(
         replyToken=replytoken,
@@ -68,21 +76,28 @@ def text_handler(payload) -> dict:
     invitation_url, replytoken = check_line_user(payload)
     print(f"reply token: {replytoken}")
     if invitation_url:
-        msg = {
-            "type": "text",
-            "text": (f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
-                     f"連結: {invitation_url}")}
+        text = (f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
+                f"連結: {invitation_url}")
+        msg = general_text(text)
+        # msg = {
+        #     "type": "text",
+        #     "text": (f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
+        #              f"連結: {invitation_url}")}
     else:
-        msg = {
-            "type": "text",
-            "text": (f"平安，您的資料已 建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
-                     f"連結: {invitation_url}")}
+        text = (f"平安，您的資料已建檔，若下週輪到您服事，我會事先通知您~\n"
+                f"敬請期待未來更多功能上線。")
+        msg = general_text(text)
+        # msg = {
+        #     "type": "text",
+        #     "text": (f"平安，您的資料已建檔，若下週輪到您服事，我會事先通知您~\n"
+        #              f"敬請期待未來更多功能上線。")}
 
-    sticker = {
-        "type": "sticker",
-        "packageId": "446",
-        "stickerId": "1989"
-    }
+    sticker = general_sticker(446, 1989)
+    # sticker = {
+    #     "type": "sticker",
+    #     "packageId": "446",
+    #     "stickerId": "1989"
+    # }
 
     result = general_replyer(replytoken, msg, sticker)
 

@@ -14,7 +14,7 @@ class sdTask(db.Model):
 
     @staticmethod
     def add(name, date, task):
-        obj = sdTask()  # TODO 看起來每個obj都是獨立的儲存物件，插入幾筆資料，就要產生幾筆物件
+        obj = sdTask()  # HINT 看起來每個obj都是獨立的儲存物件，插入幾筆資料，就要產生幾筆物件
         obj.name = name
         obj.date = date
         obj.task = task
