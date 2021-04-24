@@ -2,7 +2,7 @@ from app.main.model.task import sdTask
 from pathlib import Path
 import json
 import platform
-
+import os
 import requests as urllib_requests
 from app.main import db
 from app.main.constant import LineConstant
@@ -90,20 +90,24 @@ def text_handler(payload) -> dict:
 
 
 def download_line_content(file_id, file_name):
-    with urllib_requests.get(
-            LineConstant.OFFICIAL_CONTENT_API.replace("<file_id>", file_id),
-            headers=LineConstant.push_header,
-            stream=True) as r:
-        r.raise_for_status()
-        with open((Path.cwd() / "downloads/" / file_name), 'wb') as f:
-            for chunk in r.iter_content(chunk_size=8192):
-                # link1: https://stackoverflow.com/questions/16694907/download-large-file-in-python-with-requests # noqa
-                # link2: https://stackoverflow.com/questions/19602931/basic-http-file-downloading-and-saving-to-disk-in-python # noqa
-                # If you have chunk encoded response uncomment if
-                # and set chunk_size parameter to None.
-                # if chunk:
-                f.write(chunk)
-    print(f"file saved successfully: {file_name}, id: {file_id}")
+    env = os.getenv("FLASK_CONFIG")
+    if env == "heroku":
+        with urllib_requests.get(
+                LineConstant.OFFICIAL_CONTENT_API.replace("<file_id>", file_id),
+                headers=LineConstant.push_header,
+                stream=True) as r:
+            r.raise_for_status()
+            with open((Path.cwd() / "downloads/" / file_name), 'wb') as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    # link1: https://stackoverflow.com/questions/16694907/download-large-file-in-python-with-requests # noqa
+                    # link2: https://stackoverflow.com/questions/19602931/basic-http-file-downloading-and-saving-to-disk-in-python # noqa
+                    # If you have chunk encoded response uncomment if
+                    # and set chunk_size parameter to None.
+                    # if chunk:
+                    f.write(chunk)
+        print(f"file saved successfully: {file_name}, id: {file_id}")
+    else:
+        print("download canceled because of local testing environment.")
 
 
 def delete_duplicate_before_inserting(member_duties: dict):

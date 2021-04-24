@@ -10,7 +10,7 @@ load_dotenv(dotenv_path=dotenv_path)
 
 from app import blueprint  # noqa: E402
 from app.main import create_app, db  # noqa: E402
-
+env = os.getenv("FLASK_CONFIG")
 app = create_app(os.getenv("FLASK_CONFIG") or "development")
 app.register_blueprint(blueprint)
 

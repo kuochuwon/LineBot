@@ -55,10 +55,30 @@ class DevelopmentConfig(Config):
     Config.SQLALCHEMY_ENGINE_OPTIONS["echo_pool"] = False
 
 
+class HerokuConfig(Config):
+    DEBUG = True
+    TESTING = False
+    SQLALCHEMY_DATABASE_URI = os.getenv("HEROKU_DATABASE_URL")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    Config.SQLALCHEMY_ENGINE_OPTIONS["echo"] = False
+    Config.SQLALCHEMY_ENGINE_OPTIONS["echo_pool"] = False
+
+
+class LocalConfig(Config):
+    DEBUG = True
+    TESTING = False
+    SQLALCHEMY_DATABASE_URI = os.getenv("LOCAL_DATABASE_URL")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    Config.SQLALCHEMY_ENGINE_OPTIONS["echo"] = False
+    Config.SQLALCHEMY_ENGINE_OPTIONS["echo_pool"] = False
+
+
 __config_list = dict(
     development=DevelopmentConfig,
     testing=TestingConfig,
-    production=ProductionConfig
+    production=ProductionConfig,
+    local=LocalConfig,
+    heroku=HerokuConfig
 )
 
 
@@ -67,13 +87,3 @@ def get_config(config_name):
 
 
 jwt_key = Config.JWT_SECRET_KEY
-
-
-# # MQTT Setting
-# class MQTTConfig:
-#     CLIENT_ID = str(os.getenv("MQTT_CLIENT_ID"))
-#     ALIVE = int(os.getenv("MQTT_ALIVE"))
-#     SERVER = str(os.getenv("MQTT_SERVER"))
-#     PORT = int(os.getenv("MQTT_PORT"))
-#     PUBLISH_TOPIC = str(os.getenv("MQTT_PUBLISH_TOPIC"))
-#     QOS = int(os.getenv("MQTT_QOS"))
