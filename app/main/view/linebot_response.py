@@ -40,18 +40,26 @@ def notify_handler(payload):
         raise
 
 
-def check_line_user(payload) -> str:
-    temp = payload.get("events")[0]
-    replytoken = temp["replyToken"]
-    msg_text = temp["message"]["text"]  # HINT name
-    user_id = temp["source"]["userId"]
-
+def check_line_user(user_id, msg_text, replytoken):
     invitation_url = ""
     search_res = sdUser.search(user_id)
     if search_res is None:
         add_line_user_to_db(search_res, msg_text, user_id)
         invitation_url = generate_url(user_id)
     return invitation_url, replytoken
+
+
+# TODO 進行例外處理
+def message_preprocess(payload) -> str:
+    temp = payload.get("events")[0]
+    replytoken = temp["replyToken"]
+    msg_text = temp["message"]["text"]  # HINT name
+    user_id = temp["source"]["userId"]
+    return user_id, msg_text, replytoken
+
+
+def match_keyword(msg_text):
+    return LineConstant.RESPONSE_CODE.get(msg_text)
 
 
 def general_sticker(package_id, sticker_id):
@@ -75,23 +83,84 @@ def general_replyer(replytoken, msg, sticker=None):
         json=json_for_msg)  # HINT must use json as parameter
     return result
 
+# TODO 產生輪播內容
+
+
+def sending_carousel_by_reply(replytoken):
+    try:
+        msg_list = [
+            {
+                "type": "flex",
+                "altText": "This is a Flex Message",
+                "contents": {
+                    "type": "carousel",
+                    "contents": [
+                        {
+                            "type": "bubble",
+                            "body": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "First bubble"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "type": "bubble",
+                            "body": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "Second bubble"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+        json_for_msg = dict(
+            replyToken=replytoken,
+            messages=msg_list
+        )
+        result = urllib_requests.post(
+            LineConstant.OFFICIAL_REPLY_API,
+            headers=LineConstant.push_header,
+            json=json_for_msg)  # HINT must use json as parameter
+        logger.debug("hello carousel")
+    except Exception as e:
+        logger.exception(f"sending carousel failed {e}")
+    # return result
+
 
 def text_handler(payload) -> dict:
-    invitation_url, replytoken = check_line_user(payload)
-    # print(f"reply token: {replytoken}")
-    logger.debug(f"reply token: {replytoken}")
-    if invitation_url:
-        text = (f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
-                f"連結: {invitation_url}")
-        msg = general_text(text)
+    user_id, msg_text, replytoken = message_preprocess(payload)
+    resp_code = match_keyword(msg_text)
+    if resp_code == 1:
+        sending_carousel_by_reply(replytoken)
+        msg = general_text("This is Flex message")
     else:
-        text = (f"平安，您的資料已建檔，若下週輪到您服事，我會事先通知您~\n"
-                f"敬請期待未來更多功能上線。")
-        msg = general_text(text)
-    sticker = general_sticker(446, 1989)
-    result = general_replyer(replytoken, msg, sticker)
-    # print(f"reply status code: {result.status_code}")
-    logger.debug(f"reply status code: {result.status_code}")
+        invitation_url, replytoken = check_line_user(user_id, msg_text, replytoken)
+        # print(f"reply token: {replytoken}")
+        logger.debug(f"reply token: {replytoken}")
+        if invitation_url:
+            text = (f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
+                    f"連結: {invitation_url}")
+            msg = general_text(text)
+        else:
+            text = (f"平安，您的資料已建檔，若下週輪到您服事，我會事先通知您~\n"
+                    f"敬請期待未來更多功能上線。")
+            msg = general_text(text)
+        sticker = general_sticker(446, 1989)
+        result = general_replyer(replytoken, msg, sticker)
+        # print(f"reply status code: {result.status_code}")
+        logger.debug(f"reply status code: {result.status_code}")
     return msg
 
 

@@ -13,6 +13,7 @@ class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈
     OFFICIAL_REPLY_API = "https://api.line.me/v2/bot/message/reply"
     OFFICIAL_CONTENT_API = "https://api-data.line.me/v2/bot/message/<file_id>/content"
 
+    # HINT 此Header可兼容於push and reply
     push_header = {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': f'Bearer {CHANNEL_ACCESS_TOKEN}'}
@@ -31,6 +32,10 @@ class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈
     PUSH = dict(
         Linux="https://linebot-kuochuwon.herokuapp.com/api/v1/linebot/push",
         Windows="http://127.0.0.1:5000/api/v1/linebot/push"
+    )
+
+    RESPONSE_CODE = dict(
+        輪播=1
     )
 
 
