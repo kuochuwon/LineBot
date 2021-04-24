@@ -103,6 +103,8 @@ def sending_carousel_by_reply(replytoken):
             headers=LineConstant.push_header,
             json=json_for_msg)  # HINT must use json as parameter
         logger.debug("hello carousel")
+        logger.debug(f"http status: {result.status_code}")
+        logger.debug(f"http hint: {result.text}")
     except Exception as e:
         # logger.exception(f"exception code: {result.status_code}")
         logger.exception(f"sending carousel failed {e}")
