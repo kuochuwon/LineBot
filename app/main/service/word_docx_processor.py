@@ -14,8 +14,8 @@ class WordParser:
         else:
             print(f"file: {input_file} not found, use template file instead.")
             logger.info(f"file: {input_file} not found, use template file instead.")
-            # input_file = "季表格式調整.docx"
-            input_file = "季表格式調整 - 複製.docx"  # HINT for Debug
+            input_file = "季表格式調整.docx"
+            # input_file = "季表格式調整 - 複製.docx"  # HINT for Debug
 
         # HINT link: https://stackoverflow.com/questions/27861732/parsing-of-table-from-docx-file/27862205
         word = Document(Path.cwd() / "downloads/" / input_file)
