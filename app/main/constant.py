@@ -35,7 +35,7 @@ class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈
     )
 
     RESPONSE_CODE = dict(
-        輪播=1
+        輪播='1'
     )
 
 
