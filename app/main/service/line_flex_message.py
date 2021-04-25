@@ -26,7 +26,7 @@ def sending_carousel_by_reply(replytoken):
         logger.debug("hello carousel")
         logger.debug(f"http status: {result.status_code}")
         logger.debug(f"http hint: {result.text}")
-        return result.status_code
+        # return result.status_code
     except Exception as e:
         # logger.exception(f"exception code: {result.status_code}")
         logger.exception(f"sending carousel failed {e}")
