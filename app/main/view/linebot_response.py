@@ -1,4 +1,3 @@
-from logging import log
 from app.main.model.task import sdTask
 from pathlib import Path
 import json
@@ -10,6 +9,11 @@ from app.main.constant import LineConstant
 from app.main.model.user import sdUser
 from app.main.service.word_docx_processor import WordParser, PostProcess
 from app.main.log import logger
+from app.main.service.line_flex_message import sending_carousel_by_reply
+
+func_dict = {
+    "輪播": sending_carousel_by_reply()
+}
 
 
 def notify_handler(payload):
@@ -84,39 +88,43 @@ def general_replyer(replytoken, msg, sticker=None):
     return result
 
 
-def carousel_generator() -> list:
-    with open((Path.cwd() / "backup_info/" / "carousel.json"), 'r', encoding="utf-8") as r:
-        expect = json.load(r)
-    return expect
+# def carousel_generator() -> list:
+#     with open((Path.cwd() / "backup_info/" / "carousel.json"), 'r', encoding="utf-8") as r:
+#         expect = json.load(r)
+#     return expect
 
 
-# TODO 產生輪播內容
-def sending_carousel_by_reply(replytoken):
-    try:
-        msg_list = carousel_generator()
-        json_for_msg = dict(
-            replyToken=replytoken,
-            messages=msg_list
-        )
-        result = urllib_requests.post(
-            LineConstant.OFFICIAL_REPLY_API,
-            headers=LineConstant.push_header,
-            json=json_for_msg)  # HINT must use json as parameter
-        logger.debug("hello carousel")
-        logger.debug(f"http status: {result.status_code}")
-        logger.debug(f"http hint: {result.text}")
-    except Exception as e:
-        # logger.exception(f"exception code: {result.status_code}")
-        logger.exception(f"sending carousel failed {e}")
-    # return result
+# # TODO 產生輪播內容
+# def sending_carousel_by_reply(replytoken):
+#     try:
+#         msg_list = carousel_generator()
+#         json_for_msg = dict(
+#             replyToken=replytoken,
+#             messages=msg_list
+#         )
+#         result = urllib_requests.post(
+#             LineConstant.OFFICIAL_REPLY_API,
+#             headers=LineConstant.push_header,
+#             json=json_for_msg)  # HINT must use json as parameter
+#         logger.debug("hello carousel")
+#         logger.debug(f"http status: {result.status_code}")
+#         logger.debug(f"http hint: {result.text}")
+#     except Exception as e:
+#         # logger.exception(f"exception code: {result.status_code}")
+#         logger.exception(f"sending carousel failed {e}")
+#     # return result
 
 
 def text_handler(payload) -> dict:
     user_id, msg_text, replytoken = message_preprocess(payload)
-    resp_code = match_keyword(msg_text)
-    if resp_code == 1:
-        sending_carousel_by_reply(replytoken)
+    # resp_code = match_keyword(msg_text)
+    resp_code = func_dict.get(msg_text)
+    if resp_code:
         msg = general_text("This is Flex message")
+        pass
+    # if resp_code == 1:
+    #     sending_carousel_by_reply(replytoken)
+    #     msg = general_text("This is Flex message")
     else:
         invitation_url, replytoken = check_line_user(user_id, msg_text, replytoken)
         # print(f"reply token: {replytoken}")
