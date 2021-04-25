@@ -12,7 +12,7 @@ from app.main.log import logger
 from app.main.service.line_flex_message import sending_carousel_by_reply
 
 func_dict = {
-    "輪播": sending_carousel_by_reply()
+    "輪播": sending_carousel_by_reply
 }
 
 
@@ -118,7 +118,7 @@ def general_replyer(replytoken, msg, sticker=None):
 def text_handler(payload) -> dict:
     user_id, msg_text, replytoken = message_preprocess(payload)
     # resp_code = match_keyword(msg_text)
-    resp_code = func_dict.get(msg_text)
+    resp_code = func_dict.get(msg_text)(replytoken)
     if resp_code:
         msg = general_text("This is Flex message")
         pass
