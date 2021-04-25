@@ -6,7 +6,7 @@ from app.main.log import logger
 
 
 def carousel_generator() -> list:
-    with open((Path.cwd() / "backup_info/" / "carousel.json"), 'r', encoding="utf-8") as r:
+    with open((Path.cwd() / "flex_message_box/" / "church_homepage.json"), 'r', encoding="utf-8") as r:
         expect = json.load(r)
     return expect
 

@@ -1,0 +1,277 @@
+{
+    "type": "bubble",
+    "size": "mega",
+    "hero": {
+        "type": "image",
+        "url": "https://i.imgur.com/dVGH7Tz.jpg",
+        "size": "full",
+        "aspectRatio": "4:3"
+    },
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+            {
+                "type": "text",
+                "text": "聚會時間",
+                "color": "#0000C6",
+                "size": "xl",
+                "align": "center",
+                "weight": "bold"
+            },
+            {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "09:20",
+                        "size": "sm",
+                        "gravity": "center"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "filler"
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [],
+                                "cornerRadius": "30px",
+                                "height": "12px",
+                                "width": "12px",
+                                "borderColor": "#EF454D",
+                                "borderWidth": "2px"
+                            },
+                            {
+                                "type": "filler"
+                            }
+                        ],
+                        "flex": 0
+                    },
+                    {
+                        "type": "text",
+                        "text": "台語禮拜",
+                        "gravity": "center",
+                        "flex": 4,
+                        "size": "sm"
+                    }
+                ],
+                "spacing": "lg",
+                "cornerRadius": "30px",
+                "margin": "xl"
+            },
+            {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                            {
+                                "type": "filler"
+                            }
+                        ],
+                        "flex": 1
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "contents": [
+                                    {
+                                        "type": "filler"
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [],
+                                        "width": "2px",
+                                        "backgroundColor": "#B7B7B7"
+                                    },
+                                    {
+                                        "type": "filler"
+                                    }
+                                ],
+                                "flex": 1
+                            }
+                        ],
+                        "width": "12px"
+                    },
+                    {
+                        "type": "text",
+                        "text": "110 mins",
+                        "gravity": "center",
+                        "flex": 4,
+                        "size": "xs",
+                        "color": "#8c8c8c"
+                    }
+                ],
+                "spacing": "lg",
+                "height": "64px"
+            },
+            {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "11:10",
+                                "gravity": "center",
+                                "size": "sm"
+                            }
+                        ],
+                        "flex": 1
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "filler"
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [],
+                                "cornerRadius": "30px",
+                                "width": "12px",
+                                "height": "12px",
+                                "borderWidth": "2px",
+                                "borderColor": "#6486E3"
+                            },
+                            {
+                                "type": "filler"
+                            }
+                        ],
+                        "flex": 0
+                    },
+                    {
+                        "type": "text",
+                        "text": "華語禮拜",
+                        "gravity": "center",
+                        "flex": 4,
+                        "size": "sm"
+                    }
+                ],
+                "spacing": "lg",
+                "cornerRadius": "30px"
+            },
+            {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                            {
+                                "type": "filler"
+                            }
+                        ],
+                        "flex": 1
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "contents": [
+                                    {
+                                        "type": "filler"
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [],
+                                        "width": "2px",
+                                        "backgroundColor": "#6486E3"
+                                    },
+                                    {
+                                        "type": "filler"
+                                    }
+                                ],
+                                "flex": 1
+                            }
+                        ],
+                        "width": "12px"
+                    },
+                    {
+                        "type": "text",
+                        "text": "Metro 1hr",
+                        "gravity": "center",
+                        "flex": 4,
+                        "size": "xs",
+                        "color": "#8c8c8c"
+                    }
+                ],
+                "spacing": "lg",
+                "height": "64px"
+            },
+            {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "11:10",
+                                "gravity": "center",
+                                "size": "sm"
+                            }
+                        ],
+                        "flex": 1
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "filler"
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [],
+                                "cornerRadius": "30px",
+                                "width": "12px",
+                                "height": "12px",
+                                "borderWidth": "2px",
+                                "borderColor": "#6486E3"
+                            },
+                            {
+                                "type": "filler"
+                            }
+                        ],
+                        "flex": 0
+                    },
+                    {
+                        "type": "text",
+                        "text": "華語禮拜",
+                        "gravity": "center",
+                        "flex": 4,
+                        "size": "sm"
+                    }
+                ],
+                "spacing": "lg",
+                "cornerRadius": "30px"
+            }
+        ]
+    }
+}
