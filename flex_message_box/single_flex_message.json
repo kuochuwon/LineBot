@@ -13,7 +13,7 @@
         "contents": [
             {
                 "type": "text",
-                "text": "聚會時間",
+                "text": "主日聚會時間",
                 "color": "#0000C6",
                 "size": "xl",
                 "align": "center",
@@ -25,9 +25,10 @@
                 "contents": [
                     {
                         "type": "text",
-                        "text": "09:20",
+                        "text": "09:20 ~ 11:00",
                         "size": "sm",
-                        "gravity": "center"
+                        "margin": "none",
+                        "flex": 5
                     },
                     {
                         "type": "box",
@@ -50,7 +51,8 @@
                                 "type": "filler"
                             }
                         ],
-                        "flex": 0
+                        "flex": 0,
+                        "spacing": "none"
                     },
                     {
                         "type": "text",
@@ -60,112 +62,7 @@
                         "size": "sm"
                     }
                 ],
-                "spacing": "lg",
-                "cornerRadius": "30px",
-                "margin": "xl"
-            },
-            {
-                "type": "box",
-                "layout": "horizontal",
-                "contents": [
-                    {
-                        "type": "box",
-                        "layout": "baseline",
-                        "contents": [
-                            {
-                                "type": "filler"
-                            }
-                        ],
-                        "flex": 1
-                    },
-                    {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "box",
-                                "layout": "horizontal",
-                                "contents": [
-                                    {
-                                        "type": "filler"
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "vertical",
-                                        "contents": [],
-                                        "width": "2px",
-                                        "backgroundColor": "#B7B7B7"
-                                    },
-                                    {
-                                        "type": "filler"
-                                    }
-                                ],
-                                "flex": 1
-                            }
-                        ],
-                        "width": "12px"
-                    },
-                    {
-                        "type": "text",
-                        "text": "110 mins",
-                        "gravity": "center",
-                        "flex": 4,
-                        "size": "xs",
-                        "color": "#8c8c8c"
-                    }
-                ],
-                "spacing": "lg",
-                "height": "64px"
-            },
-            {
-                "type": "box",
-                "layout": "horizontal",
-                "contents": [
-                    {
-                        "type": "box",
-                        "layout": "horizontal",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "11:10",
-                                "gravity": "center",
-                                "size": "sm"
-                            }
-                        ],
-                        "flex": 1
-                    },
-                    {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "filler"
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [],
-                                "cornerRadius": "30px",
-                                "width": "12px",
-                                "height": "12px",
-                                "borderWidth": "2px",
-                                "borderColor": "#6486E3"
-                            },
-                            {
-                                "type": "filler"
-                            }
-                        ],
-                        "flex": 0
-                    },
-                    {
-                        "type": "text",
-                        "text": "華語禮拜",
-                        "gravity": "center",
-                        "flex": 4,
-                        "size": "sm"
-                    }
-                ],
-                "spacing": "lg",
+                "spacing": "40px",
                 "cornerRadius": "30px"
             },
             {
@@ -198,7 +95,7 @@
                                         "layout": "vertical",
                                         "contents": [],
                                         "width": "2px",
-                                        "backgroundColor": "#6486E3"
+                                        "backgroundColor": "#6C6C6C"
                                     },
                                     {
                                         "type": "filler"
@@ -207,11 +104,12 @@
                                 "flex": 1
                             }
                         ],
-                        "width": "12px"
+                        "width": "253px",
+                        "height": "30px"
                     },
                     {
                         "type": "text",
-                        "text": "Metro 1hr",
+                        "text": " ",
                         "gravity": "center",
                         "flex": 4,
                         "size": "xs",
@@ -219,24 +117,18 @@
                     }
                 ],
                 "spacing": "lg",
-                "height": "64px"
+                "height": "12px"
             },
             {
                 "type": "box",
                 "layout": "horizontal",
                 "contents": [
                     {
-                        "type": "box",
-                        "layout": "horizontal",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "11:10",
-                                "gravity": "center",
-                                "size": "sm"
-                            }
-                        ],
-                        "flex": 1
+                        "type": "text",
+                        "text": "11:10 ~ 12:00",
+                        "flex": 5,
+                        "size": "sm",
+                        "margin": "none"
                     },
                     {
                         "type": "box",
@@ -253,7 +145,7 @@
                                 "width": "12px",
                                 "height": "12px",
                                 "borderWidth": "2px",
-                                "borderColor": "#6486E3"
+                                "borderColor": "#EF454D"
                             },
                             {
                                 "type": "filler"
@@ -269,7 +161,304 @@
                         "size": "sm"
                     }
                 ],
+                "spacing": "40px",
+                "cornerRadius": "30px"
+            },
+            {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                            {
+                                "type": "filler"
+                            }
+                        ],
+                        "flex": 1
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "contents": [
+                                    {
+                                        "type": "filler"
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [],
+                                        "width": "2px",
+                                        "backgroundColor": "#6C6C6C"
+                                    },
+                                    {
+                                        "type": "filler"
+                                    }
+                                ],
+                                "flex": 2
+                            }
+                        ],
+                        "width": "253px",
+                        "height": "30px"
+                    },
+                    {
+                        "type": "text",
+                        "text": " ",
+                        "gravity": "center",
+                        "flex": 4,
+                        "size": "xs",
+                        "color": "#8c8c8c"
+                    }
+                ],
                 "spacing": "lg",
+                "height": "12px"
+            },
+            {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "09:30 ~ 11:00",
+                        "flex": 5,
+                        "size": "sm"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "filler"
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [],
+                                "cornerRadius": "30px",
+                                "width": "12px",
+                                "height": "12px",
+                                "borderWidth": "2px",
+                                "borderColor": "#EF454D"
+                            },
+                            {
+                                "type": "filler"
+                            }
+                        ],
+                        "flex": 0,
+                        "borderWidth": "2px"
+                    },
+                    {
+                        "type": "text",
+                        "text": "兒童主日學",
+                        "gravity": "center",
+                        "flex": 4,
+                        "size": "sm"
+                    }
+                ],
+                "spacing": "40px",
+                "cornerRadius": "30px"
+            },
+            {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                            {
+                                "type": "filler"
+                            }
+                        ],
+                        "flex": 1
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "contents": [
+                                    {
+                                        "type": "filler"
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [],
+                                        "width": "2px",
+                                        "backgroundColor": "#6C6C6C"
+                                    },
+                                    {
+                                        "type": "filler"
+                                    }
+                                ],
+                                "flex": 2
+                            }
+                        ],
+                        "width": "253px",
+                        "height": "30px"
+                    },
+                    {
+                        "type": "text",
+                        "text": " ",
+                        "gravity": "center",
+                        "flex": 4,
+                        "size": "xs",
+                        "color": "#8c8c8c"
+                    }
+                ],
+                "spacing": "lg",
+                "height": "12px"
+            },
+            {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "10:00 ~ 11:00",
+                        "flex": 5,
+                        "size": "sm"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "filler"
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [],
+                                "cornerRadius": "30px",
+                                "width": "12px",
+                                "height": "12px",
+                                "borderWidth": "2px",
+                                "borderColor": "#EF454D"
+                            },
+                            {
+                                "type": "filler"
+                            }
+                        ],
+                        "flex": 0,
+                        "borderWidth": "2px"
+                    },
+                    {
+                        "type": "text",
+                        "text": "青少年團契",
+                        "gravity": "center",
+                        "flex": 4,
+                        "size": "sm"
+                    }
+                ],
+                "spacing": "40px",
+                "cornerRadius": "30px"
+            },
+            {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                            {
+                                "type": "filler"
+                            }
+                        ],
+                        "flex": 1
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "contents": [
+                                    {
+                                        "type": "filler"
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [],
+                                        "width": "2px",
+                                        "backgroundColor": "#6C6C6C"
+                                    },
+                                    {
+                                        "type": "filler"
+                                    }
+                                ],
+                                "flex": 2
+                            }
+                        ],
+                        "width": "253px",
+                        "height": "30px"
+                    },
+                    {
+                        "type": "text",
+                        "text": " ",
+                        "gravity": "center",
+                        "flex": 4,
+                        "size": "xs",
+                        "color": "#8c8c8c"
+                    }
+                ],
+                "spacing": "lg",
+                "height": "12px"
+            },
+            {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "11:10 ~ 12:00",
+                        "flex": 5,
+                        "size": "sm"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "filler"
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [],
+                                "cornerRadius": "30px",
+                                "width": "12px",
+                                "height": "12px",
+                                "borderWidth": "2px",
+                                "borderColor": "#EF454D"
+                            },
+                            {
+                                "type": "filler"
+                            }
+                        ],
+                        "flex": 0,
+                        "borderWidth": "2px"
+                    },
+                    {
+                        "type": "text",
+                        "text": "社青團契",
+                        "gravity": "center",
+                        "flex": 4,
+                        "size": "sm"
+                    }
+                ],
+                "spacing": "40px",
                 "cornerRadius": "30px"
             }
         ]
