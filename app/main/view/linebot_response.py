@@ -88,46 +88,18 @@ def general_replyer(replytoken, msg, sticker=None):
     return result
 
 
-# def carousel_generator() -> list:
-#     with open((Path.cwd() / "backup_info/" / "carousel.json"), 'r', encoding="utf-8") as r:
-#         expect = json.load(r)
-#     return expect
-
-
-# # TODO 產生輪播內容
-# def sending_carousel_by_reply(replytoken):
-#     try:
-#         msg_list = carousel_generator()
-#         json_for_msg = dict(
-#             replyToken=replytoken,
-#             messages=msg_list
-#         )
-#         result = urllib_requests.post(
-#             LineConstant.OFFICIAL_REPLY_API,
-#             headers=LineConstant.push_header,
-#             json=json_for_msg)  # HINT must use json as parameter
-#         logger.debug("hello carousel")
-#         logger.debug(f"http status: {result.status_code}")
-#         logger.debug(f"http hint: {result.text}")
-#     except Exception as e:
-#         # logger.exception(f"exception code: {result.status_code}")
-#         logger.exception(f"sending carousel failed {e}")
-#     # return result
-
-
 def text_handler(payload) -> dict:
     user_id, msg_text, replytoken = message_preprocess(payload)
-    resp_code = match_keyword(msg_text)
 
+    # HINT: 使用match_keyword限制會傳入func_dict的參數，
+    # 如果是None就不會呼叫func_dict，
+    # 以免發生:TypeError: 'NoneType' object is not callable錯誤，有空找方法優化
+    resp_code = match_keyword(msg_text)
     if resp_code:
         func_dict.get(resp_code)(replytoken)
         msg = general_text("This is Flex message")
-    # if resp_code == 1:
-    #     sending_carousel_by_reply(replytoken)
-    #     msg = general_text("This is Flex message")
     else:
         invitation_url, replytoken = check_line_user(user_id, msg_text, replytoken)
-        # print(f"reply token: {replytoken}")
         logger.debug(f"reply token: {replytoken}")
         if invitation_url:
             text = (f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
@@ -139,7 +111,6 @@ def text_handler(payload) -> dict:
             msg = general_text(text)
         sticker = general_sticker(446, 1989)
         result = general_replyer(replytoken, msg, sticker)
-        # print(f"reply status code: {result.status_code}")
         logger.debug(f"reply status code: {result.status_code}")
     return msg
 
@@ -205,13 +176,11 @@ def file_handler(payload):
     if conflict_flag == 0:
         insert_duties_db(member_duties)
 
-    # print(f"-------check result: {check_result} -------------")
     logger.debug(f"check result: {check_result}")
 
     msg = general_text(check_result)
     sticker = general_sticker(446, 1989)
     result = general_replyer(replytoken, msg, sticker)
-    # print(f"reply status code: {result.status_code}")
     logger.debug(f"reply status code: {result.status_code}")
     return msg
 
@@ -252,10 +221,7 @@ def retrieve_notify_token_from_callback(request):
         files.update({"redirect_uri": LineConstant.NOTIFY.get('local_URI')})
     else:  # Linux
         files.update({"redirect_uri": LineConstant.NOTIFY.get('remote_URI')})
-    # print("------------")
-    # print("code",  code)  # for debug
     logger.debug(f"Notify code is {code}")
-    # print("------------")
 
     # HINT magic method, 從網路上抄的，還不確定是否一定要這樣寫 https://stackoverflow.com/questions/20759981/python-trying-to-post-form-using-requests by atupal # noqa
     session = urllib_requests.Session()
@@ -265,19 +231,14 @@ def retrieve_notify_token_from_callback(request):
         params=files
     )
     output = json.loads(result.text)
-    # print("------------")
-    # print(f"output: {output}")
     logger.debug(f"Notify output is {output}")
-    # print("------------")
     access_token = output.get("access_token")
-    # append_notify_token(user_id, access_token)
     try:
         obj = sdUser().update(user_id, access_token)
         db.session.add(obj)
         db.session.commit()
 
     except Exception as e:
-        # print(f"failed to update user: {e}")
         logger.exception(f"failed to update user: {e}")
     finally:
         db.session.close()
@@ -306,6 +267,5 @@ def webhook_message_checker(payload):
         else:
             return False
     except Exception as e:
-        # print(f"-------invalid payload: {e}-------")
         logger.exception(f"invalid payload: {e}")
         return False

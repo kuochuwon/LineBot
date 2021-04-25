@@ -9,14 +9,17 @@
                     "type": "bubble",
                     "hero": {
                         "type": "image",
-                        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+                        "url": "https://i.imgur.com/WX923lW.jpg",
                         "size": "full",
                         "aspectRatio": "20:13",
                         "aspectMode": "cover",
                         "action": {
                             "type": "uri",
                             "uri": "http://linecorp.com/"
-                        }
+                        },
+                        "margin": "xs",
+                        "align": "start",
+                        "gravity": "top"
                     },
                     "body": {
                         "type": "box",
@@ -24,49 +27,16 @@
                         "contents": [
                             {
                                 "type": "text",
-                                "text": "將來是教會首頁",
+                                "text": "七張長老教會",
                                 "weight": "bold",
-                                "size": "xl"
+                                "size": "xl",
+                                "align": "center"
                             },
                             {
                                 "type": "box",
                                 "layout": "baseline",
                                 "margin": "md",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "sm",
-                                        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "sm",
-                                        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "sm",
-                                        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "sm",
-                                        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "sm",
-                                        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "sm",
-                                        "color": "#999999",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
+                                "contents": []
                             },
                             {
                                 "type": "box",
@@ -81,14 +51,14 @@
                                         "contents": [
                                             {
                                                 "type": "text",
-                                                "text": "Place",
+                                                "text": "地址",
                                                 "color": "#aaaaaa",
                                                 "size": "sm",
                                                 "flex": 1
                                             },
                                             {
                                                 "type": "text",
-                                                "text": "Miraina Tower, 4-1-6 Shinjuku, Tokyo",
+                                                "text": "231新北市新店區平等街9號",
                                                 "wrap": true,
                                                 "color": "#666666",
                                                 "size": "sm",
@@ -103,14 +73,14 @@
                                         "contents": [
                                             {
                                                 "type": "text",
-                                                "text": "Time",
+                                                "text": "電話",
                                                 "color": "#aaaaaa",
                                                 "size": "sm",
                                                 "flex": 1
                                             },
                                             {
                                                 "type": "text",
-                                                "text": "10:00 - 23:00",
+                                                "text": "02-29118765",
                                                 "wrap": true,
                                                 "color": "#666666",
                                                 "size": "sm",
@@ -129,13 +99,26 @@
                         "contents": [
                             {
                                 "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "在地圖上查看",
+                                    "uri": "https://goo.gl/maps/LkuRvDnTaTwChudD8"
+                                },
+                                "margin": "none",
+                                "offsetTop": "none",
+                                "offsetBottom": "none"
+                            },
+                            {
+                                "type": "button",
                                 "style": "link",
                                 "height": "sm",
                                 "action": {
                                     "type": "uri",
                                     "label": "CALL",
                                     "uri": "https://linecorp.com"
-                                }
+                                },
+                                "offsetTop": "none",
+                                "offsetBottom": "none"
                             },
                             {
                                 "type": "button",
@@ -159,7 +142,7 @@
                     "type": "bubble",
                     "hero": {
                         "type": "image",
-                        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+                        "url": "https://i.imgur.com/AXmoPiQ.jpg",
                         "size": "full",
                         "aspectRatio": "20:13",
                         "aspectMode": "cover",
@@ -174,101 +157,11 @@
                         "contents": [
                             {
                                 "type": "text",
-                                "text": "將來是講道錄影",
+                                "text": "主日禮拜錄影",
                                 "weight": "bold",
-                                "size": "xl"
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "margin": "md",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "sm",
-                                        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "sm",
-                                        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "sm",
-                                        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "sm",
-                                        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "sm",
-                                        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "sm",
-                                        "color": "#999999",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "margin": "lg",
-                                "spacing": "sm",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "Place",
-                                                "color": "#aaaaaa",
-                                                "size": "sm",
-                                                "flex": 1
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": "Miraina Tower, 4-1-6 Shinjuku, Tokyo",
-                                                "wrap": true,
-                                                "color": "#666666",
-                                                "size": "sm",
-                                                "flex": 5
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "Time",
-                                                "color": "#aaaaaa",
-                                                "size": "sm",
-                                                "flex": 1
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": "10:00 - 23:00",
-                                                "wrap": true,
-                                                "color": "#666666",
-                                                "size": "sm",
-                                                "flex": 5
-                                            }
-                                        ]
-                                    }
-                                ]
+                                "size": "xl",
+                                "decoration": "none",
+                                "align": "center"
                             }
                         ]
                     },
@@ -283,18 +176,11 @@
                                 "height": "sm",
                                 "action": {
                                     "type": "uri",
-                                    "label": "CALL",
-                                    "uri": "https://linecorp.com"
-                                }
-                            },
-                            {
-                                "type": "button",
-                                "style": "link",
-                                "height": "sm",
-                                "action": {
-                                    "type": "uri",
-                                    "label": "WEBSITE",
-                                    "uri": "https://linecorp.com"
+                                    "label": "前往YouTube頻道",
+                                    "uri": "https://www.youtube.com/user/7pctvedio",
+                                    "altUri": {
+                                        "desktop": "https://www.youtube.com/user/7pctvedio"
+                                    }
                                 }
                             },
                             {
