@@ -77,17 +77,22 @@ def general_text(text: str):
 
 
 def general_replyer(replytoken, msg, sticker=None):
-    json_for_msg = dict(
-        replyToken=replytoken,
-        messages=[msg, sticker] if sticker else msg
-    )
-    # print(f"json_for_msg: {json_for_msg}")
-    logger.debug(f"json_for_msg: {json_for_msg}")
-    result = urllib_requests.post(
-        LineConstant.OFFICIAL_REPLY_API,
-        headers=LineConstant.push_header,
-        json=json_for_msg)  # HINT must use json as parameter
-    return result
+    try:
+        json_for_msg = dict(
+            replyToken=replytoken,
+            messages=[msg, sticker] if sticker else msg
+        )
+        # print(f"json_for_msg: {json_for_msg}")
+        logger.debug(f"json_for_msg: {json_for_msg}")
+        result = urllib_requests.post(
+            LineConstant.OFFICIAL_REPLY_API,
+            headers=LineConstant.push_header,
+            json=json_for_msg)  # HINT must use json as parameter
+        logger.debug(f"http code: {result.status_code}, http text: {result.text}")
+        return result
+    except Exception as e:
+        logger.exception(f"reply failed: {e}")
+        raise
 
 
 def text_handler(payload) -> dict:
@@ -101,7 +106,7 @@ def text_handler(payload) -> dict:
         func_dict.get(resp_code)(replytoken)
         msg = general_text("This is Flex message")
 
-    if msg_text[:4] == "服事提醒":
+    elif msg_text[:4] == "服事提醒":
         user_name = msg_text.split(" ")[1]
         invitation_url, replytoken = check_line_user(user_id, user_name, replytoken)
         logger.debug(f"reply token: {replytoken}")
