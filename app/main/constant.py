@@ -34,11 +34,17 @@ class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈
         Windows="http://127.0.0.1:5000/api/v1/linebot/push"
     )
 
-    RESPONSE_CODE = dict(
-        教會首頁='1',
-        導覽='2',
-        好笑嗎='3'
-    )
+    # RESPONSE_CODE = dict(
+    #     教會首頁='1',
+    #     導覽='2',
+    #     好笑嗎='3'
+    # )
+
+    RESPONSE_CODE = {
+        "教會首頁": "1",
+        "導覽": "2",
+        "好笑嗎?": "3"
+    }
 
 
 class SundayWorship:
