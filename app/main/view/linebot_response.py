@@ -79,7 +79,7 @@ def general_text(text: str):
 def general_replyer(replytoken, msg, sticker=None):
     json_for_msg = dict(
         replyToken=replytoken,
-        messages=[msg, sticker]
+        messages=[msg, sticker] if sticker else msg
     )
     # print(f"json_for_msg: {json_for_msg}")
     logger.debug(f"json_for_msg: {json_for_msg}")
