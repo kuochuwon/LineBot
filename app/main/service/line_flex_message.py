@@ -29,3 +29,11 @@ def sending_carousel_by_reply(replytoken):
     except Exception as e:
         # logger.exception(f"exception code: {result.status_code}")
         logger.exception(f"sending carousel failed {e}")
+
+
+def sending_tutorial(replytoken):
+    logger.debug("觸發教學流程")
+
+
+def sending_joke(replytoken):
+    logger.debug("觸發說笑話")

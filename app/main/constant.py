@@ -35,7 +35,9 @@ class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈
     )
 
     RESPONSE_CODE = dict(
-        教會首頁='1'
+        教會首頁='1',
+        導覽='2',
+        好笑嗎='3'
     )
 
 

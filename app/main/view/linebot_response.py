@@ -9,10 +9,12 @@ from app.main.constant import LineConstant
 from app.main.model.user import sdUser
 from app.main.service.word_docx_processor import WordParser, PostProcess
 from app.main.log import logger
-from app.main.service.line_flex_message import sending_carousel_by_reply
+from app.main.service.line_flex_message import sending_carousel_by_reply, sending_tutorial, sending_joke
 
 func_dict = {
-    "1": sending_carousel_by_reply
+    "1": sending_carousel_by_reply,
+    "2": sending_tutorial,
+    "3": sending_joke
 }
 
 
@@ -98,8 +100,10 @@ def text_handler(payload) -> dict:
     if resp_code:
         func_dict.get(resp_code)(replytoken)
         msg = general_text("This is Flex message")
-    else:
-        invitation_url, replytoken = check_line_user(user_id, msg_text, replytoken)
+
+    if msg_text[:4] == "服事提醒":
+        user_name = msg_text.split(" ")[1]
+        invitation_url, replytoken = check_line_user(user_id, user_name, replytoken)
         logger.debug(f"reply token: {replytoken}")
         if invitation_url:
             text = (f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
@@ -111,6 +115,12 @@ def text_handler(payload) -> dict:
             msg = general_text(text)
         sticker = general_sticker(446, 1989)
         result = general_replyer(replytoken, msg, sticker)
+        logger.debug(f"reply status code: {result.status_code}")
+
+    else:
+        text = "已收到訊息。"
+        msg = general_text(text)
+        result = general_replyer(replytoken, msg)
         logger.debug(f"reply status code: {result.status_code}")
     return msg
 
