@@ -80,7 +80,7 @@ def general_replyer(replytoken, msg, sticker=None):
     try:
         json_for_msg = dict(
             replyToken=replytoken,
-            messages=[msg, sticker] if sticker else msg
+            messages=[msg, sticker] if sticker else [msg]
         )
         # print(f"json_for_msg: {json_for_msg}")
         logger.debug(f"json_for_msg: {json_for_msg}")
@@ -88,7 +88,7 @@ def general_replyer(replytoken, msg, sticker=None):
             LineConstant.OFFICIAL_REPLY_API,
             headers=LineConstant.push_header,
             json=json_for_msg)  # HINT must use json as parameter
-        logger.debug(f"http code: {result.status_code}, http text: {result.text}")
+        # logger.debug(f"http code: {result.status_code}, http text: {result.text}")
         return result
     except Exception as e:
         logger.exception(f"reply failed: {e}")
@@ -120,13 +120,13 @@ def text_handler(payload) -> dict:
             msg = general_text(text)
         sticker = general_sticker(446, 1989)
         result = general_replyer(replytoken, msg, sticker)
-        logger.debug(f"reply status code: {result.status_code}")
+        logger.debug(f"http code: {result.status_code}, http text: {result.text}")
 
     else:
         text = "已收到訊息。"
         msg = general_text(text)
         result = general_replyer(replytoken, msg)
-        logger.debug(f"reply status code: {result.status_code}")
+        logger.debug(f"http code: {result.status_code}, http text: {result.text}")
     return msg
 
 
