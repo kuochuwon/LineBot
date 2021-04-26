@@ -84,10 +84,7 @@ class Webhook(Resource):
     def post(self):
         """ line bot response """
         payload = request.json
-        # print("------------")
-        # print(payload)  # for debug
         logger.debug(f"webhook payload: {payload}")
-        # print("------------")
         response = None
         if webhook_message_checker(payload) == "text":
             response = text_handler(payload)

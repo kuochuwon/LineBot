@@ -82,13 +82,11 @@ def general_replyer(replytoken, msg, sticker=None):
             replyToken=replytoken,
             messages=[msg, sticker] if sticker else [msg]
         )
-        # print(f"json_for_msg: {json_for_msg}")
         logger.debug(f"json_for_msg: {json_for_msg}")
         result = urllib_requests.post(
             LineConstant.OFFICIAL_REPLY_API,
             headers=LineConstant.push_header,
             json=json_for_msg)  # HINT must use json as parameter
-        # logger.debug(f"http code: {result.status_code}, http text: {result.text}")
         return result
     except Exception as e:
         logger.exception(f"reply failed: {e}")
@@ -104,9 +102,9 @@ def text_handler(payload) -> dict:
     resp_code = match_keyword(msg_text)
     if resp_code:
         func_dict.get(resp_code)(replytoken)
-        msg = general_text("This is Flex message")
+        msg = general_text("The message matched keyword!")
 
-    elif msg_text[:4] == "服事提醒":
+    elif msg_text[:5] == "服事提醒 ":  # HINT 檢查使用者是否輸入正確關鍵字及'空格'
         user_name = msg_text.split(" ")[1]
         invitation_url, replytoken = check_line_user(user_id, user_name, replytoken)
         logger.debug(f"reply token: {replytoken}")

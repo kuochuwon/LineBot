@@ -653,6 +653,204 @@
                                 ],
                                 "spacing": "40px",
                                 "cornerRadius": "30px"
+                            },
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "contents": [
+                                    {
+                                        "type": "box",
+                                        "layout": "baseline",
+                                        "contents": [
+                                            {
+                                                "type": "filler"
+                                            }
+                                        ],
+                                        "flex": 1
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "box",
+                                                "layout": "horizontal",
+                                                "contents": [
+                                                    {
+                                                        "type": "filler"
+                                                    },
+                                                    {
+                                                        "type": "box",
+                                                        "layout": "vertical",
+                                                        "contents": [],
+                                                        "width": "2px",
+                                                        "backgroundColor": "#6C6C6C"
+                                                    },
+                                                    {
+                                                        "type": "filler"
+                                                    }
+                                                ],
+                                                "flex": 2
+                                            }
+                                        ],
+                                        "width": "253px",
+                                        "height": "30px"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " ",
+                                        "gravity": "center",
+                                        "flex": 4,
+                                        "size": "xs",
+                                        "color": "#8c8c8c"
+                                    }
+                                ],
+                                "spacing": "lg",
+                                "height": "12px"
+                            },
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "11:10 ~ 12:00",
+                                        "flex": 5,
+                                        "size": "sm"
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "filler"
+                                            },
+                                            {
+                                                "type": "box",
+                                                "layout": "vertical",
+                                                "contents": [],
+                                                "cornerRadius": "30px",
+                                                "width": "12px",
+                                                "height": "12px",
+                                                "borderWidth": "2px",
+                                                "borderColor": "#EF454D"
+                                            },
+                                            {
+                                                "type": "filler"
+                                            }
+                                        ],
+                                        "flex": 0,
+                                        "borderWidth": "2px"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "松年團契",
+                                        "gravity": "center",
+                                        "flex": 4,
+                                        "size": "sm"
+                                    }
+                                ],
+                                "spacing": "40px",
+                                "cornerRadius": "30px"
+                            },
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "contents": [
+                                    {
+                                        "type": "box",
+                                        "layout": "baseline",
+                                        "contents": [
+                                            {
+                                                "type": "filler"
+                                            }
+                                        ],
+                                        "flex": 1
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "box",
+                                                "layout": "horizontal",
+                                                "contents": [
+                                                    {
+                                                        "type": "filler"
+                                                    },
+                                                    {
+                                                        "type": "box",
+                                                        "layout": "vertical",
+                                                        "contents": [],
+                                                        "width": "2px",
+                                                        "backgroundColor": "#6C6C6C"
+                                                    },
+                                                    {
+                                                        "type": "filler"
+                                                    }
+                                                ],
+                                                "flex": 2
+                                            }
+                                        ],
+                                        "width": "253px",
+                                        "height": "30px"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " ",
+                                        "gravity": "center",
+                                        "flex": 4,
+                                        "size": "xs",
+                                        "color": "#8c8c8c"
+                                    }
+                                ],
+                                "spacing": "lg",
+                                "height": "12px"
+                            },
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "12:45 ~ 14:00",
+                                        "flex": 5,
+                                        "size": "sm"
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "filler"
+                                            },
+                                            {
+                                                "type": "box",
+                                                "layout": "vertical",
+                                                "contents": [],
+                                                "cornerRadius": "30px",
+                                                "width": "12px",
+                                                "height": "12px",
+                                                "borderWidth": "2px",
+                                                "borderColor": "#EF454D"
+                                            },
+                                            {
+                                                "type": "filler"
+                                            }
+                                        ],
+                                        "flex": 0,
+                                        "borderWidth": "2px"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "婦女團契",
+                                        "gravity": "center",
+                                        "flex": 4,
+                                        "size": "sm"
+                                    }
+                                ],
+                                "spacing": "40px",
+                                "cornerRadius": "30px"
                             }
                         ]
                     }
