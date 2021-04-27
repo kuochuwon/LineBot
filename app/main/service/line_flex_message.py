@@ -48,8 +48,7 @@ def sending_tutorial(replytoken):
     #     "type": "text",
     #     "text": "Hello"
     # }
-    general_reply(replytoken, tutorial_1)
-    general_reply(replytoken, tutorial_2)
+    general_reply(replytoken, [tutorial_1, tutorial_2])
     logger.debug("觸發教學流程")
 
 

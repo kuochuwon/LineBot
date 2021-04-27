@@ -1,6 +1,7 @@
 import requests as urllib_requests
 from app.main.constant import LineConstant
 from app.main.log import logger
+from typing import List
 
 # TODO 產生輪播內容
 
@@ -21,11 +22,11 @@ def general_flex_reply(replytoken, msg):
         logger.exception(f"sending carousel failed {e}")
 
 
-def general_reply(replytoken, msg, sticker=None):
+def general_reply(replytoken, msgs: List[dict]):
     try:
         json_for_msg = dict(
             replyToken=replytoken,
-            messages=[msg, sticker] if sticker else [msg]
+            messages=msgs
         )
         result = urllib_requests.post(
             LineConstant.OFFICIAL_REPLY_API,
