@@ -4,7 +4,7 @@ from pathlib import Path
 from app.main.constant import LineConstant
 from app.main.log import logger
 from app.main.model.bible import Bible
-from app.main.service.line_tools import general_reply
+from app.main.service.line_tools import general_flex_reply
 
 
 def get_general_carousel(filename) -> list:
@@ -42,5 +42,5 @@ def sending_bible_sentence(replytoken):
     bible: Bible = Bible.get_by_random()
     flex_message[0]["contents"]["body"]["contents"][0]["contents"][0]["contents"][0]["text"] = bible.sentence
     flex_message[0]["contents"]["body"]["contents"][0]["contents"][1]["contents"][0]["text"] = bible.locate
-    general_reply(replytoken, flex_message)
+    general_flex_reply(replytoken, flex_message)
     logger.debug("觸發讀經")

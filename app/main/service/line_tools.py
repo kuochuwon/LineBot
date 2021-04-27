@@ -5,11 +5,11 @@ from app.main.log import logger
 # TODO 產生輪播內容
 
 
-def general_reply(replytoken, msg, sticker=None):
+def general_flex_reply(replytoken, msg):
     try:
         json_for_msg = dict(
             replyToken=replytoken,
-            messages=[msg, sticker] if sticker else [msg]
+            messages=msg
         )
         result = urllib_requests.post(
             LineConstant.OFFICIAL_REPLY_API,
