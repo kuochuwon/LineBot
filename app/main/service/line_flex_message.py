@@ -38,7 +38,6 @@ def sending_tutorial(replytoken):
         "type": "image",
         "originalContentUrl": tutorial_1,
         "previewImageUrl": tutorial_1,
-        "animated": True
     }
     general_flex_reply(replytoken, replyMsg)
     logger.debug("觸發教學流程")
