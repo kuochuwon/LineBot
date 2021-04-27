@@ -4,7 +4,7 @@ from pathlib import Path
 from app.main.constant import LineConstant
 from app.main.log import logger
 from app.main.model.bible import Bible
-from app.main.service.line_tools import general_flex_reply
+from app.main.service.line_tools import general_flex_reply, general_reply
 
 
 def get_general_carousel(filename) -> list:
@@ -32,14 +32,24 @@ def sending_church_carousel_by_reply(replytoken):
 
 
 def sending_tutorial(replytoken):
-    tutorial_1 = "https://i.imgur.com/nYq2Aud.png"
-    tutorial_2 = "https://i.imgur.com/SutrRum.png"
-    replyMsg = {
+    pic_1 = "https://i.imgur.com/nYq2Aud.png"
+    pic_2 = "https://i.imgur.com/SutrRum.png"
+    tutorial_1 = {
         "type": "image",
-        "originalContentUrl": tutorial_1,
-        "previewImageUrl": tutorial_1
+        "originalContentUrl": pic_1,
+        "previewImageUrl": pic_1
     }
-    general_flex_reply(replytoken, replyMsg)
+    tutorial_2 = {
+        "type": "image",
+        "originalContentUrl": pic_2,
+        "previewImageUrl": pic_2
+    }
+    # replyMsg = {
+    #     "type": "text",
+    #     "text": "Hello"
+    # }
+    general_reply(replytoken, tutorial_1)
+    general_reply(replytoken, tutorial_2)
     logger.debug("觸發教學流程")
 
 
