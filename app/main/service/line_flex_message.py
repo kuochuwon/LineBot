@@ -32,6 +32,15 @@ def sending_church_carousel_by_reply(replytoken):
 
 
 def sending_tutorial(replytoken):
+    tutorial_1 = "https://i.imgur.com/nYq2Aud.png"
+    tutorial_2 = "https://i.imgur.com/SutrRum.png"
+    replyMsg = {
+        "type": "image",
+        "originalContentUrl": tutorial_1,
+        "previewImageUrl": tutorial_1,
+        "animated": True
+    }
+    general_flex_reply(replytoken, replyMsg)
     logger.debug("觸發教學流程")
 
 
