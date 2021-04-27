@@ -14,21 +14,43 @@ class WordParser:
         else:
             print(f"file: {input_file} not found, use template file instead.")
             logger.info(f"file: {input_file} not found, use template file instead.")
-            input_file = "季表格式調整.docx"
-            # input_file = "季表格式調整 - 複製.docx"  # HINT for Debug
+            input_file = "2021夏季季表_測試衝突.docx"
+            # input_file = "2020春季季表.docx"  # HINT for Debug
 
         # HINT link: https://stackoverflow.com/questions/27861732/parsing-of-table-from-docx-file/27862205
         word = Document(Path.cwd() / "downloads/" / input_file)
         data = self.parse_docx(word)
-        self.chi_raw = data[2:14]
-        self.tai_raw = data[22:34]
+
+        # self.tai_raw = data[2:14]
+        # self.chi_raw = data[22:34]
+
+        # HINT 這邊不能寫死，要判斷該行是否為輪值資料，以免遇到當月有三週或五週，就會抓錯資料
+        self.tai_raw = []
+        self.chi_raw = []
+        index_l,  self.tai_raw = self.fetch_raw_duties(data, self.tai_raw)
+        index = index_l[-1]
+        index_l,  self.chi_raw = self.fetch_raw_duties(data[index:], self.chi_raw)
+
         self.chi_duties = dict()
         self.tai_duties = dict()
         self.sum_names = set()
-        self.chi_index = {k: self.regex(v) for k, v in enumerate(data[1])}  # 原始值含有空白
-        self.tai_index = {k: self.regex(v) for k, v in enumerate(data[21])}  # 原始值含有空白
+        self.tai_index = {k: self.regex(v) for k, v in enumerate(data[1])}  # 原始值含有空白
+        self.chi_index = {k: self.regex(v) for k, v in enumerate(data[21])}  # 原始值含有空白
         self.chi_subject = SundayWorship.chinese_subject
         self.tai_subject = SundayWorship.taiwan_subject
+
+    def fetch_raw_duties(self, data, container: list):
+        conv_flag = False
+        index_l = []
+        for index, elem in enumerate(data):
+            if SundayWorship.month_convert.get(elem[0][0]):
+                index_l.append(index)
+                container.append(elem)
+                conv_flag = True
+            else:
+                if conv_flag:
+                    index_l.append(index)
+                    return index_l, container
 
     def regex(self, s):
         return re.sub(r"[ \n\t]", "", s)

@@ -1,0 +1,65 @@
+[
+    {
+        "type": "flex",
+        "altText": "This is a Flex Message",
+        "contents": {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "url": "https://i.imgur.com/nRSUNf2.jpg",
+                "size": "full",
+                "aspectRatio": "20:13",
+                "aspectMode": "cover",
+                "action": {
+                    "type": "uri",
+                    "uri": "http://linecorp.com/"
+                }
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "margin": "lg",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "吃一塊硬餅乾而心安理得， 勝過滿桌酒肉而相爭相吵。",
+                                        "wrap": true,
+                                        "color": "#666666",
+                                        "size": "xl",
+                                        "flex": 5
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "箴言十七:1",
+                                        "wrap": true,
+                                        "color": "#666666",
+                                        "size": "md",
+                                        "flex": 5,
+                                        "align": "center"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+]

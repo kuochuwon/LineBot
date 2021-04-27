@@ -9,12 +9,12 @@ from app.main.constant import LineConstant
 from app.main.model.user import sdUser
 from app.main.service.word_docx_processor import WordParser, PostProcess
 from app.main.log import logger
-from app.main.service.line_flex_message import sending_carousel_by_reply, sending_tutorial, sending_joke
+from app.main.service.line_flex_message import sending_bible_sentence, sending_church_carousel_by_reply, sending_tutorial
 
 func_dict = {
-    "1": sending_carousel_by_reply,
+    "1": sending_church_carousel_by_reply,
     "2": sending_tutorial,
-    "3": sending_joke
+    "3": sending_bible_sentence
 }
 
 

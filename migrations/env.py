@@ -12,6 +12,7 @@ from app.main.model.customer import sdCustomer  # noqa
 from app.main.model.user_group import sdUserGroup  # noqa
 from app.main.model.user import sdUser  # noqa
 from app.main.model.task import sdTask  # noqa
+from app.main.model.bible import Bible  # noqa
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
