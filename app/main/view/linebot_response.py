@@ -1,3 +1,4 @@
+from app.main.service.line_tools import general_reply
 from app.main.model.task import sdTask
 from pathlib import Path
 import json
@@ -109,22 +110,24 @@ def text_handler(payload) -> dict:
         invitation_url, replytoken = check_line_user(user_id, user_name, replytoken)
         logger.debug(f"reply token: {replytoken}")
         if invitation_url:
-            text = (f"平安，已經將您的資料建檔，為了進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
+            text = (f"平安，您的資料已建檔，為進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
                     f"連結: {invitation_url}")
             msg = general_text(text)
         else:
-            text = (f"平安，您的資料已建檔，若下週輪到您服事，我會事先通知您~\n"
+            text = (f"平安，資料庫已有您的資料，不須重複申請，若下週輪到您服事，我會事先通知您~\n"
                     f"敬請期待未來更多功能上線。")
             msg = general_text(text)
         sticker = general_sticker(446, 1989)
-        result = general_replyer(replytoken, msg, sticker)
-        logger.debug(f"http code: {result.status_code}, http text: {result.text}")
+        # result = general_replyer(replytoken, msg, sticker)
+        general_reply(replytoken, [msg, sticker])
+        # logger.debug(f"http code: {result.status_code}, http text: {result.text}")
 
     else:
         text = "已收到訊息。"
         msg = general_text(text)
-        result = general_replyer(replytoken, msg)
-        logger.debug(f"http code: {result.status_code}, http text: {result.text}")
+        # result = general_replyer(replytoken, msg)
+        general_reply(replytoken, [msg])
+        # logger.debug(f"http code: {result.status_code}, http text: {result.text}")
     return msg
 
 
@@ -193,8 +196,9 @@ def file_handler(payload):
 
     msg = general_text(check_result)
     sticker = general_sticker(446, 1989)
-    result = general_replyer(replytoken, msg, sticker)
-    logger.debug(f"reply status code: {result.status_code}")
+    general_reply(replytoken, [msg, sticker])
+    # result = general_replyer(replytoken, msg, sticker)
+    # logger.debug(f"reply status code: {result.status_code}")
     return msg
 
 
