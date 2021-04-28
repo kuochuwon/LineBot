@@ -1,16 +1,18 @@
-from app.main.service.line_tools import general_reply
-from app.main.model.task import sdTask
-from pathlib import Path
 import json
-import platform
 import os
+import platform
+from pathlib import Path
+
 import requests as urllib_requests
 from app.main import db
 from app.main.constant import LineConstant
-from app.main.model.user import sdUser
-from app.main.service.word_docx_processor import WordParser, PostProcess
 from app.main.log import logger
-from app.main.service.line_flex_message import sending_bible_sentence, sending_church_carousel_by_reply, sending_tutorial
+from app.main.model.task import sdTask
+from app.main.model.user import sdUser
+from app.main.service.line_flex_message import (
+    sending_bible_sentence, sending_church_carousel_by_reply, sending_tutorial)
+from app.main.service.line_tools import general_reply
+from app.main.service.word_docx_processor import PostProcess, WordParser
 
 func_dict = {
     "1": sending_church_carousel_by_reply,
@@ -42,16 +44,15 @@ def notify_handler(payload):
             response = {"hint": "訊息發送成功"}
         return response
     except Exception as e:
-        # print(f"notify failed: {e}")
         logger.exception(f"notify failed: {e}")
         raise
 
 
-def check_line_user(user_id, msg_text, replytoken):
+def check_line_user(user_id, user_name, replytoken):
     invitation_url = ""
     search_res = sdUser.search(user_id)
     if search_res is None:
-        add_line_user_to_db(search_res, msg_text, user_id)
+        add_line_user_to_db(search_res, user_name, user_id)
         invitation_url = generate_url(user_id)
     return invitation_url, replytoken
 
@@ -118,16 +119,12 @@ def text_handler(payload) -> dict:
                     f"敬請期待未來更多功能上線。")
             msg = general_text(text)
         sticker = general_sticker(446, 1989)
-        # result = general_replyer(replytoken, msg, sticker)
         general_reply(replytoken, [msg, sticker])
-        # logger.debug(f"http code: {result.status_code}, http text: {result.text}")
 
     else:
         text = "已收到訊息。"
         msg = general_text(text)
-        # result = general_replyer(replytoken, msg)
         general_reply(replytoken, [msg])
-        # logger.debug(f"http code: {result.status_code}, http text: {result.text}")
     return msg
 
 
@@ -197,8 +194,6 @@ def file_handler(payload):
     msg = general_text(check_result)
     sticker = general_sticker(446, 1989)
     general_reply(replytoken, [msg, sticker])
-    # result = general_replyer(replytoken, msg, sticker)
-    # logger.debug(f"reply status code: {result.status_code}")
     return msg
 
 
@@ -210,14 +205,13 @@ def generate_url(user_id: str):
     return invitation_url
 
 
-def add_line_user_to_db(search_res, msg_text, user_id):
+def add_line_user_to_db(search_res, user_name, user_id):
     if search_res is None:
         try:
-            obj = sdUser().add(msg_text, user_id)
+            obj = sdUser().add(user_name, user_id)
             db.session.add(obj)
             db.session.commit()
         except Exception as e:
-            # print((f"failed to update data to SQL: {str(e)}"))
             logger.exception(f"failed to update data to SQL: {str(e)}")
             db.session.rollback()
             raise
