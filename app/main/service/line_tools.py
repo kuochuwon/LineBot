@@ -22,7 +22,27 @@ def general_flex_reply(replytoken, msg):
         logger.exception(f"sending carousel failed {e}")
 
 
-def general_reply(replytoken, msgs: List[dict]):
+# def get_reply_json(replytoken, msgs, mode):
+#     json_for_msg = dict(
+#         replyToken=replytoken,
+#         messages=msgs
+#     )
+#     return json_for_msg
+# def get_reply_json(replytoken, msgs, mode):
+#     if mode == 0:  # flex message
+#         json_for_msg = dict(
+#             replyToken=replytoken,
+#             messages=msgs
+#         )
+#     elif mode == 1:  # simple message
+#         json_for_msg = dict(
+#             replyToken=replytoken,
+#             messages=msgs
+#         )
+#     return json_for_msg
+
+
+def general_reply(replytoken, msgs):
     try:
         json_for_msg = dict(
             replyToken=replytoken,

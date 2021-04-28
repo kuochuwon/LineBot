@@ -17,16 +17,17 @@ def get_general_carousel(filename) -> list:
 def sending_church_carousel_by_reply(replytoken):
     try:
         flex_message = get_general_carousel("church_homepage.json")
-        json_for_msg = dict(
-            replyToken=replytoken,
-            messages=flex_message
-        )
-        result = urllib_requests.post(
-            LineConstant.OFFICIAL_REPLY_API,
-            headers=LineConstant.push_header,
-            json=json_for_msg)  # HINT must use json as parameter
-        logger.debug(f"http status: {result.status_code}")
-        logger.debug(f"http hint: {result.text}")
+        general_reply(replytoken, flex_message)
+        # json_for_msg = dict(
+        #     replyToken=replytoken,
+        #     messages=flex_message
+        # )
+        # result = urllib_requests.post(
+        #     LineConstant.OFFICIAL_REPLY_API,
+        #     headers=LineConstant.push_header,
+        #     json=json_for_msg)  # HINT must use json as parameter
+        # logger.debug(f"http status: {result.status_code}")
+        # logger.debug(f"http hint: {result.text}")
     except Exception as e:
         logger.exception(f"sending carousel failed {e}")
 
@@ -59,5 +60,6 @@ def sending_bible_sentence(replytoken):
     bible: Bible = Bible.get_by_random()
     flex_message[0]["contents"]["body"]["contents"][0]["contents"][0]["contents"][0]["text"] = bible.sentence
     flex_message[0]["contents"]["body"]["contents"][0]["contents"][1]["contents"][0]["text"] = bible.locate
-    general_flex_reply(replytoken, flex_message)
+    general_reply(replytoken, flex_message)
+    # general_flex_reply(replytoken, flex_message)
     logger.debug("觸發讀經")
