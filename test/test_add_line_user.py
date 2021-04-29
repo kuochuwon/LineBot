@@ -1,4 +1,4 @@
-from app.test.base import BaseTestCase
+from test.base import BaseTestCase
 
 
 class TestAddLineUser(BaseTestCase):
