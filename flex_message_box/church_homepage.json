@@ -115,7 +115,7 @@
                                 "action": {
                                     "type": "uri",
                                     "label": "CALL",
-                                    "uri": "https://line.me/R/call/886/0229118765"
+                                    "uri": "tel:0922391192"
                                 },
                                 "offsetTop": "none",
                                 "offsetBottom": "none"
