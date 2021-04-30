@@ -15,7 +15,7 @@
                         "aspectMode": "cover",
                         "action": {
                             "type": "uri",
-                            "uri": "http://linecorp.com/"
+                            "uri": "http://www.7pct.org.tw/7PCT_N/"
                         },
                         "margin": "xs",
                         "align": "start",
@@ -115,7 +115,7 @@
                                 "action": {
                                     "type": "uri",
                                     "label": "CALL",
-                                    "uri": "https://linecorp.com"
+                                    "uri": "https://line.me/R/call/886/0229118765"
                                 },
                                 "offsetTop": "none",
                                 "offsetBottom": "none"
@@ -127,7 +127,7 @@
                                 "action": {
                                     "type": "uri",
                                     "label": "WEBSITE",
-                                    "uri": "https://linecorp.com"
+                                    "uri": "http://www.7pct.org.tw/"
                                 }
                             },
                             {

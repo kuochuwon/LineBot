@@ -11,11 +11,12 @@ class TestAddLineUser(BaseTestCase):
         users = ["0xabb1230", "false_case"]
         name = ["true_case", "false_case"]
         replys = ["true_token", "false_token"]
+
         expect = ["", "https://notify-bot.line.me/"]
-        test = []
-        for index, user in enumerate(users):
+        test_result = []
+        for index in range(2):
             invitation_url, replytoken = check_line_user(users[index], name[index], replys[index])
-            test.append(invitation_url)
-        for index, obj in enumerate(expect):
-            e = re.match(expect[index], test[index])
+            test_result.append(invitation_url)
+        for index in range(2):
+            e = re.match(expect[index], test_result[index])
             self.assertTrue(e)
