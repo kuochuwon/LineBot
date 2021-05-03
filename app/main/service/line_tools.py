@@ -3,9 +3,9 @@ from app.main.constant import LineConstant
 from app.main.log import logger
 
 
-def general_reply(replytoken, msgs):
+def general_reply(replytoken, msgs: list):
     try:
-        # HINT 使用者須了解調用此函式時，msgs須為list or dict (根據msg內容而定)
+        # HINT 使用者須了解調用此函式時，msgs須為list
         json_for_msg = dict(
             replyToken=replytoken,
             messages=msgs
