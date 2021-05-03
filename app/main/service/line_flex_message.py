@@ -42,7 +42,7 @@ def sending_tutorial(replytoken):
 def sending_bible_sentence(replytoken):
     flex_message = get_general_carousel("daily_bibile.json")
     bible: Bible = Bible.get_by_random()
-    flex_message[0]["contents"]["body"]["contents"][0]["contents"][0]["contents"][0]["text"] = bible.sentence
-    flex_message[0]["contents"]["body"]["contents"][0]["contents"][1]["contents"][0]["text"] = bible.locate
+    flex_message["contents"]["body"]["contents"][0]["contents"][0]["contents"][0]["text"] = bible.sentence
+    flex_message["contents"]["body"]["contents"][0]["contents"][1]["contents"][0]["text"] = bible.locate
     general_reply(replytoken, [flex_message])
     logger.debug("觸發讀經")
