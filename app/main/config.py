@@ -73,6 +73,7 @@ class LocalConfig(Config):
     Config.SQLALCHEMY_ENGINE_OPTIONS["echo_pool"] = False
 
 
+# TODO 看能不能把沒用到的刪掉
 __config_list = dict(
     development=DevelopmentConfig,
     testing=TestingConfig,

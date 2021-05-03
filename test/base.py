@@ -1,8 +1,6 @@
-import json
 import os
 
-from flask_testing import TestCase
-# from unittest import TestCase
+from unittest import TestCase
 from app.main import db
 from app.main.model.user import sdUser
 # from app.main.model.task import sdTask
@@ -27,6 +25,7 @@ class BaseTestCase(TestCase):
         return app
 
     def setUp(self):
+        self.create_app()
         db.create_all()
         db.session.commit()
         self.add_users()
@@ -34,3 +33,14 @@ class BaseTestCase(TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+
+
+class BaseTestCase2(TestCase):
+    """ Without initial db """
+
+    def create_app(self):
+        app.config.from_object("app.main.config.TestingConfig")
+        return app
+
+    def setUp(self):
+        self.create_app()

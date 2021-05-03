@@ -33,8 +33,8 @@ def after_request(response):
 
 @manager.command
 def test():
-    tests = unittest.TestLoader().discover("app/test",
-                                           pattern="test*.py")
+    tests = unittest.TestLoader().discover("test",
+                                           pattern="test_*.py")
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     return 0 if result.wasSuccessful() else 1
 
