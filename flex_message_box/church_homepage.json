@@ -1,4 +1,3 @@
-[
     {
         "type": "flex",
         "altText": "This is a Flex Message",
@@ -115,7 +114,7 @@
                                 "action": {
                                     "type": "uri",
                                     "label": "CALL",
-                                    "uri": "tel:0922391192"
+                                    "uri": "tel:0229118765"
                                 },
                                 "offsetTop": "none",
                                 "offsetBottom": "none"
@@ -858,4 +857,3 @@
             ]
         }
     }
-]
