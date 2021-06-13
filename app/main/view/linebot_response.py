@@ -199,8 +199,8 @@ def file_handler(payload):
 
 def generate_url(user_id: str):
     invitation_url = (f"https://notify-bot.line.me/oauth/authorize?response_type=code&scope=notify&"
-                      f"response_mode=form_post&client_id={LineConstant.NOTIFY.get('CLIENT_ID')}"
-                      f"&redirect_uri={LineConstant.NOTIFY.get(platform.system())}"
+                      f"response_mode=form_post&client_id={LineConstant.Register_Notify.get('CLIENT_ID')}"
+                      f"&redirect_uri={LineConstant.Register_Notify.get(platform.system())}"
                       f"&state={user_id}")
     return invitation_url
 
@@ -224,11 +224,11 @@ def retrieve_notify_token_from_callback(request):
     user_id = request.form.get('state')  # 我將state故意設定為資料庫中對應的user_id，用來統整messaging API and Notify的使用者
     files = {
         "grant_type": "authorization_code",
-        "client_id": LineConstant.NOTIFY.get('CLIENT_ID'),
-        "client_secret": LineConstant.NOTIFY.get('SECRET'),
+        "client_id": LineConstant.Register_Notify.get('CLIENT_ID'),
+        "client_secret": LineConstant.Register_Notify.get('SECRET'),
         "code": code
     }
-    files.update({"redirect_uri": LineConstant.NOTIFY.get(platform.system())})
+    files.update({"redirect_uri": LineConstant.Register_Notify.get(platform.system())})
     logger.debug(f"files is {files}")
     logger.debug(f"Notify code is {code}")
 

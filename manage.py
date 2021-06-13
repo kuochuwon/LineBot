@@ -39,9 +39,9 @@ def test():
     return 0 if result.wasSuccessful() else 1
 
 
-# @manager.command
-# def run():
-#     app.run()
+@manager.command
+def run():
+    app.run()
 
 
 if __name__ == "__main__":

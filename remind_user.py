@@ -12,6 +12,7 @@ from app.main import create_app
 from app.main.model.task import sdTask
 from app.main.model.user import sdUser
 from app.main.constant import LineConstant
+from app.main.log import logger
 
 app = create_app(os.getenv("FLASK_CONFIG") or "development")
 
@@ -45,7 +46,7 @@ def reminder_content(user_result: list, users: list):
 
     msg = "下週服事名單如下: \n"
     for name, tasks in content.items():
-        name = "郭超望" if name == "黃國華" else name  # HINT for debug
+        name = "郭超望" if name == "郭超立" else name  # HINT for debug
         task_msg = ""
         for task in tasks:
             task_msg += f"{task} "
@@ -57,14 +58,26 @@ def reminder_content(user_result: list, users: list):
                 LineConstant.PUSH.get(platform.system()),
                 json={"user_id": user_id, "text": f"服事提醒: {each_msg}"}  # HINT 這邊必須用JSON
             )
+            # a = "temp"
+            user_result.status_code = 401  # for debug
+            if user_result.status_code != 200:  # HINT 當PUSH失敗，改用Notify (request == name)
+                user_result = urllib_requests.post(
+                    LineConstant.NOTIFY.get(platform.system()),
+                    json={"name": name, "text": f"服事提醒: {each_msg}"}
+                )
         print(f"each: {each_msg}")
 
     print("---------------")
-    admin_id = user_id_pool.get("郭超望")
+    admin_id = user_id_pool.get("郭超望")  # TODO 不要寫死
     user_result = urllib_requests.post(
         LineConstant.PUSH.get(platform.system()),
-        json={"user_id": admin_id, "text": f"服事提醒: {msg}"}  # HINT 這邊必須用JSON
+        json={"user_id": admin_id, "text": f"服事提醒: {msg}"}
     )
+    if user_result.status_code != 200:  # HINT 當PUSH失敗，改用Notify (request == name)
+        user_result = urllib_requests.post(
+            LineConstant.NOTIFY.get(platform.system()),
+            json={"name": "郭超望", "text": f"服事提醒: {each_msg}"}  # TODO 不要寫死
+        )
     print(msg)
 
 

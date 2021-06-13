@@ -22,7 +22,7 @@ class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
 
-    NOTIFY = dict(
+    Register_Notify = dict(
         CLIENT_ID="UulwSUMmf5M9zY1HSTR8xy",
         SECRET="MDuIohlUsEsPRKP2VXq0weJAW3cYwbb24gfeixTDmVC",
         Linux="https://linebot-kuochuwon.herokuapp.com/api/v1/linebot/callback",
@@ -32,6 +32,11 @@ class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈
     PUSH = dict(
         Linux="https://linebot-kuochuwon.herokuapp.com/api/v1/linebot/push",
         Windows="http://127.0.0.1:5000/api/v1/linebot/push"
+    )
+
+    NOTIFY = dict(
+        Linux="https://linebot-kuochuwon.herokuapp.com/api/v1/linebot/notify",
+        Windows="http://127.0.0.1:5000/api/v1/linebot/notify"
     )
 
     RESPONSE_CODE = {
