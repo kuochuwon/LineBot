@@ -34,7 +34,7 @@ def get_tutorial() -> dict:
 def sending_church_carousel_by_reply(replytoken, identifier):
     try:
         flex_message = get_general_carousel("church_homepage.json")
-        general_replyer(replytoken, identifier, [flex_message])
+        general_replyer(replytoken, identifier, flex_message)
     except Exception as e:
         logger.exception(f"sending carousel failed {e}")
         raise
@@ -51,5 +51,5 @@ def sending_bible_sentence(replytoken, identifier):
     bible: Bible = Bible.get_by_random()
     flex_message["contents"]["body"]["contents"][0]["contents"][0]["contents"][0]["text"] = bible.sentence
     flex_message["contents"]["body"]["contents"][0]["contents"][1]["contents"][0]["text"] = bible.locate
-    general_replyer(replytoken, identifier, [flex_message])
+    general_replyer(replytoken, identifier, flex_message)
     logger.debug("觸發讀經")
