@@ -24,6 +24,9 @@ class LineConstant:
         header = {
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': f'Bearer {self.access_tokens.get(token_identifier)}'}
+        print(self.access_tokens.get(token_identifier))
+        print("-----------")
+        print(header)
         return header
 
     # push_header = {
