@@ -42,7 +42,7 @@ def sending_church_carousel_by_reply(replytoken, identifier):
 
 def sending_tutorial(replytoken, identifier):
     tutorial_1, tutorial_2 = get_tutorial()
-    general_replyer(replytoken, identifier, [tutorial_1, tutorial_2])
+    general_replyer(replytoken, identifier, tutorial_1, tutorial_2)
     logger.debug("觸發教學流程")
 
 

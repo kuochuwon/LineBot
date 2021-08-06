@@ -107,7 +107,7 @@ def church_text_handler(payload, identifier) -> dict:
 
     # HINT: 使用match_keyword限制會傳入func_dict的參數，
     # 如果是None就不會呼叫func_dict，
-    # 以免發生:TypeError: 'NoneType' object is not callable錯誤，有空找方法優化
+    # 以免發生:TypeError: 'NoneType' object is not callable錯誤，有空找更好的方法優化
     resp_code = match_keyword(msg_text)
     if resp_code:
         func_dict.get(resp_code)(replytoken, identifier)
