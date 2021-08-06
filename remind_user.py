@@ -12,7 +12,7 @@ from app.main import create_app
 from app.main.model.task import sdTask
 from app.main.model.user import sdUser
 from app.main.constant import LineConstant
-from app.main.log import logger
+# from app.main.log import logger
 
 app = create_app(os.getenv("FLASK_CONFIG") or "development")
 

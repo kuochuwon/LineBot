@@ -1,22 +1,34 @@
 
-class LineConstant:  # 應重構，使得每個變數去吃環境變數檔，靈活應對不同的line機器人
-    CHANNEL_ACCESS_TOKEN = "qipp53w9dsKIjaDG3D5eYswChigJUmYdgD6ilha3BCHjF4rJmG8dVjj3kMqpBy4TvTnYODobZelFc5bsSz9ycEx09y/XU3aZO42Bp2o0+9f9TRJBFMeUih6Oi2YB77ET4+u5z/miOF5FRihh5ubRTgdB04t89/1O/w1cDnyilFU="  # noqa
-    CHANNEL_SECRET_TOKEN = "6fd6a21c86d311aaf115d9588cc5fc46"
 
-    # HINT 以下為用於line notify的token，目前這些token都放在DB內，因此不會用到
-    # CHANNEL_NOTIFY_TOKEN = "r2LutziDSljYNL2O0rq3kiBNn90lQCiQC7CATPZRP5n" # Roy測試用機器人 對 Roy專屬的token
-    # CHANNEL_NOTIFY_TOKEN = "joQ8AuGmOIbunePA8VjqEf9emk5IZ13mBIWgsmSfVaf"  # Roy_Notify_測試機器人 對 Roy專屬的token
-    # CHANNEL_NOTIFY_TOKEN = "6INohLojGIHD6GOo44Clpk6zHNzjS3s8ABWY2VgeKZG"  # Roy_Notify_測試機器人 對 lihket專屬的token，可以有多個
+class LineConstant:
+    access_tokens = {
+        "7PCT_helper": "qipp53w9dsKIjaDG3D5eYswChigJUmYdgD6ilha3BCHjF4rJmG8dVjj3kMqpBy4TvTnYODobZelFc5bsSz9ycEx09y/XU3aZO42Bp2o0+9f9TRJBFMeUih6Oi2YB77ET4+u5z/miOF5FRihh5ubRTgdB04t89/1O/w1cDnyilFU=",  # noqa
+        "IP_service": None
+    }
+
+    secret_tokens = {
+        "7PCT_helper": "6fd6a21c86d311aaf115d9588cc5fc46",
+        "IP_service": None
+    }
+    # CHANNEL_ACCESS_TOKEN = "qipp53w9dsKIjaDG3D5eYswChigJUmYdgD6ilha3BCHjF4rJmG8dVjj3kMqpBy4TvTnYODobZelFc5bsSz9ycEx09y/XU3aZO42Bp2o0+9f9TRJBFMeUih6Oi2YB77ET4+u5z/miOF5FRihh5ubRTgdB04t89/1O/w1cDnyilFU="  # noqa
+    # CHANNEL_SECRET_TOKEN = "6fd6a21c86d311aaf115d9588cc5fc46"
+
     OFFICIAL_PUSH_API = "https://api.line.me/v2/bot/message/push"
     OFFICIAL_NOTIFY_API = "https://notify-api.line.me/api/notify"
     OFFICIAL_OAUTH_API = "https://notify-bot.line.me/oauth/token"
     OFFICIAL_REPLY_API = "https://api.line.me/v2/bot/message/reply"
     OFFICIAL_CONTENT_API = "https://api-data.line.me/v2/bot/message/<file_id>/content"
 
-    # HINT 此Header可兼容於push and reply
-    push_header = {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': f'Bearer {CHANNEL_ACCESS_TOKEN}'}
+    def generate_push_or_reply_header(self, token_identifier):
+        # HINT 此Header可兼容於push and reply
+        header = {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': f'Bearer {self.access_tokens.get(token_identifier)}'}
+        return header
+
+    # push_header = {
+    #     'Content-Type': 'application/json; charset=UTF-8',
+    #     'Authorization': f'Bearer {CHANNEL_ACCESS_TOKEN}'}
 
     notify_header = {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'

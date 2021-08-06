@@ -4,8 +4,8 @@ from app.main.log import logger
 from app.main.dto.thelinebot import LineBotDto
 from app.main.service import ret
 from app.main.view.linebot_response import (
-    file_handler, notify_handler, retrieve_notify_token_from_callback,
-    text_handler, webhook_message_checker)
+    church_file_handler, notify_handler, retrieve_notify_token_from_callback,
+    church_text_handler, webhook_message_checker)
 from flask import request
 from flask_api import status
 from flask_restplus import Resource
@@ -46,14 +46,12 @@ class Push(Resource):
         """ connecting line bot API to push messeage """
         payload = request.json
 
-        # print("------------")
-        # print(payload)  # for debug
         logger.debug(f"push payload: {payload}")
-        # print("------------")
         response = {"hint": "已接收請求，但內容為空"}
         try:
             user_id = payload.get("user_id")
             text = payload.get("text")
+            token_identifier = payload.get("token_identifier")
             json_for_msg = dict(
                 to=user_id,
                 messages=[{
@@ -63,7 +61,7 @@ class Push(Resource):
             )
             result = urllib_requests.post(
                 LineConstant.OFFICIAL_PUSH_API,
-                headers=LineConstant.push_header,
+                headers=LineConstant().generate_push_or_reply_header(token_identifier),
                 json=json_for_msg)
             if result.status_code == 200:
                 response = {"hint": "訊息發送成功"}
@@ -74,8 +72,8 @@ class Push(Resource):
             return ret.http_resp(ret.RET_EXCEPTION, extra={"hint": str(e)}), status.HTTP_503_SERVICE_UNAVAILABLE
 
 
-@api.route("/webhook")
-class Webhook(Resource):
+@api.route("/7pct_webhook")
+class Church_Webhook(Resource):
     # HINT 技術原理與流程: 使用者向linebot發送訊息，
     # line server收到後會向指定的URI發出一個POST請求，
     # 並包含使用者ID、訊息內容，因此只要該URI是可以接收POST的服務，
@@ -85,10 +83,25 @@ class Webhook(Resource):
         """ line bot response """
         payload = request.json
         logger.debug(f"webhook payload: {payload}")
+        identifier = "7PCT_helper"
         response = None
         if webhook_message_checker(payload) == "text":
-            response = text_handler(payload)
+            response = church_text_handler(payload, identifier)
         elif webhook_message_checker(payload) == "file":
-            response = file_handler(payload)
+            response = church_file_handler(payload, identifier)
+
+        return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK
+
+
+@api.route("/IP_webhook")
+class IP_Webhook(Resource):
+    def post(self):
+        """ line bot response """
+        payload = request.json
+        logger.debug(f"webhook payload: {payload}")
+        identifier = "IP_service"
+        response = None
+        if webhook_message_checker(payload) == "text":
+            response = church_text_handler(payload)
 
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK

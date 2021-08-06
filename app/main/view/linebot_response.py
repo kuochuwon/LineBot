@@ -11,7 +11,7 @@ from app.main.model.task import sdTask
 from app.main.model.user import sdUser
 from app.main.service.line_flex_message import (
     sending_bible_sentence, sending_church_carousel_by_reply, sending_tutorial)
-from app.main.service.line_tools import general_reply
+# from app.main.service.line_tools import general_reply
 from app.main.service.word_docx_processor import PostProcess, WordParser
 
 func_dict = {
@@ -70,15 +70,15 @@ def match_keyword(msg_text):
     return LineConstant.RESPONSE_CODE.get(msg_text)
 
 
-def general_sticker(package_id, sticker_id):
+def generate_sticker(package_id, sticker_id):
     return {"type": "sticker", "packageId": package_id, "stickerId": sticker_id}
 
 
-def general_text(text: str):
+def generate_text(text: str):
     return {"type": "text", "text": text}
 
 
-def general_replyer(replytoken, msg, sticker=None):
+def general_replyer(replytoken, identifier, msg, sticker=None):
     try:
         json_for_msg = dict(
             replyToken=replytoken,
@@ -87,15 +87,22 @@ def general_replyer(replytoken, msg, sticker=None):
         logger.debug(f"json_for_msg: {json_for_msg}")
         result = urllib_requests.post(
             LineConstant.OFFICIAL_REPLY_API,
-            headers=LineConstant.push_header,
+            headers=LineConstant().generate_push_or_reply_header(identifier),
             json=json_for_msg)  # HINT must use json as parameter
+        logger.debug(f"http status: {result.status_code}")
+        logger.debug(f"http hint: {result.text}")
         return result
     except Exception as e:
         logger.exception(f"reply failed: {e}")
         raise
 
 
-def text_handler(payload) -> dict:
+def ip_text_handler(payload):
+    user_id, msg_text, replytoken = message_preprocess(payload)
+    pass
+
+
+def church_text_handler(payload, identifier) -> dict:
     user_id, msg_text, replytoken = message_preprocess(payload)
 
     # HINT: 使用match_keyword限制會傳入func_dict的參數，
@@ -103,8 +110,8 @@ def text_handler(payload) -> dict:
     # 以免發生:TypeError: 'NoneType' object is not callable錯誤，有空找方法優化
     resp_code = match_keyword(msg_text)
     if resp_code:
-        func_dict.get(resp_code)(replytoken)
-        msg = general_text("The message matched keyword!")
+        func_dict.get(resp_code)(replytoken, identifier)
+        msg = generate_text("The message matched keyword!")
 
     elif msg_text[:5] == "服事提醒 ":  # HINT 檢查使用者是否輸入正確關鍵字及'空格'
         user_name = msg_text.split(" ")[1]
@@ -113,18 +120,18 @@ def text_handler(payload) -> dict:
         if invitation_url:
             text = (f"平安，您的資料已建檔，為進一步確保服務品質，建議您點選以下連結註冊備援小幫手"
                     f"連結: {invitation_url}")
-            msg = general_text(text)
+            msg = generate_text(text)
         else:
             text = (f"平安，資料庫已有您的資料，不須重複申請，若下週輪到您服事，我會事先通知您~\n"
                     f"敬請期待未來更多功能上線。")
-            msg = general_text(text)
-        sticker = general_sticker(446, 1989)
-        general_reply(replytoken, [msg, sticker])
+            msg = generate_text(text)
+        sticker = generate_sticker(446, 1989)
+        general_replyer(replytoken, identifier, msg, sticker)
 
     else:
         text = "已收到訊息。"
-        msg = general_text(text)
-        general_reply(replytoken, [msg])
+        msg = generate_text(text)
+        general_replyer(replytoken, identifier, msg)
     return msg
 
 
@@ -175,7 +182,7 @@ def insert_duties_db(member_duties: dict):
         db.session.close()
 
 
-def file_handler(payload):
+def church_file_handler(payload, identifier):
     temp = payload.get("events")[0]
     replytoken = temp["replyToken"]
     file_id = temp["message"]["id"]  # HINT name
@@ -191,9 +198,9 @@ def file_handler(payload):
 
     logger.debug(f"check result: {check_result}")
 
-    msg = general_text(check_result)
-    sticker = general_sticker(446, 1989)
-    general_reply(replytoken, [msg, sticker])
+    msg = generate_text(check_result)
+    sticker = generate_sticker(446, 1989)
+    general_replyer(replytoken, identifier, msg, sticker)
     return msg
 
 
