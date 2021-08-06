@@ -3,8 +3,8 @@ from pathlib import Path
 
 from app.main.log import logger
 from app.main.model.bible import Bible
-# from app.main.service.line_tools import general_reply
-from app.main.view.linebot_response import general_replyer
+from app.main.service.line_tools import general_replyer
+# from app.main.view.linebot_response import general_replyer
 
 
 def get_general_carousel(filename) -> list:

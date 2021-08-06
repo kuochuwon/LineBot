@@ -11,7 +11,7 @@ from app.main.model.task import sdTask
 from app.main.model.user import sdUser
 from app.main.service.line_flex_message import (
     sending_bible_sentence, sending_church_carousel_by_reply, sending_tutorial)
-# from app.main.service.line_tools import general_reply
+from app.main.service.line_tools import general_replyer
 from app.main.service.word_docx_processor import PostProcess, WordParser
 
 func_dict = {
@@ -78,23 +78,23 @@ def generate_text(text: str):
     return {"type": "text", "text": text}
 
 
-def general_replyer(replytoken, identifier, msg, sticker=None):
-    try:
-        json_for_msg = dict(
-            replyToken=replytoken,
-            messages=[msg, sticker] if sticker else [msg]
-        )
-        logger.debug(f"json_for_msg: {json_for_msg}")
-        result = urllib_requests.post(
-            LineConstant.OFFICIAL_REPLY_API,
-            headers=LineConstant().generate_push_or_reply_header(identifier),
-            json=json_for_msg)  # HINT must use json as parameter
-        logger.debug(f"http status: {result.status_code}")
-        logger.debug(f"http hint: {result.text}")
-        return result
-    except Exception as e:
-        logger.exception(f"reply failed: {e}")
-        raise
+# def general_replyer(replytoken, identifier, msg, sticker=None):
+#     try:
+#         json_for_msg = dict(
+#             replyToken=replytoken,
+#             messages=[msg, sticker] if sticker else [msg]
+#         )
+#         logger.debug(f"json_for_msg: {json_for_msg}")
+#         result = urllib_requests.post(
+#             LineConstant.OFFICIAL_REPLY_API,
+#             headers=LineConstant().generate_push_or_reply_header(identifier),
+#             json=json_for_msg)  # HINT must use json as parameter
+#         logger.debug(f"http status: {result.status_code}")
+#         logger.debug(f"http hint: {result.text}")
+#         return result
+#     except Exception as e:
+#         logger.exception(f"reply failed: {e}")
+#         raise
 
 
 def ip_text_handler(payload):
