@@ -21,11 +21,13 @@ from app.main.log import logger
 #         raise
 
 
-def general_replyer(replytoken, identifier, msg, sticker=None):
+def general_replyer(replytoken, identifier, *args):
+    # HINT *args include msgs and stickers
     try:
         json_for_msg = dict(
             replyToken=replytoken,
-            messages=[msg, sticker] if sticker else [msg]
+            messages=[*args]
+            # messages=[msg, sticker] if sticker else [msg]
         )
         logger.debug(f"json_for_msg: {json_for_msg}")
         result = urllib_requests.post(
