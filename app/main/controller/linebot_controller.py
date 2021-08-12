@@ -5,7 +5,7 @@ from app.main.dto.thelinebot import LineBotDto
 from app.main.service import ret
 from app.main.view.linebot_response import (
     church_file_handler, notify_handler, retrieve_notify_token_from_callback,
-    church_text_handler, webhook_message_checker)
+    church_text_handler, webhook_message_checker, ip_text_handler)
 from flask import request
 from flask_api import status
 from flask_restplus import Resource
@@ -102,6 +102,6 @@ class IP_Webhook(Resource):
         identifier = "IP_service"
         response = None
         if webhook_message_checker(payload) == "text":
-            response = church_text_handler(payload)
+            response = ip_text_handler(payload, identifier)
 
         return ret.http_resp(ret.RET_OK, extra=response), status.HTTP_200_OK

@@ -97,9 +97,11 @@ def generate_text(text: str):
 #         raise
 
 
-def ip_text_handler(payload):
+def ip_text_handler(payload, identifier):
     user_id, msg_text, replytoken = message_preprocess(payload)
-    pass
+    msg = generate_text(f"IP service已收到訊息: {msg_text}")
+    general_replyer(replytoken, identifier, msg)
+    return msg
 
 
 def church_text_handler(payload, identifier) -> dict:

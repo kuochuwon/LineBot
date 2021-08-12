@@ -3,12 +3,12 @@
 class LineConstant:
     access_tokens = {
         "7PCT_helper": "qipp53w9dsKIjaDG3D5eYswChigJUmYdgD6ilha3BCHjF4rJmG8dVjj3kMqpBy4TvTnYODobZelFc5bsSz9ycEx09y/XU3aZO42Bp2o0+9f9TRJBFMeUih6Oi2YB77ET4+u5z/miOF5FRihh5ubRTgdB04t89/1O/w1cDnyilFU=",  # noqa
-        "IP_service": None
+        "IP_service": "V0Vq9b39WAp5bjhmNHocicMN5brm1SO3aKc8g/CdhUxzf/4ZwIL0xiSoVDeqkcGGZTWwutn7rCveQUwZvPd/lVZqRzLc4EkKeO/2iQWECvBvJ46B09IBQ4MKyVSjV9mFERXx65kAFVBg8tTcAVzScQdB04t89/1O/w1cDnyilFU="  # noqa
     }
 
     secret_tokens = {
         "7PCT_helper": "6fd6a21c86d311aaf115d9588cc5fc46",
-        "IP_service": None
+        "IP_service": "e2db01227b4a5ffaaf71f328d16f93e5"
     }
     # CHANNEL_ACCESS_TOKEN = "qipp53w9dsKIjaDG3D5eYswChigJUmYdgD6ilha3BCHjF4rJmG8dVjj3kMqpBy4TvTnYODobZelFc5bsSz9ycEx09y/XU3aZO42Bp2o0+9f9TRJBFMeUih6Oi2YB77ET4+u5z/miOF5FRihh5ubRTgdB04t89/1O/w1cDnyilFU="  # noqa
     # CHANNEL_SECRET_TOKEN = "6fd6a21c86d311aaf115d9588cc5fc46"
@@ -24,14 +24,7 @@ class LineConstant:
         header = {
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': f'Bearer {self.access_tokens.get(token_identifier)}'}
-        print(self.access_tokens.get(token_identifier))
-        print("-----------")
-        print(header)
         return header
-
-    # push_header = {
-    #     'Content-Type': 'application/json; charset=UTF-8',
-    #     'Authorization': f'Bearer {CHANNEL_ACCESS_TOKEN}'}
 
     notify_header = {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'

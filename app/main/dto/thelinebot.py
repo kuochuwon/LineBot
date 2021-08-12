@@ -2,18 +2,19 @@ from flask_restplus import Namespace, fields
 
 
 class LineBotDto:
+    dto_name = "linebot"
+    ip_dto_name = "linebot ip service"
     api = Namespace(
-        "linebot",
+        dto_name,
         description="Linebot related operations"
     )
     header = api.parser().add_argument("Authorization", location="headers", help="Bearer ")
-    # get_all_device = api.model(
-    #     "webhook",
+
+    # HINT 先不用dto，因為Webhook會接收的訊息來源很多種
+    # ip = api.model(
+    #     ip_dto_name,
     #     {
-    #         "user": fields.String(required=True, description="User name"),
-    #         "max_device": fields.Integer(
-    #             required=False,
-    #             description="numbers of device returned, ignore = default. 10, 0 = all"
-    #         )
+    #         ""
     #     }
+
     # )
