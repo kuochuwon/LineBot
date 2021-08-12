@@ -215,6 +215,7 @@ def generate_url(user_id: str):
 
 
 def add_line_user_to_db(search_res, user_name, user_id):
+    # TODO 這邊應該是多餘的判斷，因為前一段函式已檢查過serarch_res
     if search_res is None:
         try:
             obj = sdUser().add(user_name, user_id)

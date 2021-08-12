@@ -46,7 +46,7 @@ def reminder_content(user_result: list, users: list):
 
     msg = "下週服事名單如下: \n"
     for name, tasks in content.items():
-        name = "郭超望" if name == "郭超立" else name  # HINT for debug
+        name = "郭超望" if name == "郭超立" else name  # TODO for debug
         task_msg = ""
         for task in tasks:
             task_msg += f"{task} "
