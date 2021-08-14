@@ -2,6 +2,7 @@ from flask_restplus import Api
 from flask import Blueprint
 from app.main import jwt
 from app.main.controller.linebot_controller import api as line_ns
+from app.main.controller.ip_controller import api as ip_ns
 
 blueprint = Blueprint("api",
                       __name__,
@@ -14,4 +15,7 @@ api = Api(blueprint,
 jwt._set_error_handler_callbacks(api)
 
 api.add_namespace(line_ns,
+                  path="")
+
+api.add_namespace(ip_ns,
                   path="")

@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 
@@ -16,3 +15,10 @@ def get_current_ip():
 def get_access_url(ip, port):
     flask_url = f"http://{ip}:{port}/api/v1"
     return flask_url
+
+
+def update_current_ip(win_ip, wsl_ip):
+    target_path = Path(Path.cwd(), "app/main/util", "ip_memo.txt")
+    print(target_path)
+    with open(target_path, "w", encoding="utf-8") as f:
+        f.write(f"{win_ip} {wsl_ip}")
