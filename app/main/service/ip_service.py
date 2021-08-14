@@ -3,8 +3,9 @@ from pathlib import Path
 
 
 def get_current_ip():
-    print(Path.cwd())
-    with open(Path("ip_memo.txt"), "r", encoding="utf-8") as f:
+    target_path = Path(Path.cwd(), "main/util", "ip_memo.txt")
+    print(target_path)
+    with open(target_path, "r", encoding="utf-8") as f:
         lines = f.readline()
         all_ip = lines.split(" ")
         win_ip = all_ip[0]
