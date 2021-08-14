@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 def get_current_ip():
-    target_path = Path(Path.cwd(), "main/util", "ip_memo.txt")
+    target_path = Path(Path.cwd(), "app/main/util", "ip_memo.txt")
     print(target_path)
     with open(target_path, "r", encoding="utf-8") as f:
         lines = f.readline()
