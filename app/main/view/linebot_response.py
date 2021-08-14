@@ -13,6 +13,7 @@ from app.main.service.line_flex_message import (
     sending_bible_sentence, sending_church_carousel_by_reply, sending_tutorial)
 from app.main.service.line_tools import general_replyer
 from app.main.service.word_docx_processor import PostProcess, WordParser
+from app.main.service.ip_service import get_current_ip, get_access_url
 
 func_dict = {
     "1": sending_church_carousel_by_reply,
@@ -99,7 +100,12 @@ def generate_text(text: str):
 
 def ip_text_handler(payload, identifier):
     user_id, msg_text, replytoken = message_preprocess(payload)
-    msg = generate_text(f"IP service已收到訊息: {msg_text}")
+    port = 1942
+    win_ip, wsl_ip = get_current_ip()
+    flask_url = get_access_url(wsl_ip, port)
+    msg = generate_text(f"您在Windows端的IP為: {win_ip}\n"
+                        f"您在WSL端的IP為: {wsl_ip}\n"
+                        f"您的Flask網址為: {flask_url}")
     general_replyer(replytoken, identifier, msg)
     return msg
 
