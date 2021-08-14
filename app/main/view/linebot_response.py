@@ -102,7 +102,7 @@ def ip_text_handler(payload, identifier):
     user_id, msg_text, replytoken = message_preprocess(payload)
     port = 1942
     win_ip, wsl_ip = get_current_ip()
-    flask_url = get_access_url(wsl_ip, port)
+    flask_url = get_access_url(win_ip, port)
     msg = generate_text(f"您在Windows端的IP為: {win_ip}\n"
                         f"您在WSL端的IP為: {wsl_ip}\n"
                         f"您的Flask網址為: {flask_url}")
